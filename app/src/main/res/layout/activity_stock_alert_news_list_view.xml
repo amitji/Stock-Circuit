@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout    xmlns:android="http://schemas.android.com/apk/res/android"     
+    	android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:background="#ffffff"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true" >
+  	<LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_alignParentBottom="true">
+				   <Button
+			       android:id="@+id/callBrokerBtn"
+			       android:layout_width="fill_parent"
+			       android:layout_height="wrap_content"
+			       android:background="#FFD800"
+			       android:layout_weight="0.5"
+			       android:text="Call Broker" />
+			   <Button
+			       android:id="@+id/websiteBtn"
+			       android:layout_width="fill_parent"
+			       android:layout_height="wrap_content"
+			        android:background="#404040"
+			        android:textColor="#ffffff"
+			        android:layout_weight="0.5"
+			       android:text="Go to Trading Website" />
+    </LinearLayout>	
+  	<LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+             android:layout_above="@id/buttons" >
+  	
+	         	<ListView 
+				    android:id="@+id/NewsFeed"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:padding="10dp"
+				    android:layout_marginRight="10dp"
+			        android:layout_marginLeft="10dp"
+				    
+				    android:textSize="20sp" 
+				    >
+				</ListView> 
+	</LinearLayout>	    	   
+</RelativeLayout>

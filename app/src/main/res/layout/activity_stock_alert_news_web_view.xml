@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="com.abile2.stockcircuit.StockAlertNewsListView"
+     >
+       <LinearLayout
+	        android:id="@+id/linearLayout1"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical" 
+			android:layout_weight="1.9"
+			android:layout_margin="2dp"
+	        >
+	
+	       <TextView
+	           android:id="@+id/stockname"
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_margin="5dp"
+	           android:textColor="@color/black"
+	           android:textSize="16dip"
+	           android:text="name here" />
+		    <TextView
+	           android:id="@+id/alert_price"
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_margin="5dp"
+	           android:textColor="@color/black"
+	           android:textSize="16dip"
+	            />
+	        <TextView
+	           android:id="@+id/stock_curr_price"
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_margin="5dp"
+	           android:textColor="@color/black"
+	           android:textSize="16dip"
+	           android:text="price here.." />
+		    <TextView
+	           android:id="@+id/change"
+	           android:layout_width="fill_parent"
+	           android:layout_height="wrap_content"
+	           android:layout_margin="5dp"
+	           android:textColor="@color/black"
+	           android:textSize="16dip"
+	           android:text="volume.." />
+		    		    
+	</LinearLayout>
+	<LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_alignParentBottom="true">
+				   <Button
+			       android:id="@+id/callBrokerBtn"
+			       android:layout_width="fill_parent"
+			       android:layout_height="wrap_content"
+			       android:background="#FFD800"
+			       android:layout_weight="0.5"
+			        android:paddingBottom="5dip"
+			       android:text="Call Broker" />
+			   <Button
+			       android:id="@+id/websiteBtn"
+			       android:layout_width="fill_parent"
+			       android:layout_height="wrap_content"
+			        android:background="#404040"
+			        android:textColor="#ffffff"
+			        android:layout_weight="0.5"
+			        android:paddingBottom="5dip"
+			       android:text="Go to Trading Website" />
+  </LinearLayout>	
+       
+       	<LinearLayout
+ 	      android:id="@+id/webpageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >     
+		<com.abile2.stockcircuit.CustomWebView 
+                android:id="@+id/webView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+                 />
+	</LinearLayout>
+
+</LinearLayout>

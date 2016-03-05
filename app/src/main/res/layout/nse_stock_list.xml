@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+      <EditText android:id="@+id/inputSearch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/stockListView"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:hint="Search Stock..."
+        />
+      
+        <ListView
+        android:id="@+id/stockListView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+<!-- 
+        <TextView
+            android:id="@+id/noStocks"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@+id/stockListView"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="50dp"
+            android:text="No Stocks"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:visibility="gone" />
+             -->
+</LinearLayout>

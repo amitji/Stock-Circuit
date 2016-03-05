@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/db1_root"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="horizontal" >
+
+  <RelativeLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+    <LinearLayout
+            android:id="@+id/buttons"
+           android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_alignParentBottom="true">
+		    <Button
+		        android:id="@+id/setAlertBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:background="#FFD800"
+		        android:layout_weight="1"
+		        android:text="Set Alert" />
+	   	   	<Button
+		       android:id="@+id/setFavBtn"
+		       android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		        android:background="#404040"
+		        android:textColor="#ffffff"
+		        android:layout_weight="1"
+		       android:text="+ Favorite" />		    
+		    
+		    	   	   <Button
+		       android:id="@+id/closeBtn"
+		       android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		        android:background="#FFD800"
+		        android:layout_weight="1"
+		       android:text="Close" />		    
+
+	   	   </LinearLayout>	
+    
+    	
+    <!-- LEFT COLUMN -->
+   <RelativeLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:layout_above="@id/buttons">   
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/linearLayout2"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:weightSum="2" >
+
+       <TextView
+           android:id="@+id/stockname"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="20dp"
+           android:gravity="top"
+           android:textSize="18dip"
+           android:textColor="#000000"
+           android:textStyle="normal"
+           android:text="name here" />
+	    <TextView
+           android:id="@+id/stock_curr_price"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="20dp"
+           android:gravity="top"
+           android:textSize="18dip"
+           android:textColor="#000000"
+            android:textStyle="normal"
+           android:text="price here.." />
+	    <TextView
+           android:id="@+id/change"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="20dp"
+           android:gravity="top"
+           android:textSize="18dip"
+           android:textColor="#000000"
+            android:textStyle="normal"
+           android:text="change" />
+	    	    
+	  <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >  
+ 	    <TextView
+           android:id="@+id/alertText"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="20dp"
+           android:gravity="top"
+           android:layout_weight=".5"
+           android:inputType="text"
+           android:textSize="18dip"
+           android:textColor="#000000"
+            android:textStyle="normal"
+           android:text="Set Alert @ : " />
+       <EditText
+           android:id="@+id/slider_value"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginRight="10dp"
+           android:ems="10"
+           android:gravity="top"
+           android:layout_weight=".5"
+           android:hint="slider Value.."
+           android:inputType="number"
+           android:digits="0123456789."
+           android:textColorHighlight="@color/red"
+           android:textColorHint="@color/red" />
+	    
+       </LinearLayout>
+       
+	  	  <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" 
+	        android:layout_marginTop="50dp"
+	        android:gravity="end"
+	        >  
+	  
+	  	 <ImageView
+            android:id="@+id/plus"
+            android:layout_width="80dip"
+            android:layout_height="40dip"
+            android:layout_margin="30dp"
+            android:layout_marginRight="50dp"
+            android:src="@drawable/plus"/>
+	  	  <ImageView
+            android:id="@+id/minus"
+            android:layout_width="80dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/minus"/>
+	  	                    
+	  	                    
+	  	      
+	  	      
+	  	</LinearLayout>
+</LinearLayout>
+
+    <!-- RIGHT COLUMN -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/linearLayout1"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="2" >
+
+        <com.abile2.stockcircuit.VerticalSeekBar
+			  android:id="@+id/seekBar1"
+			  android:layout_width="wrap_content"
+			  android:layout_height="fill_parent"
+			  android:layout_margin="20dp"
+			  
+			  />
+    </LinearLayout>
+</RelativeLayout>
+</RelativeLayout>
+
+
+</RelativeLayout>
