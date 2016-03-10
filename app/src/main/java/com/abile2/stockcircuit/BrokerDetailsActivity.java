@@ -1,8 +1,5 @@
 package com.abile2.stockcircuit;
 
-
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,7 +15,7 @@ import android.widget.Toast;
 
 import com.abile2.stockcircuit.util.UserSettingsAsyncTask;
 
-public class UserSettingsActivity extends AbstractFragment {
+public class BrokerDetailsActivity extends AbstractFragment {
 
     SharedPreferences mPrefs;	
     String user_id;
@@ -34,7 +31,7 @@ public class UserSettingsActivity extends AbstractFragment {
 	  @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	            Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.user_settings, container, false);
+		rootView = inflater.inflate(R.layout.broker_details, container, false);
 	    
  
 	    context = getActivity();

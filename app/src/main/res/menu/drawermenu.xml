@@ -3,37 +3,29 @@
 
 
 
-    <item android:title="Inbox"
-        android:id="@+id/nav_item_inbox"
-        android:icon="@drawable/ic_blank"/>
+    <item android:title="Dashboard"
+        android:id="@+id/dashboard"
+        android:icon="@drawable/ic_home"/>
 
-    <item android:title="Sent"
-        android:id="@+id/nav_item_sent"
-        android:icon="@drawable/ic_blank"/>
+    <item android:title="Profile"
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_whats_hot"/>
 
-    <item android:title="Drafts"
+    <item android:title="Broker Details"
+        android:id="@+id/broker_details"
+        android:icon="@drawable/ic_people"/>
+
+    <item android:title="Help - How do I use this App"
         android:id="@+id/nav_item_draft"
-        android:icon="@drawable/ic_blank"/>
+        android:icon="@drawable/ic_pages"/>
 
-
-
-    <item android:title="Others">
-        <menu>
-            <item
-                android:title="Spam"
-                android:icon="@drawable/ic_blank"/>
-            <item
-                android:title="Bin"
-                android:icon="@drawable/ic_blank"/>
-        </menu>
-    </item>
+ \
 
     <group android:id="@+id/group_settings_id">
 
-        <item android:title="Settings"
-            android:icon="@drawable/ic_blank"/>
-        <item android:title="Help"
-            android:icon="@drawable/ic_blank"/>
+        <item android:title="Feedback"
+            android:icon="@drawable/ic_contactus"/>
+
     </group>
 
 

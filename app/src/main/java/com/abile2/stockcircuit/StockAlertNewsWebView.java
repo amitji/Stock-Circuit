@@ -12,12 +12,10 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -184,7 +182,7 @@ public class StockAlertNewsWebView extends Activity {
 	        // On pressing Settings button
 	        alertDialog.setPositiveButton("Setup Broker", new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog,int which) {
-	                Intent intent = new Intent(context, UserSettingsActivity.class);
+	                Intent intent = new Intent(context, BrokerDetailsActivity.class);
 	                startActivity(intent);
 	                
 	            }

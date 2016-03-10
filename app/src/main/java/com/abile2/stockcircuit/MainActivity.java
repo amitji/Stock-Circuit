@@ -2,14 +2,12 @@ package com.abile2.stockcircuit;
 
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import android.app.Activity;
 //import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -19,51 +17,63 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ListView;
 
 
 import com.abile2.stockcircuit.model.Stock;
 import com.abile2.stockcircuit.model.StockAlerts;
-import com.abile2.stockcircuit.util.DeleteStockFavoriteAsyncTask;
-import com.abile2.stockcircuit.util.DeleteUserAlertsAsyncTask;
 import com.abile2.stockcircuit.util.GetAlertsForAUserAsyncTask;
 import com.abile2.stockcircuit.util.GetUserFavoriteAsyncTask;
+
 import android.support.design.widget.NavigationView;
 
-public class MainActivity extends AppCompatActivity  {
 
-    Context context;
-protected MyApp mMyApp;	
-ArrayList<StockAlerts> allAlerts;
-String deviceID;
-String regID;
-    String city;
-    SharedPreferences mPrefs;
+public class MainActivity extends AppCompatActivity {
 
-    //NavDrawer variables
-private DrawerLayout mDrawerLayout;
+	Context context;
+	protected MyApp mMyApp;
+	ArrayList<StockAlerts> allAlerts;
+	String deviceID;
+	String regID;
+	String city;
+	String mobile;
+	SharedPreferences mPrefs;
+
+	//NavDrawer variables
+	private DrawerLayout mDrawerLayout;
 	NavigationView mNavigationView;
 	FragmentManager mFragmentManager;
 	FragmentTransaction mFragmentTransaction;
+	Toolbar mToolbar;
+	// used to store app title
+	private CharSequence mTitle;
 
-    // used to store app title
-private CharSequence mTitle;
+	int previous_position;
+	Fragment fragment = null;
+	android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
 
-    int previous_position;
-Fragment fragment = null;
+	private FragmentManager.OnBackStackChangedListener
+			mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+		@Override
+		public void onBackStackChanged() {
+			syncActionBarArrowState();
+		}
+	};
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_main);
+			final Toolbar ttoolbar = (Toolbar) findViewById(R.id.toolbar);
+			mToolbar = ttoolbar;
+
 			context = this;
 			mMyApp = (MyApp)this.getApplication();
 			
@@ -71,32 +81,15 @@ Fragment fragment = null;
 			deviceID = mPrefs.getString("deviceID","");
 			regID = mPrefs.getString("regID", "");
 			city = mPrefs.getString("city", "");
+		 	mobile = mPrefs.getString("mobile", "");
 
+			mTitle = getTitle();
 			SharedPreferences.Editor editor= mPrefs.edit();
 			editor.putBoolean("isFavListDirty", true);
 			editor.putBoolean("refresh", true);
 			editor.commit();
 			//Get all alerts for this user
 		    allAlerts = getUserAlertsFromDB();
-/*
-			// Initilization
-			viewPager = (ViewPager) findViewById(R.id.pager);
-			actionBar = getActionBar();
-			mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-			
-			viewPager.setAdapter(mAdapter);
-			actionBar.setHomeButtonEnabled(false);
-			//Amit
-			viewPager.setOffscreenPageLimit(2);
-			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);        
-			
-			// Adding Tabs
-			for (String tab_name : tabs) {
-			    actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
-			}
-			
-	*/
-
 			setupNavigationDrawer222(savedInstanceState);
 			setViewPagrListner();
 			setupFloatingMenu();
@@ -105,6 +98,7 @@ Fragment fragment = null;
 			Boolean isNotification = secondInt.getBooleanExtra("isNotification", false);
 			String fullid = secondInt.getStringExtra("fullid");
 			String alert_price = secondInt.getStringExtra("alert_price");
+
 			if(isNotification){
 				//Intent resultIntent = new Intent(getApplicationContext(),StockAlertNewsWebView.class);
 				Intent resultIntent = new Intent(getApplicationContext(),StockAlertNewsListView.class);
@@ -120,16 +114,32 @@ Fragment fragment = null;
 	private void setupNavigationDrawer222(Bundle savedInstanceState) {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-		mNavigationView = (NavigationView) findViewById(R.id.shitstuff) ;
-
-		/**
-		 * Lets inflate the very first fragment
-		 * Here , we are inflating the TabFragment as the first Fragment
-		 */
-
+		mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
 		mFragmentManager = getSupportFragmentManager();
 		mFragmentTransaction = mFragmentManager.beginTransaction();
-		mFragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+
+		if (mobile.equals("")) {
+			//mDrawerToggle.setDrawerIndicatorEnabled(false);
+			mFragmentTransaction.replace(R.id.containerView, new FirstTimeRegister()).commit();
+		} else {
+			//mDrawerToggle.setDrawerIndicatorEnabled(true);
+			mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+		}
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name) {
+
+			public void onDrawerClosed(View view) {
+				syncActionBarArrowState();
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				mDrawerToggle.setDrawerIndicatorEnabled(true);
+			}
+		};
+
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		mDrawerToggle.syncState();
+		getSupportFragmentManager().addOnBackStackChangedListener(mOnBackStackChangedListener);
+
 		/**
 		 * Setup click events on the Navigation View Items.
 		 */
@@ -139,129 +149,95 @@ Fragment fragment = null;
 			public boolean onNavigationItemSelected(MenuItem menuItem) {
 				mDrawerLayout.closeDrawers();
 
-
-
-				if (menuItem.getItemId() == R.id.nav_item_sent) {
+				if (menuItem.getItemId() == R.id.dashboard) {
 					FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-					fragmentTransaction.replace(R.id.containerView,new ActiveAlertsFragment()).commit();
+					fragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+					//Show Flaoting menu
+					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+					menu.setVisibility(View.VISIBLE);
 
 				}
 
-				if (menuItem.getItemId() == R.id.nav_item_inbox) {
+				if (menuItem.getItemId() == R.id.broker_details) {
+					FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+					fragmentTransaction.replace(R.id.containerView, new BrokerDetailsActivity()).addToBackStack(null).commit();
+
+					//hide Flaoting menu
+					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+					menu.setVisibility(View.INVISIBLE);
+					//mDrawerToggle.setDrawerIndicatorEnabled(false);
+					//mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+					mToolbar.setTitle("    Broker Details");
+					//mToolbar.setLogo(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_people));
+				}
+
+				if (menuItem.getItemId() == R.id.profile) {
 					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-					xfragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
-				}
+					xfragmentTransaction.replace(R.id.containerView, new FirstTimeRegister()).addToBackStack(null).commit();
 
-				return false;
+					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+					menu.setVisibility(View.INVISIBLE);
+					mToolbar.setTitle("    Profile");
+					//mToolbar.setLogo(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_whats_hot));
+					//Intent i = new Intent(MainActivity.this, FirstTimeRegister.class);
+					//startActivity(i);
+					//mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+				}
+				return true;
 			}
 
 		});
 
-		/**
-		 * Setup Drawer Toggle of the Toolbar
-		 */
-
-		android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-		android.support.v7.app.ActionBarDrawerToggle mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,mDrawerLayout, toolbar,R.string.app_name,
-				R.string.app_name);
-
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		mDrawerToggle.syncState();
-
-
-	}
-/*
-private void setupNavigationDrawer(Bundle savedInstanceState) {
-	// TODO Auto-generated method stub
-	mTitle = mDrawerTitle = getTitle();
-
-	// load slide menu items
-	navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-
-	// nav drawer icons from resources
-	navMenuIcons = getResources()
-			.obtainTypedArray(R.array.nav_drawer_icons);
-
-	mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-	mNavigationView = (NavigationView) findViewById(R.id.shitstuff) ;
-
-	mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
-
-	
-	navDrawerItems = new ArrayList<NavDrawerItem>();
-
-	// Home
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1)));
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons.getResourceId(7, -1)));
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[8], navMenuIcons.getResourceId(8, -1)));
-	navDrawerItems.add(new NavDrawerItem(navMenuTitles[9], navMenuIcons.getResourceId(9, -1)));
-
-
-	// Recycle the typed array
-	navMenuIcons.recycle();
-
-	mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
-
-	// setting the nav drawer list adapter
-	adapter = new NavDrawerListAdapter(getApplicationContext(),
-			navDrawerItems);
-	mDrawerList.setAdapter(adapter);
-	
-	// enabling action bar app icon and behaving it as toggle button
-	getActionBar().setDisplayHomeAsUpEnabled(true);
-	getActionBar().setHomeButtonEnabled(true);
-
-	mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-			R.drawable.ic_drawer_icon, //nav menu toggle icon
-			R.string.app_name, // nav drawer open - description for accessibility
-			R.string.app_name // nav drawer close - description for accessibility
-			){
-		public void onDrawerClosed(View view) {
-			getActionBar().setTitle(mTitle);
-			// calling onPrepareOptionsMenu() to show action bar icons
-			invalidateOptionsMenu();
-		}
-		public void onDrawerOpened(View drawerView){
-			getActionBar().setTitle(mDrawerTitle);
-			// calling onPrepareOptionsMenu() to hide action bar icons
-			invalidateOptionsMenu();
-		}
-	};
-	mDrawerLayout.setDrawerListener(mDrawerToggle);
-//	Intent secondInt = getIntent();
-//	String openMerchant = secondInt.getStringExtra("openMerchant");	
-	if (savedInstanceState == null) {
-		// on first time display view for first nav item
-//			displayView(0, true);
-//			previous_position  = 0;
 	}
 
-	
-}
+	@Override
+	protected void onDestroy() {
+		getSupportFragmentManager().removeOnBackStackChangedListener(mOnBackStackChangedListener);
+		super.onDestroy();
+	}
 
-	private class SlideMenuClickListener implements
-			ListView.OnItemClickListener {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			// display view for selected nav drawer item
-			displayView(position, false);
+	private void syncActionBarArrowState() {
+
+		if (mobile.equals("")) {
+			return;
+		}
+
+		int backStackEntryCount =
+				getSupportFragmentManager().getBackStackEntryCount();
+		mDrawerToggle.setDrawerIndicatorEnabled(backStackEntryCount == 0);
+		//mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+		FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+		if(backStackEntryCount ==0) {
+			menu.setVisibility(View.VISIBLE);
+			mToolbar.setTitle("Alert Dashboard");
 		}
 	}
 
-*/
-private void setupFloatingMenu() {
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDrawerToggle.isDrawerIndicatorEnabled() &&
+				mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		} else if (item.getItemId() == android.R.id.home &&
+				getSupportFragmentManager().popBackStackImmediate()) {
+//			if (getSupportFragmentManager().getBackStackEntryCount() < 1){
+//				mDrawerToggle.setDrawerIndicatorEnabled(true);
+//			}
+			//onBackPressed();
+			FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+			menu.setVisibility(View.VISIBLE);
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	private void setupFloatingMenu() {
 	// TODO Auto-generated method stub
     FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);    
     menu.setParentActivity(this);
-    
+
+	menu.setVisibility(View.VISIBLE);
     //menu.setBackgroundColor(Color.WHITE);;
     final FloatingActionButton nseBtn = (FloatingActionButton) findViewById(R.id.nseBtn);
     nseBtn.setOnClickListener(new OnClickListener() {
@@ -490,60 +466,8 @@ private void setViewPagrListner() {
 	*/
 }
 
-@Override
-public boolean onCreateOptionsMenu(Menu menu ) {
-	//return super.onCreateOptionsMenu(menu);
-	//MenuInflater inflater = getMenuInflater();
-    //inflater.inflate(R.menu.activity_main_actions, menu);
-    //return super.onCreateOptionsMenu(menu);
-    
-	
-	//return false;
 
-	getMenuInflater().inflate(R.menu.main, menu);
-	return true; 
-    
-    
-    
-    
-//    action_menu = menu.findItem(R.id.action_menu);
-//    action_discard = menu.findItem(R.id.action_discard);
-//    action_refresh = menu.findItem(R.id.action_refresh);
-//    action_help = menu.findItem(R.id.action_help);
-//    
-//    action_menu.setVisible(false);
-//    action_discard.setVisible(false);
-//    action_refresh.setVisible(false);
-//    action_help.setVisible(false);
-//    
-//    return true;
 
-}
-@Override
-public boolean onOptionsItemSelected(MenuItem item) {
-   /*
-	if (mDrawerToggle.onOptionsItemSelected(item)) {
-		return true;
-	}
-
-	
-	ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-	int pos = viewPager.getCurrentItem();
-	if(pos == 0){
-		return updateActiveFragmentList(item);
-	}else if(pos == 1){
-		return updatePassiveFragmentList(item);
-		//return false;
-	}else if(pos == 2){
-		return updateFavoriteFragmentList(item);
-		//return false;
-	}else 
-		return true;
-	*/
-	
-    return true;
-	//return super.onOptionsItemSelected(item);
-}   
 
   private boolean updatePassiveFragmentList(MenuItem item) {
 	// TODO Auto-generated method stub
@@ -606,7 +530,7 @@ private boolean updateFavoriteFragmentList(MenuItem item) {
 			listview.setAdapter(adapter);
 	        return true;
 		    case R.id.action_menu:
-		   	 Intent i = new Intent(MyApp.Context(), UserSettingsActivity.class);
+		   	 Intent i = new Intent(MyApp.Context(), BrokerDetailsActivity.class);
 		   	 //i.putExtra("showmessage", "false");
 		   	 startActivity(i);
 		   	 return true;
@@ -698,7 +622,7 @@ private boolean updateActiveFragmentList(MenuItem item) {
 			listview.setAdapter(adapter);
 	        return true;
 		    case R.id.action_menu:
-		   	 Intent i = new Intent(MyApp.Context(), UserSettingsActivity.class);
+		   	 Intent i = new Intent(MyApp.Context(), BrokerDetailsActivity.class);
 		   	 //i.putExtra("showmessage", "false");
 		   	 startActivity(i);
 		   	 return true;
@@ -709,45 +633,5 @@ private boolean updateActiveFragmentList(MenuItem item) {
 	
 }
 */
-    protected void onResume() {
-        super.onResume();
-        //following line refreshes the activity when resumed. 
-        //this.onCreate(null);
-   /*
-        viewPager.setAdapter(mAdapter);
-        actionBar.setSelectedNavigationItem(0);
-        final int pos = 0;
-        viewPager.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-            	viewPager.setCurrentItem(pos);
-            }
-        }, 100);
-
-      */
-        //viewPager.setCurrentItem(0);
-        mMyApp.setCurrentActivity(this);
-    }
-    protected void onPause() {
-        clearReferences();
-        super.onPause();
-    }
-    protected void onDestroy() {        
-        clearReferences();
-        super.onDestroy();
-        //UtilMobileAdvt.getInstance().showInterstitial();
-    }
-    private void clearReferences(){
-        Activity currActivity = mMyApp.getCurrentActivity();
-        if (currActivity != null && currActivity.equals(this))
-            mMyApp.setCurrentActivity(null);
-    }
-
-    @Override
-	public void setTitle(CharSequence title) {
-		mTitle = title;
-		getActionBar().setTitle(mTitle);
-	}
 
 }

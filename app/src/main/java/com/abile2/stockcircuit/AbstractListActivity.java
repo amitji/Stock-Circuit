@@ -33,7 +33,7 @@ public class AbstractListActivity extends ListActivity {
 //	        	startActivity(i);
 //	            return true;
 	        case R.id.action_menu:
-	        	 i = new Intent(MyApp.Context(), UserSettingsActivity.class);
+	        	 i = new Intent(MyApp.Context(), BrokerDetailsActivity.class);
 	        	 //i.putExtra("showmessage", "false");
 	        	 startActivity(i);
 	        	 return true;

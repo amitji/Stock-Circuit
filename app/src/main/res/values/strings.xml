@@ -8,16 +8,16 @@
     <string name="no_internet_msg">This application needs active internet connection to work properly. Please connect to internet and try again.</string>
     <string name="title_activity_stock_alert_news_web_view">Alert &amp; Latest News </string>
     <string name="hello_world">Hello world!</string>
-	<string name="action_edit">Edit</string>
-	<string name="action_menu">Menu</string>
-	<string name="action_help">Help</string>
-	<string name="action_logout">Go Back</string>
-	<string name="action_discard">Delete</string>
-	<string name="action_refresh">Refresh</string>
-    <item type="id" name="TAG_PERSON_ID"/>
-	<item type="id" name="TAG_PC_ID"/>		
-	<string name="desc_list_item_icon">Item Icon</string>
-	
+    <string name="action_edit">Edit</string>
+    <string name="action_menu">Menu</string>
+    <string name="action_help">Help</string>
+    <string name="action_logout">Go Back</string>
+    <string name="action_discard">Delete</string>
+    <string name="action_refresh">Refresh</string>
+    <item name="TAG_PERSON_ID" type="id" />
+    <item name="TAG_PC_ID" type="id" />
+    <string name="desc_list_item_icon">Item Icon</string>
+
     <string-array name="nav_drawer_items">
         <item>Your Location</item>
         <item>User Preferences</item>
@@ -28,7 +28,7 @@
         <item>Add Yourself as Merchant</item>
         <item>Add Promotions</item>
         <item>Pick Promotions from Facebook</item>
-         <item>Manage Promotions</item>               
+        <item>Manage Promotions</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -43,11 +43,15 @@
         <item>@drawable/ic_whats_hot</item>
         <item>@drawable/ic_communities</item>
         <item>@drawable/ic_facebook</item>
-        <item>@drawable/ic_whats_hot</item>    
-<!-- 
+        <item>@drawable/ic_whats_hot</item>
+        <!--
         <item>@drawable/ic_whats_hot</item>
      -->
     </array>
-	
-    	
+
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+
 </resources>

@@ -580,7 +580,7 @@ public class FloatingActionsMenu extends ViewGroup {
       mExpandAnimation.start();
 
       //Amit
-      setBackgroundColor(Color.WHITE);
+      //setBackgroundColor(Color.WHITE);
 
       if (mListener != null) {
         mListener.onMenuExpanded();
@@ -669,7 +669,10 @@ public void setFragmentVisibility(int isvisible){
 	List<Fragment> allFragments = ((FragmentActivity) context).getSupportFragmentManager().getFragments();
 	for(Fragment frag: allFragments )
 	{
-		frag.getView().setVisibility(isvisible);
+      if(frag != null){
+        frag.getView().setVisibility(isvisible);
+      }
+
 	}
 
 }

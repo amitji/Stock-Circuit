@@ -1,7 +1,5 @@
 package com.abile2.stockcircuit;
 
-
-
 import com.abile2.stockcircuit.util.SaveUserAsyncTask;
 
 import android.app.Activity;
@@ -24,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FirstTimeRegister extends Activity implements AsyncTaskCompleteListener<String>{
+public class FirstTimeRegister extends AbstractFragment implements AsyncTaskCompleteListener<String>{
 
     SharedPreferences mPrefs;	
     String user_id;
@@ -35,37 +33,62 @@ public class FirstTimeRegister extends Activity implements AsyncTaskCompleteList
     String city;
     LinearLayout loadingView;
     LinearLayout resourceView;
-    
-	  @Override
-	  protected void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.first_time_register);
-	    
-	    resourceView=(LinearLayout)findViewById(R.id.resourceView);
-	    loadingView=(LinearLayout)findViewById(R.id.loadingView);
-	    
-	    context = this;
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+	View x;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		x = inflater.inflate(R.layout.first_time_register, container, false);
+
+
+		context = getActivity();
+
+	    resourceView=(LinearLayout)x.findViewById(R.id.resourceView);
+	    loadingView=(LinearLayout)x.findViewById(R.id.loadingView);
+
+		mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 		deviceID = mPrefs.getString("deviceID","");
 		regID = mPrefs.getString("regID", "");
 		//city = mPrefs.getString("city", "");
-		
-		addSaveButtonListner();
 
+
+		setUpInitialValues();
+		addSaveButtonListner();
+	return x;
     }
+	private void setUpInitialValues() {
+		// TODO Auto-generated method stub
+
+		String mobile = mPrefs.getString("mobile","");
+		String emailid = mPrefs.getString("email", "");
+		String name = mPrefs.getString("name", "");
+		String city = mPrefs.getString("city", "");
+		//String brokerWebsite = mPrefs.getString("brokerWebsite", "");
+
+		((EditText) x.findViewById(R.id.userMobile)).setText(mobile);
+		((EditText) x.findViewById(R.id.userEmail)).setText(emailid);
+		((EditText) x.findViewById(R.id.userName)).setText(name);
+		((EditText) x.findViewById(R.id.city)).setText(city);
+
+
+
+	}
+
+
 	private void addSaveButtonListner() {
 		// TODO Auto-generated method stub
 
-		Button button = (Button) findViewById(R.id.savebutton);
+		Button button = (Button) x.findViewById(R.id.savebutton);
 		button.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 
-		           String userMobile = ((EditText) findViewById(R.id.userMobile)).getText().toString();
-		           String userEmail = ((EditText) findViewById(R.id.userEmail)).getText().toString();
-		           String userName = ((EditText) findViewById(R.id.userName)).getText().toString();
-		           city = ((EditText) findViewById(R.id.city)).getText().toString();
+		           String userMobile = ((EditText) x.findViewById(R.id.userMobile)).getText().toString();
+		           String userEmail = ((EditText) x.findViewById(R.id.userEmail)).getText().toString();
+		           String userName = ((EditText) x.findViewById(R.id.userName)).getText().toString();
+		           city = ((EditText) x.findViewById(R.id.city)).getText().toString();
 		           if(userMobile.equals("") || !isValidMobile(userMobile)){    
 						Toast.makeText(context.getApplicationContext(), "Please enter a valid Mobile number", Toast.LENGTH_SHORT).show();
 					    return;
@@ -117,27 +140,28 @@ public class FirstTimeRegister extends Activity implements AsyncTaskCompleteList
 		if(sResponse != null && !(sResponse.isEmpty()))
 		{
 			//String[] result = sResponse.split(",");
-           String userMobile = ((EditText) findViewById(R.id.userMobile)).getText().toString();
-           String userEmail = ((EditText) findViewById(R.id.userEmail)).getText().toString();
-           String userName = ((EditText) findViewById(R.id.userName)).getText().toString();
+           String userMobile = ((EditText) x.findViewById(R.id.userMobile)).getText().toString();
+           String userEmail = ((EditText) x.findViewById(R.id.userEmail)).getText().toString();
+           String userName = ((EditText) x.findViewById(R.id.userName)).getText().toString();
+			String city = ((EditText) x.findViewById(R.id.city)).getText().toString();
 			SharedPreferences.Editor editor = mPrefs.edit();
 			
 			editor.putString("mobile", userMobile);
 			editor.putString("email",userEmail);
 			editor.putString("name", userName);
+			editor.putString("city", city);
 			editor.commit();
 			
-    		Toast.makeText(context.getApplicationContext(), "User  added successful", Toast.LENGTH_SHORT).show();
-			Intent i = new Intent(FirstTimeRegister.this, MainActivity.class);
+    		Toast.makeText(context.getApplicationContext(), "User  saved successfully", Toast.LENGTH_SHORT).show();
+			Intent i = new Intent(context, MainActivity.class);
 			startActivity(i);
-			finish();
 		}
     	else
     	{
         	resourceView.setVisibility(View.VISIBLE);
     		loadingView.setVisibility(View.GONE);
 
-    		Toast.makeText(context.getApplicationContext(), "Could not save preferences", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(context.getApplicationContext(), "Could not save User Details", Toast.LENGTH_SHORT).show();
     	}
     }
 

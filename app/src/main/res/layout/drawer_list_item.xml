@@ -20,10 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/icon"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="@drawable/text_color"
         android:gravity="center_vertical"
+        android:textSize="20dp"
+        android:textStyle="italic|bold"
         android:paddingRight="40dp"/>
     
     <TextView android:id="@+id/counter"

@@ -52,3 +52,4 @@ app/build/
 build/
 import-summary.txt
 *.iml
+*.apk

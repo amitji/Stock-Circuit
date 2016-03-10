@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -32,7 +31,6 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.abile2.stockcircuit.model.NewsFeedItem;
-import com.abile2.stockcircuit.model.Stock;
 import com.abile2.stockcircuit.util.GetNewsFeedAsyncTask;
 import com.abile2.stockcircuit.util.RssHandler;
 
@@ -262,7 +260,7 @@ public class StockAlertNewsListView extends Activity {
 	        // On pressing Settings button
 	        alertDialog.setPositiveButton("Setup Broker", new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog,int which) {
-	                Intent intent = new Intent(context, UserSettingsActivity.class);
+	                Intent intent = new Intent(context, BrokerDetailsActivity.class);
 	                startActivity(intent);
 	                
 	            }

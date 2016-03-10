@@ -176,7 +176,8 @@ public class SplashScreen extends Activity {
 		}
 		
 		if(mobile.equals("")){
-			Intent i = new Intent(SplashScreen.this, FirstTimeRegister.class);
+			//Intent i = new Intent(SplashScreen.this, MainActivity.class);
+			Intent i = new Intent(SplashScreen.this, ProfileActivity.class);
 			startActivity(i);
 			finish();
 		}else{
