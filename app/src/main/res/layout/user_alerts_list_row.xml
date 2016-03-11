@@ -13,14 +13,18 @@
         android:padding="2dip"
         android:layout_alignParentLeft="true"
         android:background="@drawable/image_bg"
-        android:layout_marginRight="5dip">
+        android:layout_marginRight="5dip"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
  
         <ImageView
             android:id="@+id/list_image"
             android:layout_width="25dip"
             android:layout_height="25dip"
             android:background="?android:attr/activatedBackgroundIndicator"
-            android:src="@drawable/green"/>
+            android:src="@drawable/green"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
  
     </LinearLayout>
     

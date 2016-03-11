@@ -37,6 +37,8 @@ public class ListAdapterStockFavorite extends BaseAdapter {
     public void deleteItemAt(int position) {
         data.remove(position);
     }
+
+
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
         if(convertView==null)
@@ -46,26 +48,23 @@ public class ListAdapterStockFavorite extends BaseAdapter {
         TextView weight = (TextView)vi.findViewById(R.id.weightage); // duration
         TextView change = (TextView)vi.findViewById(R.id.change); // duration
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
+
         final int listenerPos = position;
         Stock pc =  (Stock)data.get(position);
-        if (is_element_selected[position]){
-            vi.setBackgroundColor(Color.LTGRAY);
-        	thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.ic_action_done));
-        }
-        else{
+//        if (is_element_selected[position]){
+//            vi.setBackgroundColor(Color.LTGRAY);
+//        	thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.ic_action_done));
+//        }
+        //else{
             vi.setBackgroundColor(Color.TRANSPARENT);
-//            if(pc.getLow_high().equals("low"))
-//            	thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.red));
-//            else
-//            	thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.green));
-        }
-        thumb_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            	//this.setItemChecked(position, !this.isItemChecked(position));
-            	toggleSelection(listenerPos);
-            }
-        });
+        //}
+//        thumb_image.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            	//this.setItemChecked(position, !this.isItemChecked(position));
+//            	//toggleSelection(listenerPos);
+//            }
+//        });
         vi.setTag(R.id.TAG_PC_ID, new Integer(pc.getId()));
         // Setting all values in listview
         title.setText(pc.getNseid());

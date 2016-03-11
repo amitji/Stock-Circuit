@@ -39,8 +39,9 @@ public class ListAdapterStockAlerts extends BaseAdapter {
         return data.size();
     }
 
-    public Object getItem(int position) {
-        return position;
+    public StockAlerts getItem(int position)
+    {
+        return data.get(position);
     }
 
     public long getItemId(int position) {
@@ -66,7 +67,7 @@ public class ListAdapterStockAlerts extends BaseAdapter {
         
         if (is_element_selected[position]){
             vi.setBackgroundColor(Color.LTGRAY);
-        	thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.ic_action_done));
+        	//thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.ic_action_done));
         }
         else{
             vi.setBackgroundColor(Color.TRANSPARENT);
@@ -75,15 +76,18 @@ public class ListAdapterStockAlerts extends BaseAdapter {
             else
             	thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.green));
         }
+
         thumb_image.setOnClickListener(new View.OnClickListener() {
         	
             @Override
             public void onClick(View v) {
+
+                //DO NOTHING
             	//this.setItemChecked(position, !this.isItemChecked(position));
-            	toggleSelection(listenerPos);
+            	//toggleSelection(listenerPos);
             }
         });
-        
+
         
         
         vi.setTag(R.id.TAG_PC_ID, new Integer(pc.getId()));
@@ -108,4 +112,17 @@ public class ListAdapterStockAlerts extends BaseAdapter {
     {
     	return is_element_selected;
     }
+
+    public int getSelectedItemCount()
+    {
+        int count = 0;
+        for(boolean flag: is_element_selected){
+            if(flag){
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
 }

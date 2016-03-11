@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,12 +24,14 @@ import com.abile2.stockcircuit.model.StockAlerts;
 public class PassiveAlertsFragment extends AbstractFragment  {
 	
 	Context context;
-    protected MyApp mMyApp;	
+    //protected MyApp mMyApp;
     ListView listview;
     ArrayList selectedItems;
     View rootView;
+	SharedPreferences mPrefs;
+	ArrayList<StockAlerts> passiveAlerts;
 
-    public PassiveAlertsFragment(){
+	public PassiveAlertsFragment(){
     	setHasOptionsMenu(true);
     }
     
@@ -37,14 +41,17 @@ public class PassiveAlertsFragment extends AbstractFragment  {
           Bundle savedInstanceState) {
 
       rootView = inflater.inflate(R.layout.passive_alert_fragment, container, false);
-       
+	  MainActivity activity = (MainActivity) getActivity();
+	  context = activity;
+	  mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+	  deviceID = mPrefs.getString("deviceID","");
+	  regID = mPrefs.getString("regID", "");
 
       //super.onCreate(savedInstanceState);
     //setContentView(R.layout.active_alert_fragment);
       setHasOptionsMenu(true);
-      
-      MainActivity activity = (MainActivity)getActivity();
-	mMyApp = (MyApp)this.getActivity().getApplication();
+
+	//mMyApp = (MyApp)this.getActivity().getApplication();
     
 	final TextView noAlerts = (TextView) rootView.findViewById(R.id.noAlerts);
     //listview = getListView();
@@ -52,7 +59,7 @@ public class PassiveAlertsFragment extends AbstractFragment  {
 //	listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 	
     //ArrayList<StockAlerts> alerts = activity.getAlerts(false);
-    ArrayList<StockAlerts> passiveAlerts = activity.getPassiveAlerts(false);
+    passiveAlerts = getPassiveAlerts(true);
     ListView passiveList = (ListView ) rootView.findViewById(R.id.passiveList);
     passiveList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     
@@ -89,6 +96,32 @@ public class PassiveAlertsFragment extends AbstractFragment  {
 		});
 
 	}
+
+	public ArrayList<StockAlerts> getPassiveAlerts(boolean refresh) {
+// TODO Auto-generated method stub
+		ArrayList<StockAlerts> allAlerts =  new ArrayList<StockAlerts>();
+		ArrayList<StockAlerts> passives =  new ArrayList<StockAlerts>();
+		if(refresh){
+			allAlerts = getAlerts(deviceID, regID,refresh);
+			for(StockAlerts sa: allAlerts)
+			{
+				if(sa.getHas_hit().equals("y"))
+				{
+
+					passives.add(sa);
+				}
+
+			}
+			passiveAlerts = passives;
+		}
+
+
+
+		//allAlerts = getAlerts(deviceID, regID,refresh);
+
+		return passiveAlerts;
+
+	}
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.activity_main_actions, menu);
@@ -107,13 +140,6 @@ public class PassiveAlertsFragment extends AbstractFragment  {
 	
 	   public void onResume() {
 	        super.onResume();
-	         
-	        //MainActivity activity = (MainActivity)getActivity();
-			//ListAdapterStockAlerts adapter = new ListAdapterStockAlerts (activity, activity.getActiveAlerts(activity.getAlerts(true)));
-			//listview.setAdapter(adapter);
-	        
-	        //this.onCreate(null);
-	        //restartParentActivity();
 	    }
 	    public void onPause() {
 	        clearReferences();
@@ -122,12 +148,8 @@ public class PassiveAlertsFragment extends AbstractFragment  {
 	    public void onDestroy() {        
 	        clearReferences();
 	        super.onDestroy();
-	        //UtilMobileAdvt.getInstance().showInterstitial();
 	    }
 
 	    private void clearReferences(){
-	        Activity currActivity = mMyApp.getCurrentActivity();
-	        if (currActivity != null && currActivity.equals(this))
-	            mMyApp.setCurrentActivity(null);
 	    }
 }

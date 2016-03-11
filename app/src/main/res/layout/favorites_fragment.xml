@@ -27,5 +27,17 @@
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:visibility="gone" />
-             
+
+	<com.abile2.stockcircuit.FloatingActionButton
+		android:id="@+id/refresh"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_gravity="bottom|left"
+		fab:fab_colorNormal="@color/yellow"
+		fab:fab_colorPressed="@color/grey"
+		fab:fab_labelStyle="@style/menu_labels_style"
+		fab:fab_title="World Indices"
+		fab:fab_icon="@drawable/ic_action_refresh"
+		android:layout_alignParentBottom="true"
+		/>
 </RelativeLayout>

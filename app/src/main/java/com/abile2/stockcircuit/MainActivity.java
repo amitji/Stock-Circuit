@@ -89,7 +89,11 @@ public class MainActivity extends AppCompatActivity {
 			editor.putBoolean("refresh", true);
 			editor.commit();
 			//Get all alerts for this user
-		    allAlerts = getUserAlertsFromDB();
+			//Amit
+		//allAlerts = getUserAlertsFromDB();
+
+
+
 			setupNavigationDrawer222(savedInstanceState);
 			setViewPagrListner();
 			setupFloatingMenu();
@@ -298,146 +302,10 @@ public class MainActivity extends AppCompatActivity {
 	
 }
 
-private ArrayList<StockAlerts>  getUserAlertsFromDB() {
-	// TODO Auto-generated method stub
-	//ArrayList<Stock> list = new ArrayList<Stock>();
-	ArrayList<StockAlerts> list = new ArrayList<StockAlerts>();
-	String str = "";
-	Object[]  inParams = new Object[2];
-
-	inParams[0] = deviceID;
-	inParams[1] = regID;
-	try {
-		str = new GetAlertsForAUserAsyncTask().execute(inParams).get();
-		if(str != null && !str.equals(""))
-			list = convertJsonToStockAlertList(str);
-
-	} catch (InterruptedException | ExecutionException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	return list;
-}
-
-public ArrayList<StockAlerts> convertJsonToStockAlertList(String str) {	
-
-	Object obj = JSONValue.parse(str);
-	JSONArray array=(JSONArray)obj;
-	ArrayList<StockAlerts> alertList = new ArrayList<StockAlerts>();
-
-	for (int i = 0; i < array.size(); i++) {
-		StockAlerts stkAlert = new StockAlerts();
-		JSONObject object = (JSONObject) array.get(i);
-		stkAlert.setId((String) object.get("id"));
-		stkAlert.setIs_active((String) object.get("is_active"));
-		stkAlert.setLow_high((String) object.get("low_high"));
-		stkAlert.setHas_hit((String) object.get("has_hit"));
-		stkAlert.setNseid((String) object.get("nse_id"));
-		stkAlert.setFullid((String) object.get("fullid"));
-		stkAlert.setName((String) object.get("name"));
-		stkAlert.setAlert_price((String) object.get("alert_price"));
-		alertList.add(stkAlert);
-
-	}
-	return alertList;
-}
 
 
 
-public ArrayList<StockAlerts> getAlerts(boolean refresh){
-	
-	if(refresh)
-	{
-		allAlerts = getUserAlertsFromDB(); 
-		return allAlerts;
-		
-	}else{
-		return allAlerts;
-		//return getUserAlertsFromDB();
-	}
-	
-}
 
-public ArrayList<StockAlerts> getActiveAlerts(boolean refresh) {
-	// TODO Auto-generated method stub
-		ArrayList<StockAlerts> allAlerts = getAlerts(refresh);
-		ArrayList<StockAlerts> actives =  new ArrayList<StockAlerts>();
-		for(StockAlerts sa: allAlerts)
-		{
-			if(sa.getHas_hit().equals("n"))
-			{
-				
-				actives.add(sa);
-			}
-			
-		}
-	return actives;
-}
-
-public ArrayList<StockAlerts> getPassiveAlerts(boolean refresh) {
-// TODO Auto-generated method stub
-	ArrayList<StockAlerts> allAlerts = getAlerts(refresh);
-	ArrayList<StockAlerts> passives =  new ArrayList<StockAlerts>();
-	for(StockAlerts sa: allAlerts)
-	{
-		if(sa.getHas_hit().equals("y"))
-		{
-			
-			passives.add(sa);
-		}
-		
-	}
-return passives;
-
-}
-
-public ArrayList<Stock>  getUserFavorites() {
-	// TODO Auto-generated method stub
-	//ArrayList<Stock> list = new ArrayList<Stock>();
-	ArrayList<Stock> list = new ArrayList<Stock>();
-	
-	String str = "";
-    Object[]  inParams = new Object[2];
-       
-    inParams[0] = deviceID;
-    inParams[1] = regID;
-
-       
-		try {
-			str = new GetUserFavoriteAsyncTask().execute(inParams).get();
-			
-			SharedPreferences.Editor editor= mPrefs.edit();
-			editor.putString("FavList", str);
-			editor.putBoolean("isFavListDirty", false);
-			editor.commit();
-			
-			if(str != null && !str.equals(""))
-				list = convertJsonToStockList(str);
-			
-		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return list;
-		
-}
-public ArrayList<Stock> convertJsonToStockList(String str) {	
-	Object obj = JSONValue.parse(str);
-	JSONArray array=(JSONArray)obj;
-	ArrayList<Stock> alertList = new ArrayList<Stock>();
-	for (int i = 0; i < array.size(); i++) {
-		Stock stk = new Stock();
-		JSONObject object = (JSONObject) array.get(i);
-		stk.setId((String) object.get("id"));
-		stk.setNseid((String) object.get("nseid"));
-		stk.setFullid((String) object.get("fullid"));
-		stk.setStockname((String) object.get("stockname"));
-		stk.setCurrentPrice((String) object.get("currentPrice"));
-		stk.setChange((String) object.get("change"));
-		alertList.add(stk);
-	}
-	return alertList;
-}
 
 private void setViewPagrListner() {
 	// TODO Auto-generated method stub
@@ -562,76 +430,6 @@ private boolean updateFavoriteFragmentList(MenuItem item) {
 	
 }
 
-private boolean updateActiveFragmentList(MenuItem item) {
-	// TODO Auto-generated method stub
-	  	boolean noneSelected = true;
-		ListView listview = (ListView) viewPager.findViewById(R.id.activeList);
-		
-	    switch (item.getItemId()) {
-	    case R.id.action_discard:
-	    	
-//	    	ActiveAlertsFragment currentFragment = (ActiveAlertsFragment)mAdapter.getItem(0);
-//	    	currentFragment.deleteAlerts();
-	    	int pos = viewPager.getCurrentItem();
-	    	
-	    	boolean[] selItems = ((ListAdapterStockAlerts) listview.getAdapter()).getSelectedItems();
-	    	StringBuilder commaSepAlertIds = new StringBuilder();
-	    	
-	    	for(int j=0;j < selItems.length; j++ )
-	    	{
-	    		
-	        	boolean isSelected =  selItems[j];
-	        	if(isSelected)
-	        	{
-	        		//((ListAdapterStockAlerts) listview.getAdapter()).deleteItemAt(j);
-	        		noneSelected = false;
-	            	View vi = listview.getChildAt(j);
-	            	int id = ((Integer)vi.getTag(R.id.TAG_PC_ID)).intValue();
-	            	commaSepAlertIds.append(id);
-					commaSepAlertIds.append(",");	            	
-	        	}
-	        }
-			if(noneSelected){
-				UtilityActivity.showMessage(context, "You didn't Select any alerts to delete.",Gravity.CENTER);
-				return false;
-			}
-	    	
-	    	//strip ','
-	    	String alertIds = commaSepAlertIds.substring(0, commaSepAlertIds.length()-1);
-			Object params[] = new Object[1];
-			params[0] = alertIds;
-			try {
-				 String sResponse = new DeleteUserAlertsAsyncTask().execute(params).get();
-				 //Iterator<String>  promoPositionItrator= selecetedPromos.keySet().iterator();
-				 if(sResponse!=null && !sResponse.trim().equals("")){
-
-					 UtilityActivity.showMessage(context, sResponse, Gravity.CENTER);
-				
-				 }
-			 }catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-
-//			SharedPreferences.Editor editor= mPrefs.edit();
-//			editor.putBoolean("refresh", true);
-//			editor.commit();
-//			refreshFragment();
-			ListAdapterStockAlerts adapter = new ListAdapterStockAlerts (this, getActiveAlerts(true));
-			listview.setAdapter(adapter);
-	        return true;
-		    case R.id.action_menu:
-		   	 Intent i = new Intent(MyApp.Context(), BrokerDetailsActivity.class);
-		   	 //i.putExtra("showmessage", "false");
-		   	 startActivity(i);
-		   	 return true;
-
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }
-	
-}
 */
 
 }
