@@ -9,7 +9,9 @@ android {
         applicationId "com.abile2.stockcircuit"
         minSdkVersion 14
         targetSdkVersion 22
+        vectorDrawables.useSupportLibrary = true
     }
+
 
     buildTypes {
         release {
@@ -46,9 +48,9 @@ android {
 
 dependencies {
     compile files('libs/json-simple-1.1.jar')
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:support-v4:22.2.1'
-    compile 'com.android.support:design:22.2.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:design:23.1.1'
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'org.apache.httpcomponents:httpcore:4.3.2'
     compile 'org.apache.httpcomponents:httpmime:4.3.4'

@@ -139,6 +139,7 @@ public class FirstTimeRegister extends AbstractFragment implements AsyncTaskComp
 
 		if(sResponse != null && !(sResponse.isEmpty()))
 		{
+			loadingView.setVisibility(View.GONE);
 			//String[] result = sResponse.split(",");
            String userMobile = ((EditText) x.findViewById(R.id.userMobile)).getText().toString();
            String userEmail = ((EditText) x.findViewById(R.id.userEmail)).getText().toString();

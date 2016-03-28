@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -222,7 +223,7 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 		// TODO Auto-generated method stub
 		ArrayList<StockAlerts> allAlerts =  new ArrayList<StockAlerts>();
 		ArrayList<StockAlerts> actives =  new ArrayList<StockAlerts>();
-		if(refresh){
+		if(refresh || activeAlerts == null){
 			allAlerts = getAlerts(deviceID, regID,refresh);
 			for(StockAlerts sa: allAlerts)
 			{
@@ -231,20 +232,36 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 
 					actives.add(sa);
 				}
-
 			}
 			activeAlerts = actives;
 		}
-
-
-
-		//allAlerts = getAlerts(deviceID, regID,refresh);
-
 		return activeAlerts;
 	}
 
+
+	
+    public void onResume() {
+        super.onResume();
+
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    	boolean refresh = mPrefs.getBoolean("refresh", false);
+		if(refresh) {
+			/*
+			listview = (ListView) rootView.findViewById(R.id.activeList);
+			ListAdapterStockAlerts adapter = new ListAdapterStockAlerts(getActivity(), getActiveAlerts(refresh));
+			listview.setAdapter(adapter);
+			adapter.notifyDataSetChanged();
+			*/
+			FragmentTransaction fragTransaction =   getActivity().getSupportFragmentManager().beginTransaction();
+			fragTransaction.detach(this);
+			fragTransaction.attach(this);
+			fragTransaction.commit();
+
+		}
+    }
+
 	@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		/*
         inflater.inflate(R.menu.activity_main_actions, menu);
         //super.onCreateOptionsMenu(menu, inflater);
@@ -252,26 +269,13 @@ public class ActiveAlertsFragment extends AbstractFragment  {
         MenuItem  action_discard = menu.findItem(R.id.action_discard);
         MenuItem action_refresh = menu.findItem(R.id.action_refresh);
         MenuItem action_help = menu.findItem(R.id.action_help);
-        
+
 	    action_menu.setVisible(true);
 	    action_discard.setVisible(true);
 	    action_refresh.setVisible(false);
 	    action_help.setVisible(true);
         */
-    }
-	
-    public void onResume() {
-        super.onResume();
-        //following line refreshes the activity when resumed. 
-        final MainActivity activity = (MainActivity)getActivity();
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(activity.context);
-    	boolean refresh = mPrefs.getBoolean("refresh", false);
-		ListAdapterStockAlerts adapter = new ListAdapterStockAlerts (activity, getActiveAlerts(refresh));
-		listview.setAdapter(adapter);
-		SharedPreferences.Editor editor= mPrefs.edit();
-		editor.putBoolean("refresh", false);
-		editor.commit();
-    }
+	}
     public void onPause() {
         clearReferences();
         super.onPause();

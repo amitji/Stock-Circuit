@@ -7,6 +7,10 @@
         android:id="@+id/dashboard"
         android:icon="@drawable/ic_home"/>
 
+    <item android:title="Recommended Videos"
+        android:id="@+id/videos"
+        android:icon="@drawable/ic_pages"/>
+
     <item android:title="Profile"
         android:id="@+id/profile"
         android:icon="@drawable/ic_whats_hot"/>
@@ -15,8 +19,12 @@
         android:id="@+id/broker_details"
         android:icon="@drawable/ic_people"/>
 
+    <item android:title="Share with Friends"
+        android:id="@+id/share"
+        android:icon="@drawable/ic_communities"/>
+
     <item android:title="Help - How do I use this App"
-        android:id="@+id/nav_item_draft"
+        android:id="@+id/help"
         android:icon="@drawable/ic_pages"/>
 
  \
@@ -24,6 +32,7 @@
     <group android:id="@+id/group_settings_id">
 
         <item android:title="Feedback"
+            android:id="@+id/feeback"
             android:icon="@drawable/ic_contactus"/>
 
     </group>

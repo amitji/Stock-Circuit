@@ -93,9 +93,14 @@ public class ListAdapterStockAlerts extends BaseAdapter {
         vi.setTag(R.id.TAG_PC_ID, new Integer(pc.getId()));
         
         // Setting all values in listview
-        title.setText(pc.getNseid());
-        if(pc.getAlert_price() != null)
-        	desc.setText(pc.getName());
+        desc.setText(pc.getNseid());
+        if(pc.getAlert_price() != null){
+            String stockName = pc.getName();
+            if(stockName.length() > 20)
+                stockName = stockName.substring(0, 20)+"...";
+            title.setText(stockName);
+        }
+
         
         if(pc.getIs_active() != null)
         	weight.setText(pc.getAlert_price());

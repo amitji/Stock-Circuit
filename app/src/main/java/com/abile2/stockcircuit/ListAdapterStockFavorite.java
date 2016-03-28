@@ -67,11 +67,11 @@ public class ListAdapterStockFavorite extends BaseAdapter {
 //        });
         vi.setTag(R.id.TAG_PC_ID, new Integer(pc.getId()));
         // Setting all values in listview
-        title.setText(pc.getNseid());
+        desc.setText(pc.getNseid());
         String stockName = pc.getStockname();
         if(stockName.length() > 20)
         	stockName = stockName.substring(0, 20)+"...";
-        desc.setText(stockName);
+        title.setText(stockName);
         weight.setText(pc.getCurrentPrice());
         change.setText("["+pc.getChange()+ "]");
         if(pc.getChange().contains("-")){

@@ -2,11 +2,6 @@ package com.abile2.stockcircuit;
 
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 //import android.app.FragmentTransaction;
 import android.content.Context;
@@ -27,10 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 
-import com.abile2.stockcircuit.model.Stock;
 import com.abile2.stockcircuit.model.StockAlerts;
-import com.abile2.stockcircuit.util.GetAlertsForAUserAsyncTask;
-import com.abile2.stockcircuit.util.GetUserFavoriteAsyncTask;
 
 import android.support.design.widget.NavigationView;
 
@@ -95,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 			setupNavigationDrawer222(savedInstanceState);
-			setViewPagrListner();
+			//setViewPagrListner();
 			setupFloatingMenu();
 
 			Intent secondInt = getIntent();
@@ -164,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
 				if (menuItem.getItemId() == R.id.broker_details) {
 					FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-					fragmentTransaction.replace(R.id.containerView, new BrokerDetailsActivity()).addToBackStack(null).commit();
+					fragmentTransaction.replace(R.id.containerView, new BrokerDetailsFragment()).addToBackStack(null).commit();
 
 					//hide Flaoting menu
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
@@ -187,6 +179,50 @@ public class MainActivity extends AppCompatActivity {
 					//startActivity(i);
 					//mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
 				}
+				if (menuItem.getItemId() == R.id.feeback) {
+					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+					xfragmentTransaction.replace(R.id.containerView, new FeedbackFragment()).addToBackStack(null).commit();
+
+					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+					menu.setVisibility(View.INVISIBLE);
+					mToolbar.setTitle("    Feedback");
+				}
+				if (menuItem.getItemId() == R.id.help) {
+					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+					xfragmentTransaction.replace(R.id.containerView, new HelpFragment()).addToBackStack(null).commit();
+
+					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+					menu.setVisibility(View.INVISIBLE);
+					mToolbar.setTitle("    Help is Here !");
+				}
+
+				if (menuItem.getItemId() == R.id.share) {
+					Intent i= new Intent(Intent.ACTION_SEND);
+					i.setType("text/plain");
+					i.putExtra(Intent.EXTRA_SUBJECT, Constants.shareSubject);
+					i.putExtra(Intent.EXTRA_TEXT, Constants.shareMessage);
+					startActivity(Intent.createChooser(i, "Share Stock Circuit App via"));
+
+				}
+				/*
+				if (menuItem.getItemId() == R.id.videos) {
+					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+					xfragmentTransaction.replace(R.id.containerView, new GetSelectedVideoFragment()).addToBackStack(null).commit();
+
+					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+					menu.setVisibility(View.INVISIBLE);
+					mToolbar.setTitle("    Recommended Videos");
+				}
+				*/
+				if (menuItem.getItemId() == R.id.videos) {
+					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+					xfragmentTransaction.replace(R.id.containerView, new RecommendedVideosFragment()).addToBackStack(null).commit();
+
+					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+					menu.setVisibility(View.INVISIBLE);
+					mToolbar.setTitle("    Recommended Videos");
+				}
+
 				return true;
 			}
 
@@ -336,100 +372,5 @@ private void setViewPagrListner() {
 
 
 
-
-  private boolean updatePassiveFragmentList(MenuItem item) {
-	// TODO Auto-generated method stub
-//	    switch (item.getItemId()) {
-//	    case R.id.action_discard:
-//
-//	    	UtilityActivity.showMessage(context, "You cannot delete old alerts.",Gravity.CENTER);
-//	    	return true;
-//	    default:
-//	        return super.onOptionsItemSelected(item);	
-//	    }
-	  
-	    return true;
-
-	    
-}
-/*
-private boolean updateFavoriteFragmentList(MenuItem item) {
-	// TODO Auto-generated method stub
-	  	boolean noneSelected = true;
-		ListView listview = (ListView) viewPager.findViewById(R.id.favoriteList);
-		
-	    switch (item.getItemId()) {
-	    case R.id.action_discard:
-//	    	ActiveAlertsFragment currentFragment = (ActiveAlertsFragment)mAdapter.getItem(0);
-//	    	currentFragment.deleteAlerts();
-	    	int pos = viewPager.getCurrentItem();
-	    	boolean[] selItems = ((ListAdapterStockFavorite) listview.getAdapter()).getSelectedItems();
-	    	StringBuilder commaSepAlertIds = new StringBuilder();
-	    	for(int j=0;j < selItems.length; j++ )
-	    	{
-	        	boolean isSelected =  selItems[j];
-	        	if(isSelected)
-	        	{
-	        		noneSelected = false;
-	            	View vi = listview.getChildAt(j);
-	            	int id = ((Integer)vi.getTag(R.id.TAG_PC_ID)).intValue();
-	            	commaSepAlertIds.append(id);
-					commaSepAlertIds.append(",");	            	
-	        	}
-	        }
-			if(noneSelected){
-				UtilityActivity.showMessage(context, "You didn't Select any favorites to delete.",Gravity.CENTER);
-				return false;
-			}
-	    	//strip ','
-	    	String favIds = commaSepAlertIds.substring(0, commaSepAlertIds.length()-1);
-			Object params[] = new Object[1];
-			params[0] = favIds;
-			try {
-				 //String sResponse = new DeleteStockFavoriteAsyncTask().execute(params).get();
-				new DeleteStockFavoriteAsyncTask().execute(params).get();
-				UtilityActivity.showMessage(context, "Favorite Deleted", Gravity.CENTER);
-			 }catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-			ListAdapterStockFavorite adapter = new ListAdapterStockFavorite(this, getUserFavorites());
-			listview.setAdapter(adapter);
-	        return true;
-		    case R.id.action_menu:
-		   	 Intent i = new Intent(MyApp.Context(), BrokerDetailsActivity.class);
-		   	 //i.putExtra("showmessage", "false");
-		   	 startActivity(i);
-		   	 return true;
-		    case R.id.action_refresh:
-				SharedPreferences.Editor editor= mPrefs.edit();
-				editor.putBoolean("isFavListDirty", true);
-				editor.commit();
-				
-				//Fragment frag = getActiveFragment();
-				
-		    	List<Fragment> allFragments = getSupportFragmentManager().getFragments();
-		    	for(Fragment frag: allFragments )
-		    	{
-		    		if(frag instanceof FavoritesFragment)
-		    		{
-				    	 FragmentTransaction fragTransaction =   getSupportFragmentManager().beginTransaction();
-				    	 fragTransaction.detach(frag);
-				    	 fragTransaction.attach(frag);
-				    	 fragTransaction.commit();
-		    		}
-		    	}
-
-		    	
-			   	return true;
-
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }
-	
-}
-
-*/
 
 }

@@ -53,5 +53,26 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <string-array name="instructions">
+        <item> Dashboard... </item>
+        <item> Dashboard allows you to view and add Active alerts, Favorites and old Alerts </item>
+        <item> Active Alerts Tab shows you all the alerts set by you and still not hit. You can add new laerts by clicking \'+\' Floating Menu on bottom right corner.</item>
+        <item> Old Alerts Tab shows you the alerts which are already hit in past. </item>
+        <item> Favorites...</item>
+        <item> You can build your favorites stock list by clicking \'+\' Floating menu on bottom right. Menu gives you options to select NSE stocks , World Indices and so on.</item>
+        <item> Once you select a stock/indice on next screen , it takes you to the Alert and Favorite Set up screen. You can click on \'+ Favorite\' button on bottom to add.</item>
+        <item> To set alert, set the alert price by either using 1% increment buttons or sliding the bar on right side. you can also enter the value yourself in the field.</item>
+        <item> Once you have your favorite list build you can directly click on a stock there to set new alerts for it. No need to search that script again.</item>
+        <item> There is a \'Refresh\' floating button on bottom left side which allows you to get last traded price for your stocks.</item>
+        <item> Broker Details...</item>
+        <item> You should setup your broker details so that when your Stock alert hits you can directly call him from this app.</item>
+        <item> Profile..</item>
+        <item> Profile is mandatory. Its important to fill correct values so that app can send the notifications on your mobile</item>
+        <item> Enjoy the Hit !!</item>
+
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -3,13 +3,15 @@ package com.abile2.stockcircuit;
 public class Constants {
 	
 	//PROD shopbindaas.co.in
-	public static final String SERVER_BASE_URL = "http://shopbindaas.co.in/StockCircuitServer/spring/";
+//	public static final String SERVER_BASE_URL = "http://shopbindaas.co.in/StockCircuitServer/spring/";
+//    public static final String FA_VIDEO_URL = "http://shopbindaas.co.in/stockcircuitserver/fund_analysis/videos/";
 
-	
-	//DEV At home
-	
+	//DEV At// home
+    public static final String SERVER_BASE_URL = "http://192.168.1.3:8080/StockCircuitServer/spring/";
+    public static final String FA_VIDEO_URL = "http://192.168.1.3/stockcircuitserver/fund_analysis/videos/";
+
 	//public static final String SERVER_BASE_URL = "http://10.202.204.187:8080/StockCircuitServer/spring/";
-	//public static final String SERVER_BASE_URL = "http://192.168.1.39:8080/StockCircuitServer/spring/";
+
 	
 
 	//Stock List renew time in days
@@ -31,10 +33,10 @@ public class Constants {
     public static final String loadingText3="We first show promotions closer to your current location and then all others..";
     //sapient office 
 	//public static final String SERVER_BASE_URL = "http://10.202.98.185:8080/ShopBindaasServer/spring/";
-    public static String shareMessage="ShopBindaas App - Using geo-locating techniques, this app pushes relevant deals to your smart phone as soon as you enter a Mall. "
-            +" Downlaod here - https://play.google.com/store/apps/details?id=com.abile2.shopbindaas";
+    public static String shareMessage="Stock Circuit App - Get Alerts for your Stocks real time when they hit High/Low circuit set by you. And Latest News on it. "
+            +" Downlaod here - https://play.google.com/store/apps/details?id=com.abile2.stockcircuit";
     
-    public static String shareSubject="Download ShopBindaas App";      	
+    public static String shareSubject="Download Stock Circuit App";
 	public static final int promo_image_width = 1600;
 	/*
 	public static String TermConditionText=" * This Referral Program is for limited period and can be withdraw any time." +
