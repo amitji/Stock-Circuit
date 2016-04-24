@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -42,7 +43,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
+import android.widget.RemoteViews;
 
 
 /**
@@ -58,6 +59,7 @@ public class GcmIntentService extends IntentService {
 
 	public static final int NOTIFICATION_ID = 1;
 	int count = 0 ;
+	Context context;
 	private NotificationManager mNotificationManager;
 	NotificationCompat.Builder builder;
 
@@ -73,6 +75,7 @@ public class GcmIntentService extends IntentService {
 		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 		// The getMessageType() intent parameter must be the intent you received
 		// in your BroadcastReceiver.
+		context = this;
 		String messageType = gcm.getMessageType(intent);
 		if (!extras.isEmpty()) {
 			// has effect of unparcelling Bundle
@@ -108,7 +111,8 @@ public class GcmIntentService extends IntentService {
 		 boolean notificationState= prefs.getBoolean("notificationsStatus",true);  
         if(notificationState){
         	count = count+5;
-        	sendNotification(title,message, type, imageURL,fullid, alert_price, count);
+        	//sendNotification(title,message, type, imageURL,fullid, alert_price, count);
+			sendNotification222(title,message, type, imageURL,fullid, alert_price, count);
         }
 		// Post notification of received message.
 		Log.i(TAG, "Received: " + extras.toString());
@@ -118,6 +122,7 @@ public class GcmIntentService extends IntentService {
 	@SuppressLint("NewApi")
 	private void sendNotification(String title, String msg, String type, String imageURl, String fullid, String alert_price, int count) {
 		WakeLocker.acquire(this);
+		//msg = msg+"Amit this is testing for long text";
 		long when = System.currentTimeMillis();
 		//count = count+5;
 		System.out.println(msg);
@@ -140,20 +145,23 @@ public class GcmIntentService extends IntentService {
 					Uri.parse("https://play.google.com/store/apps/details?id=com.abile2.stockcircuit"));
 			resultIntent.putExtra("fullid", fullid);
 		}
-		mNotificationManager = (NotificationManager) this
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 		PendingIntent resultPendingIntent = PendingIntent.getActivity(this, count,
 				resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		//Bitmap largeIcon = (((BitmapDrawable)context.getResources().getDrawable(R.drawable.logo)).getBitmap());
+
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				this).setSmallIcon(R.drawable.logo).setWhen(when)
+				this)
+				.setSmallIcon(R.drawable.logo_small).setTicker(title).setWhen(0)
+				//.setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.logo))
 				.setContentTitle(title)
 				.setAutoCancel(true)
+				.setPriority(Notification.PRIORITY_HIGH)
 				.setNumber(++numMsg)
-				.setDefaults(Notification.DEFAULT_ALL)
-				.setContentIntent(resultPendingIntent);
-		if(msg!=null && msg.equals("")){
-			mBuilder.setContentText(msg);
-		}
+				.setContentIntent(resultPendingIntent)
+				.setContentText(msg);
+
+
 		if (imageURl!=null && !imageURl.equals("")) {
 			URL url;
 			try{
@@ -174,9 +182,8 @@ public class GcmIntentService extends IntentService {
 					.bigText(msg));
 		}
 		Notification notification = mBuilder.build();
+
 		Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" +R.raw.sound);
-		//notification.defaults |= Notification.DEFAULT_VIBRATE;
-		//notification.sound = uri;
 		mNotificationManager.notify((int) when, notification);
 		//RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION,     uri);
 		Ringtone ring = RingtoneManager.getRingtone(getApplicationContext(), uri);
@@ -185,4 +192,52 @@ public class GcmIntentService extends IntentService {
 
 		WakeLocker.release();
 	}
+	@SuppressLint("NewApi")
+	private void sendNotification222(String title, String msg, String type, String imageURl, String fullid, String alert_price, int count) {
+		WakeLocker.acquire(this);
+		//msg = msg+"Amit this is testing for long text";
+		long when = System.currentTimeMillis();
+		//count = count+5;
+		System.out.println(msg);
+		Intent resultIntent = null;
+		if(type.equals("post")) {
+			resultIntent = new Intent(getApplicationContext(),
+					MainActivity.class);
+			resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			resultIntent.putExtra("notification", "yes");
+			resultIntent.putExtra("fullid", fullid);
+			resultIntent.putExtra("alert_price", alert_price);
+			resultIntent.putExtra("isNotification", true);
+
+		}else{
+			resultIntent = new Intent(
+					Intent.ACTION_VIEW,
+					Uri.parse("https://play.google.com/store/apps/details?id=com.abile2.stockcircuit"));
+			resultIntent.putExtra("fullid", fullid);
+		}
+		mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+		PendingIntent resultPendingIntent = PendingIntent.getActivity(this, count,
+				resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+		NotificationCompat.Builder mBuilder =
+				new NotificationCompat.Builder(this).setSmallIcon(R.drawable.logo_small_bw);
+
+		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.custom_notification);
+		contentView.setImageViewResource(R.id.image, R.drawable.logo_small);
+		contentView.setTextViewText(R.id.title, title);
+		contentView.setTextViewText(R.id.text, msg);
+		mBuilder.setContent(contentView);
+
+		Notification notification = mBuilder.build();
+
+		Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" +R.raw.sound);
+		mNotificationManager.notify((int) when, notification);
+		//RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION,     uri);
+		Ringtone ring = RingtoneManager.getRingtone(getApplicationContext(), uri);
+		ring.play();
+		((Vibrator) getApplicationContext().getSystemService( Context.VIBRATOR_SERVICE)).vibrate(1600);
+
+		WakeLocker.release();
+	}
+
 }

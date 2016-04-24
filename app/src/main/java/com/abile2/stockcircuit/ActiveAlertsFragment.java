@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
@@ -52,6 +53,8 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 
 	  MainActivity activity = (MainActivity) getActivity();
 	  context = activity;
+	  //activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
 	  mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 	  deviceID = mPrefs.getString("deviceID","");
 	  regID = mPrefs.getString("regID", "");

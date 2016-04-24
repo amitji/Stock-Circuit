@@ -27,9 +27,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class GetAllStockNames extends AsyncTask<Object, Void, String>{
-	Context ctx;
-	public GetAllStockNames(Context ctx) {
-		this.ctx = ctx;
+	//Context ctx;
+	public GetAllStockNames() {
+		//this.ctx = ctx;
 	}
 	
 	@Override
@@ -37,26 +37,24 @@ public class GetAllStockNames extends AsyncTask<Object, Void, String>{
 		HttpContext localContext = new BasicHttpContext();
 		try {
 			//String emailID = "amitji@gmail.com";
-			
+			String is_video_available = (String) params[0];
+
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/getAllStockNames");
-			//HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"shopbindaas/getAllPromotions");
 			Log.d("GET AppConfig ", "Geeting App Config From Server");
 			
-			//MultipartEntityBuilder entity = MultipartEntityBuilder.create();
-			//entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-			
-			
-			//entity.addTextBody("emailID", emailID);
-            //HttpEntity httpentity = entity.build();
-            //httpPost.setEntity(httpentity);  
+			MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+			entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+			entity.addTextBody("is_video_available", is_video_available);
+            HttpEntity httpentity = entity.build();
+            httpPost.setEntity(httpentity);
 			
 			HttpResponse response = httpClient.execute(httpPost, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
 			StatusLine statusLine = response.getStatusLine();
 			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				Log.d("App Config Request Status ","200 Staus code Ok ");
+
 				String url = null;
 				String sResponse = "";
 				while (((url = reader.readLine()) != null)) {
@@ -80,8 +78,7 @@ public class GetAllStockNames extends AsyncTask<Object, Void, String>{
 				
 				return sResponse;
 			} else {
-				Log.d("App Config Request Error",
-						"App Config Request Status : " + statusLine.getStatusCode());
+
 				response.getEntity().getContent().close();
 				System.err.println("TEMP ERROR");
 				return "";

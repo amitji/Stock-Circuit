@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.abile2.stockcircuit.model.NewsFeedItem;
+import com.abile2.stockcircuit.util.GetLiveQuoteAsyncTask;
 import com.abile2.stockcircuit.util.GetNewsFeedAsyncTask;
 import com.abile2.stockcircuit.util.RssHandler;
 

@@ -13,7 +13,9 @@ public class Stock {
 	private String industry_vertical;
 	private String currentPrice;
 	private String change;
-	
+	private String change_percent;
+	private String changeStr;
+
 
 	public Stock()
 	{
@@ -95,5 +97,17 @@ public class Stock {
 	public void setFullid(String fullid) {
 		this.fullid = fullid;
 	}
-	
+	public String getChange_percent() {
+		return change_percent;
+	}
+	public void setChange_percent(String change_percent) {
+		this.change_percent = change_percent;
+	}
+	public String getChangeStr() {
+		return changeStr;
+	}
+	public void setChangeStr(String changeStr) {
+		this.changeStr = changeStr;
+	}
+
 }

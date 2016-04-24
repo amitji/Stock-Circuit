@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public class AbstractListActivity extends ListActivity {
+
+	/* AMIT -  delete this class later
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class AbstractListActivity extends ListActivity {
 //	        	startActivity(i);
 //	            return true;
 	        case R.id.action_menu:
-	        	 i = new Intent(MyApp.Context(), BrokerDetailsActivity.class);
+	        	 i = new Intent(MyApp.Context(), BrokerDetailsFragment.class);
 	        	 //i.putExtra("showmessage", "false");
 	        	 startActivity(i);
 	        	 return true;
@@ -42,5 +44,5 @@ public class AbstractListActivity extends ListActivity {
 	            return super.onOptionsItemSelected(item);
 	        }
 	    }	
-
+*/
 }

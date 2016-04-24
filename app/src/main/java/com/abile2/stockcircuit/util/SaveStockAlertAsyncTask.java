@@ -1,4 +1,4 @@
-package com.abile2.stockcircuit;
+package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -8,8 +8,12 @@
         android:icon="@drawable/ic_home"/>
 
     <item android:title="Recommended Videos"
-        android:id="@+id/videos"
+        android:id="@+id/recommended_videos"
         android:icon="@drawable/ic_pages"/>
+
+    <item android:title="Fundamental Analysis Videos"
+        android:id="@+id/user_requested_video"
+        android:icon="@drawable/ic_communities"/>
 
     <item android:title="Profile"
         android:id="@+id/profile"

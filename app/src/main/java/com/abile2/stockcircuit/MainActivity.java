@@ -27,8 +27,9 @@ import com.abile2.stockcircuit.model.StockAlerts;
 import android.support.design.widget.NavigationView;
 
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+			implements RecommendedVideosFragment.OnVideoSelectedListener{
+	//public class MainActivity extends AppCompatActivity {
 	Context context;
 	protected MyApp mMyApp;
 	ArrayList<StockAlerts> allAlerts;
@@ -116,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
 
 		if (mobile.equals("")) {
 			//mDrawerToggle.setDrawerIndicatorEnabled(false);
-			mFragmentTransaction.replace(R.id.containerView, new FirstTimeRegister()).commit();
+			mFragmentTransaction.replace(R.id.containerView, new FirstTimeRegister(), "first_time_register").commit();
 		} else {
 			//mDrawerToggle.setDrawerIndicatorEnabled(true);
-			mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+			mFragmentTransaction.replace(R.id.containerView, new TabFragment(), "tab_fragment").commit();
 		}
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name) {
 
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
 				if (menuItem.getItemId() == R.id.dashboard) {
 					FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-					fragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+					fragmentTransaction.replace(R.id.containerView, new TabFragment(), "dashboard").commit();
 					//Show Flaoting menu
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 					menu.setVisibility(View.VISIBLE);
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
 				if (menuItem.getItemId() == R.id.broker_details) {
 					FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-					fragmentTransaction.replace(R.id.containerView, new BrokerDetailsFragment()).addToBackStack(null).commit();
+					fragmentTransaction.replace(R.id.containerView, new BrokerDetailsFragment(), "broker_details").addToBackStack(null).commit();
 
 					//hide Flaoting menu
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
 				if (menuItem.getItemId() == R.id.profile) {
 					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-					xfragmentTransaction.replace(R.id.containerView, new FirstTimeRegister()).addToBackStack(null).commit();
+					xfragmentTransaction.replace(R.id.containerView, new FirstTimeRegister(),"profile").addToBackStack(null).commit();
 
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 					menu.setVisibility(View.INVISIBLE);
@@ -181,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 				}
 				if (menuItem.getItemId() == R.id.feeback) {
 					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-					xfragmentTransaction.replace(R.id.containerView, new FeedbackFragment()).addToBackStack(null).commit();
+					xfragmentTransaction.replace(R.id.containerView, new FeedbackFragment(),"feedback").addToBackStack(null).commit();
 
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 					menu.setVisibility(View.INVISIBLE);
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 				}
 				if (menuItem.getItemId() == R.id.help) {
 					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-					xfragmentTransaction.replace(R.id.containerView, new HelpFragment()).addToBackStack(null).commit();
+					xfragmentTransaction.replace(R.id.containerView, new HelpFragment(),"help").addToBackStack(null).commit();
 
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 					menu.setVisibility(View.INVISIBLE);
@@ -204,29 +205,49 @@ public class MainActivity extends AppCompatActivity {
 					startActivity(Intent.createChooser(i, "Share Stock Circuit App via"));
 
 				}
-				/*
-				if (menuItem.getItemId() == R.id.videos) {
+
+				if (menuItem.getItemId() == R.id.recommended_videos) {
 					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-					xfragmentTransaction.replace(R.id.containerView, new GetSelectedVideoFragment()).addToBackStack(null).commit();
+					xfragmentTransaction.replace(R.id.containerView, new RecommendedVideosFragment(),"videos").addToBackStack(null).commit();
 
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 					menu.setVisibility(View.INVISIBLE);
 					mToolbar.setTitle("    Recommended Videos");
 				}
-				*/
-				if (menuItem.getItemId() == R.id.videos) {
-					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-					xfragmentTransaction.replace(R.id.containerView, new RecommendedVideosFragment()).addToBackStack(null).commit();
 
-					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
-					menu.setVisibility(View.INVISIBLE);
-					mToolbar.setTitle("    Recommended Videos");
+				if (menuItem.getItemId() == R.id.user_requested_video) {
+					Intent stockVideoList= new Intent(context, StockListView.class);
+					stockVideoList.putExtra("is_video_list", "y");
+					stockVideoList.putExtra("is_world_indices", "n");
+
+					startActivity(stockVideoList);
 				}
 
 				return true;
 			}
 
 		});
+
+	}
+	//Amit - function for OnVideoSelectedListener Fragment Listner
+
+	public void onItemSelected(String url) {
+/*
+		    GetSelectedVideoFragment getSelectedVideoFragment = new GetSelectedVideoFragment();
+			Bundle args = new Bundle();
+			args.putString("url", url);
+			getSelectedVideoFragment.setArguments(args);
+			FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+			xfragmentTransaction.replace(R.id.containerView,getSelectedVideoFragment, "get_selected_video").addToBackStack(null).commit();
+
+			FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+			menu.setVisibility(View.INVISIBLE);
+			mToolbar.setTitle("    Selected Video");
+
+		*/
+                Intent resultIntent = new Intent(this,GetRecommendedSelectedVideoActivity.class);
+                resultIntent.putExtra("url", url);
+                startActivity(resultIntent);
 
 	}
 
@@ -337,8 +358,6 @@ public class MainActivity extends AppCompatActivity {
      });   			
 	
 }
-
-
 
 
 

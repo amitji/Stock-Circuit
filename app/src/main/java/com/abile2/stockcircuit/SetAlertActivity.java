@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,8 +16,11 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Toast;
 import android.widget.Button;
+
+import com.abile2.stockcircuit.util.SaveStockAlertAsyncTask;
+import com.abile2.stockcircuit.util.SaveStockFavoriteAsyncTask;
+
 public class SetAlertActivity extends Activity {
 	VerticalSeekBar seekBar;
 	double curr_stock_price = 0;

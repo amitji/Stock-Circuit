@@ -1,9 +1,15 @@
 package com.abile2.stockcircuit;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.abile2.stockcircuit.model.StockAlerts;
+import com.abile2.stockcircuit.model.StockVideo;
 import com.abile2.stockcircuit.util.GetAlertsForAUserAsyncTask;
 
 import org.json.simple.JSONArray;
@@ -21,7 +27,18 @@ public class AbstractFragment extends Fragment {
 	String mobile;
 
 	//ArrayList<StockAlerts> allAlerts;
-	
+//	public void onCreate (Bundle savedInstanceState){
+//
+//		super.onCreate(savedInstanceState);
+//
+//	}
+//	@Override
+//	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//							 Bundle savedInstanceState) {
+//		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+//		return super.onCreateView(inflater,container,savedInstanceState);
+//
+//	}
 public void restartParentActivity()
 {
 	
@@ -91,7 +108,29 @@ public void onPause() {
 		return alertList;
 	}
 
+	public ArrayList<StockVideo> convertJsonToStockVideoList(String str) {
 
+		Object obj = JSONValue.parse(str);
+		JSONArray array=(JSONArray)obj;
+		ArrayList<StockVideo> alertList = new ArrayList<StockVideo>();
+
+		for (int i = 0; i < array.size(); i++) {
+			StockVideo stkVideo = new StockVideo();
+			JSONObject object = (JSONObject) array.get(i);
+			stkVideo.setId((String) object.get("id"));
+			stkVideo.setNseid((String) object.get("nse_id"));
+			stkVideo.setFullid((String) object.get("fullid"));
+			stkVideo.setName((String) object.get("name"));
+
+			stkVideo.setDescription((String) object.get("description"));
+			stkVideo.setVideo_url((String) object.get("video_url"));
+			stkVideo.setThumbnail_url((String) object.get("thumbnail_url"));
+			stkVideo.setDisplay_seq((String) object.get("display_seq"));
+			alertList.add(stkVideo);
+
+		}
+		return alertList;
+	}
 
 	public ArrayList<StockAlerts> getAlerts(String deviceID,String regID,boolean refresh){
 

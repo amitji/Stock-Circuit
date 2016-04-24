@@ -73,8 +73,8 @@ public class ListAdapterStockFavorite extends BaseAdapter {
         	stockName = stockName.substring(0, 20)+"...";
         title.setText(stockName);
         weight.setText(pc.getCurrentPrice());
-        change.setText("["+pc.getChange()+ "]");
-        if(pc.getChange().contains("-")){
+        change.setText("["+pc.getChangeStr()+ "]");
+        if(pc.getChangeStr().contains("-")){
         	change.setTextColor(Color.parseColor("#ff0000"));
         }else{
         	change.setTextColor(Color.parseColor("#29BA1B"));

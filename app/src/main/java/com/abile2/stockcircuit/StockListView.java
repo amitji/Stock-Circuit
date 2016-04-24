@@ -10,9 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.abile2.stockcircuit.model.Stock;
+import com.abile2.stockcircuit.util.GetLiveQuoteAsyncTask;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,10 +22,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -35,7 +33,8 @@ public class StockListView extends Activity {
 	EditText inputSearch;
 	StockListAdapter adapter;
 	Context context;
-	 SharedPreferences mPrefs;	
+	 SharedPreferences mPrefs;
+	String is_video_list;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,10 @@ public class StockListView extends Activity {
 		
 		Intent secondInt = getIntent();
 		String is_world_indices = secondInt.getStringExtra("is_world_indices");
-		
+		is_video_list = secondInt.getStringExtra("is_video_list" );
+		if(is_video_list == null)
+			is_video_list = "n";
+
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String stocksStr = mPrefs.getString("nseStocksList","");
 
@@ -60,7 +62,9 @@ public class StockListView extends Activity {
 			//response = new GetAllStockNames(this).execute().get();
 			//response = "";
 		ArrayList<Stock> list=null;
-			if(is_world_indices.equals("n"))
+		if(is_video_list.equals("y"))
+			list = getVideoAvailableStockNames();
+		else if(is_world_indices.equals("n"))
 				list = getStocksObjects(stocksStr);
 			else
 				list = getWorldIndicesObjects(stocksStr );
@@ -112,52 +116,69 @@ public class StockListView extends Activity {
 	    	
 	    	public void onItemClick(AdapterView<?> parent, View view,
 	    			int position, long id) {
-	    						
-	    		Stock stk = (Stock) parent.getItemAtPosition(position);
-	    		//UtilityActivity.showMessage(context, "onItemClick 222 ", Gravity.CENTER);
-	    		String name  = stk.getStockname();
-	    		//UtilityActivity.showMessage(context, "onItemClick 333 "+name, Gravity.CENTER);
-	    		String nseid = stk.getNseid();
-	    		String fullid = stk.getFullid();
-	    		//UtilityActivity.showMessage(context, "onItemClick 444 "+nseid, Gravity.CENTER);
-	    		
-	    		//get the live Quote
-	    		
-				Object object[] = new Object[1];
-				object[0] = fullid;
 
-				String quote="";
-				String change="";
-				try {
-					//UtilityActivity.showMessage(context, "Before Calling GetNewsFeedAsyncTask", Gravity.CENTER);
-					HashMap<String, String> quoteParams = new GetLiveQuoteAsyncTask().execute(object).get();
-					quote = quoteParams.get("l_fix");
-					change = quoteParams.get("c_fix")+" ( "+quoteParams.get("cp_fix")+ "% ) ";
-					if (quote != null && !(quote.isEmpty())) {
-						//UtilityActivity.showMessage(context, "After Calling GetNewsFeedAsyncTask"+quote, Gravity.CENTER);
-						System.out.println("quote - "+quote);
-					}
+				Stock stk = (Stock) parent.getItemAtPosition(position);
+				if (is_video_list.equals("y")) {
+					invokeUserRequestedVideo(stk);
+				} else {
+					invokeSetAlertActivity(stk);
 
-				} catch (InterruptedException | ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-
-	    		
-	    		Intent i = new Intent(StockListView.this, SetAlertActivity.class);
-	    		//UtilityActivity.showMessage(context, "After Calling GetNewsFeedAsyncTask"+change, Gravity.CENTER);
-	    		i.putExtra("stockname",name);
-	    		i.putExtra("nseid",nseid);
-	    		i.putExtra("fullid",fullid);
-	    		i.putExtra("price",quote);
-	    		i.putExtra("change",change);	    		
-	    		//UtilityActivity.showMessage(context, "Starting SetAlertActivity", Gravity.CENTER);
-	    		startActivity(i);
-	    	}
-	    	
+			}
 	    	
 	    });
-		
+
+	}
+ 	private void invokeUserRequestedVideo(Stock stk){
+
+
+		Intent i = new Intent(StockListView.this, GetUserRequestedVideoActivity.class);
+
+		String name = stk.getStockname();
+		String nseid = stk.getNseid();
+		String fullid = stk.getFullid();
+		i.putExtra("stockname", name);
+		i.putExtra("nseid", nseid);
+		i.putExtra("fullid", fullid);
+		//UtilityActivity.showMessage(context, "Starting SetAlertActivity", Gravity.CENTER);
+		startActivity(i);
+
+	}
+
+	private void invokeSetAlertActivity(Stock stk){
+
+		String name = stk.getStockname();
+		String nseid = stk.getNseid();
+		String fullid = stk.getFullid();
+		Object object[] = new Object[1];
+		object[0] = fullid;
+
+		String quote = "";
+		String change = "";
+		try {
+			HashMap<String, String> quoteParams = new GetLiveQuoteAsyncTask().execute(object).get();
+			quote = quoteParams.get("l_fix");
+			change = quoteParams.get("c_fix") + " ( " + quoteParams.get("cp_fix") + "% ) ";
+			if (quote != null && !(quote.isEmpty())) {
+				System.out.println("quote - " + quote);
+			}
+
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		Intent i = new Intent(StockListView.this, SetAlertActivity.class);
+		//UtilityActivity.showMessage(context, "After Calling GetNewsFeedAsyncTask"+change, Gravity.CENTER);
+		i.putExtra("stockname", name);
+		i.putExtra("nseid", nseid);
+		i.putExtra("fullid", fullid);
+		i.putExtra("price", quote);
+		i.putExtra("change", change);
+		//UtilityActivity.showMessage(context, "Starting SetAlertActivity", Gravity.CENTER);
+		startActivity(i);
+
 	}
 
 	private ArrayList<Stock> getStocksObjects(String response) {
@@ -218,7 +239,39 @@ public class StockListView extends Activity {
 		}
 		return list;
 	}
-	
+	private ArrayList<Stock> getVideoAvailableStockNames() {
+			String stocksStr="";
+		try {
+			String is_video_available = "y";
+			Object object[] = new Object[1];
+			object[0] = is_video_available;
+
+			stocksStr =  new GetAllStockNames().execute(object).get();
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList<Stock> list = new ArrayList<Stock>();
+		try {
+			JSONArray getArray = new JSONArray(stocksStr);
+			for (int i = 0; i < getArray.length(); i++) {
+				JSONObject object = getArray.getJSONObject(i);
+				//Iterator key = object.keys();
+				Stock stk;
+				if (object.has("is_video_available")) {
+					String is_video_available = object.getString("is_video_available");
+
+					if (is_video_available.equals("y")) {
+						stk = new Stock(object.getString("stockname"), object.getString("nseid"), object.getString("fullid"));
+						list.add(stk);
+					}
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
     protected void onResume() {
         super.onResume();	
         inputSearch = (EditText) findViewById(R.id.inputSearch);

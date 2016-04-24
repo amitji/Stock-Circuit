@@ -9,7 +9,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,17 +18,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.abile2.stockcircuit.model.Stock;
+import com.abile2.stockcircuit.util.GetLiveQuoteAsyncTask;
 import com.abile2.stockcircuit.util.GetUserFavoriteAsyncTask;
 
 
@@ -167,6 +164,7 @@ public class FavoritesFragment extends AbstractFragment  {
 			stk.setStockname((String) object.get("stockname"));
 			stk.setCurrentPrice((String) object.get("currentPrice"));
 			stk.setChange((String) object.get("change"));
+			stk.setChangeStr((String) object.get("changeStr"));
 			alertList.add(stk);
 		}
 		return alertList;

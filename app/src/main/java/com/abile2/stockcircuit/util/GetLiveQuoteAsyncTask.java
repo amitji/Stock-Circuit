@@ -1,4 +1,4 @@
-package com.abile2.stockcircuit;
+package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -28,6 +28,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.abile2.stockcircuit.UtilityActivity;
 
 public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<String, String> >{
 	Context ctx;
