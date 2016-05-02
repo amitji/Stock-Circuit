@@ -2,8 +2,6 @@ package com.abile2.stockcircuit;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.abile2.stockcircuit.model.StockAlerts;
 import com.abile2.stockcircuit.model.StockVideo;
-import com.abile2.stockcircuit.util.DownloadImageAsyncTask;
+
 import java.util.List;
 import java.util.Random;
 
@@ -63,7 +60,7 @@ public class ListAdapterVideos extends BaseAdapter {
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.video_thumbnail); // thumb image
         final int listenerPos = position;
         
-        StockVideo pc =  (StockVideo)data.get(position);
+        StockVideo pc = data.get(position);
 
         /*
         if (is_element_selected[position]){

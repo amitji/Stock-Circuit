@@ -3,11 +3,11 @@ package com.abile2.stockcircuit;
 public class Constants {
 	
 	//PROD shopbindaas.co.in
-    public static final String SERVER_BASE_URL = "http://shopbindaas.co.in/StockCircuitServer/spring/";
+    //public static final String SERVER_BASE_URL = "http://shopbindaas.co.in/StockCircuitServer/spring/";
 
 
 	//DEV At// home
-    //public static final String SERVER_BASE_URL = "http://192.168.1.4:8080/StockCircuitServer/spring/";
+    public static final String SERVER_BASE_URL = "http://192.168.1.4:8080/StockCircuitServer/spring/";
 
 
     //    public static final String FA_VIDEO_URL = "http://shopbindaas.co.in/stockcircuitserver/fund_analysis/videos/";
@@ -37,22 +37,10 @@ public class Constants {
     //sapient office 
 	//public static final String SERVER_BASE_URL = "http://10.202.98.185:8080/ShopBindaasServer/spring/";
     public static String shareMessage="Stock Circuit App - Get Alerts for your Stocks real time when they hit High/Low circuit set by you. And Latest News on it. "
-            +" Downlaod here - https://play.google.com/store/apps/details?id=com.abile2.stockcircuit";
+            +" Download here - https://play.google.com/store/apps/details?id=com.abile2.stockcircuit";
     
     public static String shareSubject="Download Stock Circuit App";
 	public static final int promo_image_width = 1600;
-	/*
-	public static String TermConditionText=" * This Referral Program is for limited period and can be withdraw any time." +
-			"\n * For every successful refrral you will earn 10 reward points. which you can redeem for" +
-			" Mobile Recharge or with our selected partner Merchants." +
-			"\n * The maximum reward point you can earn in this scheme is 100 Points. You need minimum 30 points to redeem";      	
-	public static String TermConditionTitle="Terms & Conditions ";
-	*/			
 
-	//Singapore - PROD  Amazon EC2 Server PROD
-	//public static final String SERVER_BASE_URL = "http://ec2-52-74-57-166.ap-southeast-1.compute.amazonaws.com:8080/ShopBindaasServer/spring/";
-	//OLD -      PROD Amazon EC2 Server PROD OLD
-	//public static final String SERVER_BASE_URL = "http://ec2-54-187-37-104.us-west-2.compute.amazonaws.com:8080/ShopBindaasServer/spring/";
-	
 
 }

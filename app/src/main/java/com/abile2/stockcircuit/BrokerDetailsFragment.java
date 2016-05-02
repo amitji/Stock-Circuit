@@ -51,8 +51,6 @@ public class BrokerDetailsFragment extends AbstractFragment {
 
 		String brokerMobile1 = mPrefs.getString("brokerMobile1","");
 		String brokerName1 = mPrefs.getString("brokerName1", "");
-		String brokerMobile2 = mPrefs.getString("brokerMobile2", "");
-		String brokerName2 = mPrefs.getString("brokerName2", "");
 		String brokerWebsite = mPrefs.getString("brokerWebsite", "");
 		
 		((EditText) rootView.findViewById(R.id.brokerMobile1)).setText(brokerMobile1);
@@ -131,7 +129,7 @@ public class BrokerDetailsFragment extends AbstractFragment {
 			            	String sResponse = new UserSettingsAsyncTask().execute(formList).get();
 			    			if(sResponse != null && !(sResponse.isEmpty()))
 			    			{
-			    				String[] result = sResponse.split(",");
+			    				//String[] result = sResponse.split(",");
 			            		Toast.makeText(context.getApplicationContext(), "Broker Details saved successfully", Toast.LENGTH_SHORT).show();
 			        				Intent i = new Intent(context, MainActivity.class);
 			        				startActivity(i);

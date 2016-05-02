@@ -132,7 +132,7 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 	            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) 
 	           { 
 	                //Toast.makeText(view.getContext(), "LongClick", Toast.LENGTH_LONG).show();
-	            	int _id = ((Integer)view.getTag(R.id.TAG_PC_ID)).intValue();
+
 	            	((ListAdapterStockAlerts) listview.getAdapter()).toggleSelection(position);
 
                    int sel_count = ((ListAdapterStockAlerts) listview.getAdapter()).getSelectedItemCount();
@@ -151,7 +151,7 @@ public class ActiveAlertsFragment extends AbstractFragment  {
             public void onItemClick(AdapterView<?> parent, View view,
                 int position, long id) {
 
-            	int _id = ((Integer)view.getTag(R.id.TAG_PC_ID)).intValue();
+
             	((ListAdapterStockAlerts) listview.getAdapter()).toggleSelection(position);
 
                 int sel_count = ((ListAdapterStockAlerts) listview.getAdapter()).getSelectedItemCount();

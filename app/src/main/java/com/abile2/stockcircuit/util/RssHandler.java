@@ -13,7 +13,7 @@ import com.abile2.stockcircuit.model.NewsFeedItem;
 public class RssHandler extends DefaultHandler{
     private ArrayList<NewsFeedItem> messages;
     private NewsFeedItem currentMessage;
-    private StringBuilder builder = new StringBuilder();;
+    private StringBuilder builder = new StringBuilder();
     private static final String TAG_ITEM = "item";
     
     private final Stack<String> tagsStack = new Stack<String>();

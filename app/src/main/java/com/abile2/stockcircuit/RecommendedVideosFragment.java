@@ -24,7 +24,7 @@ public class RecommendedVideosFragment extends AbstractFragment {//implements As
     //Listener for main activity to pass on data to another fragments
     OnVideoSelectedListener mCallback;
     public interface OnVideoSelectedListener {
-        public void onItemSelected(String url);
+        void onItemSelected(String url);
     }
 
     Context context;

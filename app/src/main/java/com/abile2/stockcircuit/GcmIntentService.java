@@ -112,7 +112,7 @@ public class GcmIntentService extends IntentService {
         if(notificationState){
         	count = count+5;
         	//sendNotification(title,message, type, imageURL,fullid, alert_price, count);
-			sendNotification222(title,message, type, imageURL,fullid, alert_price, count);
+			sendNotification(title,message, type, imageURL,fullid, alert_price, count);
         }
 		// Post notification of received message.
 		Log.i(TAG, "Received: " + extras.toString());
@@ -121,79 +121,6 @@ public class GcmIntentService extends IntentService {
 	}
 	@SuppressLint("NewApi")
 	private void sendNotification(String title, String msg, String type, String imageURl, String fullid, String alert_price, int count) {
-		WakeLocker.acquire(this);
-		//msg = msg+"Amit this is testing for long text";
-		long when = System.currentTimeMillis();
-		//count = count+5;
-		System.out.println(msg);
-		Intent resultIntent = null;
-		if(type.equals("post")) {
-			resultIntent = new Intent(getApplicationContext(),
-					MainActivity.class);
-//			resultIntent = new Intent(getApplicationContext(),
-//					StockAlertNewsWebView.class);
-			//resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			resultIntent.putExtra("notification", "yes");
-			resultIntent.putExtra("fullid", fullid);
-			resultIntent.putExtra("alert_price", alert_price);
-			resultIntent.putExtra("isNotification", true);
-			
-		}else{
-			resultIntent = new Intent(
-					Intent.ACTION_VIEW,
-					Uri.parse("https://play.google.com/store/apps/details?id=com.abile2.stockcircuit"));
-			resultIntent.putExtra("fullid", fullid);
-		}
-		mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-		PendingIntent resultPendingIntent = PendingIntent.getActivity(this, count,
-				resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-		//Bitmap largeIcon = (((BitmapDrawable)context.getResources().getDrawable(R.drawable.logo)).getBitmap());
-
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				this)
-				.setSmallIcon(R.drawable.logo_small).setTicker(title).setWhen(0)
-				//.setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.logo))
-				.setContentTitle(title)
-				.setAutoCancel(true)
-				.setPriority(Notification.PRIORITY_HIGH)
-				.setNumber(++numMsg)
-				.setContentIntent(resultPendingIntent)
-				.setContentText(msg);
-
-
-		if (imageURl!=null && !imageURl.equals("")) {
-			URL url;
-			try{
-				url = new URL(imageURl);
-				Bitmap image =BitmapFactory.decodeStream(url.openConnection()
-						.getInputStream());
-				mBuilder.setStyle(new NotificationCompat.BigPictureStyle()
-						.bigPicture(image).setBigContentTitle(title).setSummaryText(msg));
-				Log.d("Notification", "Create Image Notification Style");		
-			}catch(MalformedURLException e){
-				e.printStackTrace();
-			}catch(IOException e){
-				e.printStackTrace();
-			}
-		}else{
-			Log.d("Notification", "Create Text Notification Style");
-			mBuilder.setStyle(new NotificationCompat.BigTextStyle()
-					.bigText(msg));
-		}
-		Notification notification = mBuilder.build();
-
-		Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" +R.raw.sound);
-		mNotificationManager.notify((int) when, notification);
-		//RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION,     uri);
-		Ringtone ring = RingtoneManager.getRingtone(getApplicationContext(), uri);
-	    ring.play();	
-	     ((Vibrator) getApplicationContext().getSystemService( Context.VIBRATOR_SERVICE)).vibrate(1600);
-
-		WakeLocker.release();
-	}
-	@SuppressLint("NewApi")
-	private void sendNotification222(String title, String msg, String type, String imageURl, String fullid, String alert_price, int count) {
 		WakeLocker.acquire(this);
 		//msg = msg+"Amit this is testing for long text";
 		long when = System.currentTimeMillis();
@@ -220,13 +147,14 @@ public class GcmIntentService extends IntentService {
 				resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		NotificationCompat.Builder mBuilder =
-				new NotificationCompat.Builder(this).setSmallIcon(R.drawable.logo_small_bw);
+				new NotificationCompat.Builder(this).setSmallIcon(R.drawable.logo_small);
 
 		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.custom_notification);
 		contentView.setImageViewResource(R.id.image, R.drawable.logo_small);
 		contentView.setTextViewText(R.id.title, title);
 		contentView.setTextViewText(R.id.text, msg);
 		mBuilder.setContent(contentView);
+		mBuilder.setContentIntent(resultPendingIntent);
 
 		Notification notification = mBuilder.build();
 

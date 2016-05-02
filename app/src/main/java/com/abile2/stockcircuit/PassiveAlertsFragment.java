@@ -122,6 +122,7 @@ public class PassiveAlertsFragment extends AbstractFragment  {
 		return passiveAlerts;
 
 	}
+	/*
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.activity_main_actions, menu);
@@ -137,7 +138,7 @@ public class PassiveAlertsFragment extends AbstractFragment  {
 	    action_help.setVisible(false);
         
     }
-	
+	*/
 	   public void onResume() {
 	        super.onResume();
 	    }

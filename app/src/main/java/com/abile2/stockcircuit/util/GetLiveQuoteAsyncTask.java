@@ -2,6 +2,7 @@ package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import org.apache.http.HttpEntity;
@@ -48,9 +49,9 @@ public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<Strin
 			if(!fullid.contains(":")){
 				fullid +="NSE:"+fullid+","; 
 			}
+			//bugfix - encode for & in the symbol
+			fullid = URLEncoder.encode(fullid, "utf-8");
 
-			
-			
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpGet httpGet = new HttpGet("http://finance.google.com/finance/info?client=ig&q="+fullid);
 			//HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"shopbindaas/getAllPromotions");
@@ -69,7 +70,7 @@ public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<Strin
 					response.getEntity().getContent(), "UTF-8"));
 			StatusLine statusLine = response.getStatusLine();
 			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				Log.d("App Config Request Status ","200 Staus code Ok ");
+				Log.d("GetLiveQuoteAsyncTask ","200 Staus code Ok ");
 				String url = null;
 				String sResponse = "";
 				while (((url = reader.readLine()) != null)) {
@@ -83,14 +84,13 @@ public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<Strin
 				
 
 			} else {
-				Log.d("App Config Request Error",
-						"App Config Request Status : " + statusLine.getStatusCode());
+				Log.d("GetLiveQuoteAsyncTask error","GetLiveQuoteAsyncTask Status : " + statusLine.getStatusCode());
 				response.getEntity().getContent().close();
 				System.err.println("TEMP ERROR");
 				return quoteParams;
 			}
 		} catch (Exception e) {
-			System.out.println("Error in getting App Config - "
+			System.out.println("Error in GetLiveQuoteAsyncTask - "
 					+ e.getMessage());
 			e.printStackTrace();
 			return quoteParams;

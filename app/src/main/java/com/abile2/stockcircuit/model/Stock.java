@@ -33,7 +33,9 @@ public class Stock {
 		this.nseid = nseid;
 		this.fullid = fullid;
 	}
-	
+	public String toString(){
+		 return stockname;
+	}
 //	public Stock(String name, String rating, String notes)
 //	{
 //		this.stockname = name;

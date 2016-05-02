@@ -63,7 +63,7 @@ public class ListAdapterStockAlerts extends BaseAdapter {
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
         final int listenerPos = position;
         
-        StockAlerts pc =  (StockAlerts)data.get(position);
+        StockAlerts pc = data.get(position);
         
         if (is_element_selected[position]){
             vi.setBackgroundColor(Color.LTGRAY);

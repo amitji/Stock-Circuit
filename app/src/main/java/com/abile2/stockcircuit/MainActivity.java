@@ -222,6 +222,13 @@ public class MainActivity extends AppCompatActivity
 
 					startActivity(stockVideoList);
 				}
+				if (menuItem.getItemId() == R.id.compare_video) {
+					Intent compareVideosList = new Intent(context, CompareStocksVideoActivity.class);
+					//compareVideosList.putExtra("is_video_list", "y");
+					//compareVideosList.putExtra("is_world_indices", "n");
+
+					startActivity(compareVideosList);
+				}
 
 				return true;
 			}

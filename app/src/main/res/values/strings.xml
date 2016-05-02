@@ -33,21 +33,7 @@
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
-    <array name="nav_drawer_icons">
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_people</item>
-        <item>@drawable/ic_pages</item>
-        <item>@drawable/ic_contactus</item>
-        <item>@drawable/ic_blank</item>
-        <item>@drawable/ic_blank</item>
-        <item>@drawable/ic_whats_hot</item>
-        <item>@drawable/ic_communities</item>
-        <item>@drawable/ic_facebook</item>
-        <item>@drawable/ic_whats_hot</item>
-        <!--
-        <item>@drawable/ic_whats_hot</item>
-     -->
-    </array>
+
 
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="dummy_button">Dummy Button</string>

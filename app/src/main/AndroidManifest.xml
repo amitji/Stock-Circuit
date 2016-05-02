@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abile2.stockcircuit"
-    android:versionCode="32"
-    android:versionName="1.32">
+    android:versionCode="33"
+    android:versionName="1.33">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -39,7 +39,8 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
 
         <!-- GCM BROADCASR RECIVER FOR APPLICATION -->
         <service android:name=".GcmIntentService" />
@@ -60,30 +61,32 @@
 
         <activity
             android:name=".SplashScreen"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".StockListView"
             android:label="Choose A Stock"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-            <activity
-                   android:name=".MainActivity"
-                   android:label="Stock Circuit"
-                     />
-        <!--
-             <activity
-                        android:name=".MainActivity"
-                        android:label="Stock Circuit"
-                        android:configChanges="orientation|screenSize"  />
-       -->
+
+        <activity
+            android:name=".MainActivity"
+            android:label="Stock Circuit"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".SetAlertActivity"
             android:label="Set the Circuits"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".StockAlertNewsListView"
@@ -92,21 +95,38 @@
         <activity
             android:name=".BrokerDetailsActivity"
             android:label="Broker Details"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ProfileActivity"
-            android:label="Profile"
+            android:label="Your Profile"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".GetRecommendedSelectedVideoActivity"
             android:label="Stock Circuit"
-            android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
         <activity
             android:name=".GetUserRequestedVideoActivity"
             android:label="Stock Circuit"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity
+            android:name=".CompareStocksVideoActivity"
+            android:label="Compare Stocks Fundamentals"
+            android:theme="@style/CustomTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
+            android:name=".GetCompareStocksVideoActivity"
+            android:label=""
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            />
+
 
     </application>
 

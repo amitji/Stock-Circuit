@@ -50,7 +50,7 @@ public class ListAdapterStockFavorite extends BaseAdapter {
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
 
         final int listenerPos = position;
-        Stock pc =  (Stock)data.get(position);
+        Stock pc = data.get(position);
 //        if (is_element_selected[position]){
 //            vi.setBackgroundColor(Color.LTGRAY);
 //        	thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.ic_action_done));

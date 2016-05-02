@@ -11,7 +11,7 @@ public class GCMHelper {
 	static Context context = null;
 
 	public GCMHelper(Context context) {
-		this.context = context;
+		GCMHelper.context = context;
 	}
 	public String GCMRegister(String SENDER_ID)  {
 		String regid = "";

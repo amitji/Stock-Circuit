@@ -7,13 +7,19 @@
         android:id="@+id/dashboard"
         android:icon="@drawable/ic_home"/>
 
+    <item android:title="Compare Stocks Video"
+        android:id="@+id/compare_video"
+        android:icon="@drawable/ic_video"/>
+
     <item android:title="Recommended Videos"
         android:id="@+id/recommended_videos"
         android:icon="@drawable/ic_pages"/>
 
+
+
     <item android:title="Fundamental Analysis Videos"
         android:id="@+id/user_requested_video"
-        android:icon="@drawable/ic_communities"/>
+        android:icon="@drawable/ic_video"/>
 
     <item android:title="Profile"
         android:id="@+id/profile"
