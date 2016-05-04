@@ -34,7 +34,8 @@ public class Stock {
 		this.fullid = fullid;
 	}
 	public String toString(){
-		 return stockname;
+		 return " "+stockname;
+		//return stockname;
 	}
 //	public Stock(String name, String rating, String notes)
 //	{

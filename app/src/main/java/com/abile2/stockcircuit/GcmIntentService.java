@@ -147,7 +147,10 @@ public class GcmIntentService extends IntentService {
 				resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		NotificationCompat.Builder mBuilder =
-				new NotificationCompat.Builder(this).setSmallIcon(R.drawable.logo_small);
+				new NotificationCompat.Builder(this)
+						.setSmallIcon(R.drawable.logo_small)
+						.setAutoCancel(true)
+						.setPriority(Notification.PRIORITY_HIGH);
 
 		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.custom_notification);
 		contentView.setImageViewResource(R.id.image, R.drawable.logo_small);

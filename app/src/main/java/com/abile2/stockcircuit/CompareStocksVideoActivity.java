@@ -65,9 +65,9 @@ public class CompareStocksVideoActivity extends Activity {
 		ArrayList<Stock> list= getVideoEnabledStockList(stocksStr);
 
 		ArrayAdapter<Stock> adapter = new ArrayAdapter<Stock>(this,android.R.layout.simple_list_item_1, list);
-		stock1.setThreshold(2);
-		stock2.setThreshold(2);
-		stock3.setThreshold(2);
+		stock1.setThreshold(1);
+		stock2.setThreshold(1);
+		stock3.setThreshold(1);
 
 		stock1.setAdapter(adapter);
 		stock2.setAdapter(adapter);

@@ -65,7 +65,7 @@
                 android:layout_margin="20dp"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="Enter the second Stock"
+                android:hint="Second Stock,space to see list"
                 android:textColorHint="@color/lightgrey"
                 android:inputType="textCapWords" />
 
@@ -76,7 +76,7 @@
                 android:layout_margin="20dp"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="Enter third Stock"
+                android:hint="Third Stock,space to see list"
                 android:textColorHint="@color/lightgrey"
                 android:inputType="textCapWords" />
 
