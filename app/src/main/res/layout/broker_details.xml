@@ -120,7 +120,15 @@
                 android:layout_margin="15dip"
                 android:background="#FFD800"
                 android:text="Save" />
-        </LinearLayout>
+			<Button
+				android:id="@+id/callbutton"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="15dip"
+				android:background="#FFD800"
+				android:text="Call Broker" />
+
+		</LinearLayout>
     </RelativeLayout>
 
 </ScrollView>

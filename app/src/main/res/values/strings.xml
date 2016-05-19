@@ -44,6 +44,12 @@
         <item> Dashboard allows you to view and add Active alerts, Favorites and old Alerts </item>
         <item> Active Alerts Tab shows you all the alerts set by you and still not hit. You can add new laerts by clicking \'+\' Floating Menu on bottom right corner.</item>
         <item> Old Alerts Tab shows you the alerts which are already hit in past. </item>
+        <item> Compare Stocks Video...</item>
+        <item> You can request for a Comparison video on demand for comparing upto three stocks based on their fundamentals.</item>
+        <item> Recommended Videos...</item>
+        <item> You can watch Fundamental Analysis Video for top NSE stocks.</item>
+        <item> Fundamental Analysis Videos...</item>
+        <item> You can request for a Fundamental Analysis Video for a stock of your choice from top traded NSE stocks.</item>
         <item> Favorites...</item>
         <item> You can build your favorites stock list by clicking \'+\' Floating menu on bottom right. Menu gives you options to select NSE stocks , World Indices and so on.</item>
         <item> Once you select a stock/indice on next screen , it takes you to the Alert and Favorite Set up screen. You can click on \'+ Favorite\' button on bottom to add.</item>

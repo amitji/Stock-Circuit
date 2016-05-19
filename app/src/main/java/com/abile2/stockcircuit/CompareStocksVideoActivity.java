@@ -125,25 +125,29 @@ public class CompareStocksVideoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				UtilityActivity.hideSoftKeyboard(activity);
-
-				if(stock1.getText().equals("") || stock2.getText().equals("")){
-
-					UtilityActivity.showMessage(getApplicationContext(),	"Please Enter alleast 2 Stock Names", Gravity.TOP);
+				String fullid1="";
+				String fullid2="";
+				String fullid3="";
+				if(selected1 != null && selected2 != null ){
+					fullid1 = selected1.getFullid();
+					fullid2 = selected2.getFullid();
+				}else{
+					UtilityActivity.showMessage(getApplicationContext(),"Stock Names cannot be blank. Enter atleast two stocks.", Gravity.TOP);
+					return;
 				}
-				if (selected1 == null || selected2 == null) {
-					//Toast.makeText(getApplicationContext(),	"Please Enter alleast 2 Stock Names",Toast.LENGTH_LONG).show();
-					UtilityActivity.showMessage(getApplicationContext(),	"Please Enter alleast 2 Stock Names", Gravity.TOP);
 
-				} else {
 
-					//call create video Asyn Task
-					String fullid1 = selected1.getFullid();
-					String fullid2 = selected2.getFullid();
-					String fullid3="";
-					if(selected3 != null){
-						 fullid3 = selected3.getFullid();
-					}
+				if(selected3 != null){
+					fullid3 = selected3.getFullid();
+				}
 
+
+
+				if(fullid1.equals(fullid2) || fullid2.equals(fullid3) ||
+						fullid1.equals(fullid3)){
+
+					UtilityActivity.showMessage(getApplicationContext(),"Please Enter different Stock Names to Compare", Gravity.TOP);
+				}else {
 					Intent i = new Intent(CompareStocksVideoActivity.this, GetCompareStocksVideoActivity.class);
 					i.putExtra("fullid1", fullid1);
 					i.putExtra("fullid2", fullid2);

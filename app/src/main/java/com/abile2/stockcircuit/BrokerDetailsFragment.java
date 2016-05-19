@@ -3,6 +3,7 @@ package com.abile2.stockcircuit;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ public class BrokerDetailsFragment extends AbstractFragment {
 		setUpInitialValues();
 		
 		addSaveButtonListner();
+		  addCallBrokerButtonListner();
 		return rootView;
 
     }
@@ -150,6 +152,37 @@ public class BrokerDetailsFragment extends AbstractFragment {
 		});
 
 		
+	}
+
+	private void addCallBrokerButtonListner() {
+
+		//View header = getLayoutInflater().inflate(R.layout.header, null);
+
+		Button button = (Button) rootView.findViewById(R.id.callbutton);
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				//String mobile = mPrefs.getString("brokerMobile1","");
+				String brokerMobile1 = ((EditText) rootView.findViewById(R.id.brokerMobile1)).getText().toString();
+
+				if (brokerMobile1 != null && !brokerMobile1.equals("")) {
+					//String uri = "tel:" + mobile+";"+mobile2;
+					String uri = "tel:" + brokerMobile1;
+					Intent intent = new Intent(Intent.ACTION_CALL);
+					intent.setData(Uri.parse(uri));
+					startActivity(intent);
+				} else {
+					UtilityActivity.showMessage("You need to add your broker details",v.getContext());
+
+				}
+
+				// UtilityActivity.hideSoftKeyboard(v);
+
+			}
+		});
 	}
 	private boolean isValidMobile(String phone) 
 	{
