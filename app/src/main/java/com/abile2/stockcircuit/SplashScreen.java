@@ -48,6 +48,7 @@ import android.widget.Toast;
 
 import com.abile2.stockcircuit.model.Stock;
 import com.abile2.stockcircuit.util.GPSTracker;
+import com.abile2.stockcircuit.util.GetAppConfigParamsAsyncTask;
 import com.abile2.stockcircuit.util.NetworkUtil;
 import com.abile2.stockcircuit.util.SaveUserAsyncTask;
 import com.google.android.gms.common.ConnectionResult;
@@ -160,7 +161,19 @@ public class SplashScreen extends Activity {
 			
 			long diff = Math.abs(currDate.getTime() - lastUpdateDate.getTime());
 			long diffDays = diff / (24 * 60 * 60 * 1000);
-			if(((int) diffDays ) > Constants.STOCK_LIST_FETCH_TIME){
+			int app_stock_list_update_days = Constants.STOCK_LIST_FETCH_TIME;
+			try{
+				HashMap<String, String> app_config  = new GetAppConfigParamsAsyncTask().execute().get();
+
+				if(app_config.get("app_stock_list_update_days") != null)
+				{
+					app_stock_list_update_days = Integer.parseInt(app_config.get("app_stock_list_update_days"));
+				}
+			} catch (InterruptedException | ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(((int) diffDays ) > app_stock_list_update_days){
 				stocksStr = getNseStocksList();
 				SharedPreferences.Editor mpref = mPrefs.edit();
 				mpref.putString("nseStocksList", stocksStr);
