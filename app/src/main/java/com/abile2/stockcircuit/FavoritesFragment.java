@@ -215,6 +215,7 @@ public class FavoritesFragment extends AbstractFragment  {
 	    		i.putExtra("price",quote);
 	    		i.putExtra("change",change);
 				i.putExtra("isFavorite","yes");
+				i.putExtra("id",favId); //this is id from user_favorite table and not an stock id
 	    		startActivity(i);
             }
           });

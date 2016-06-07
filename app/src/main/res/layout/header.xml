@@ -51,13 +51,21 @@
 		           android:layout_width="fill_parent"
 		           android:layout_height="wrap_content"
 		           android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-			            android:layout_marginLeft="10dp"
+				   android:layout_marginRight="10dp"
+			       android:layout_marginLeft="10dp"
 		           android:textColor="@color/grey"
 		           android:textSize="16dip"
 		           android:gravity="center"
 		            />
-			    		    
+				<Button
+					android:id="@+id/resetAlertBtn"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:background="#FFD800"
+					android:layout_marginTop="10dp"
+					android:layout_marginRight="10dp"
+					android:layout_marginLeft="10dp"
+					android:text="Reset Alert" />
 		    	   <TextView
                         android:id="@+id/viewUnderLine1"
                         android:layout_width="fill_parent"

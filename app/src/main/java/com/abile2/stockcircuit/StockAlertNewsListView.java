@@ -46,7 +46,12 @@ public class StockAlertNewsListView extends Activity {
 	TextView change;
 	TextView stock_curr_price;
 	TextView tv_alert_price;
-	
+
+	String stockName;
+	String nseid;
+	String fullid;
+	String changeStr;
+	String priceStr;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +74,9 @@ public class StockAlertNewsListView extends Activity {
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Intent secondInt = getIntent();
 		context = this;
-		String nseid = secondInt.getStringExtra("nseid");
-		String fullid = secondInt.getStringExtra("fullid");
+		//nseid = secondInt.getStringExtra("nseid");
+		fullid = secondInt.getStringExtra("fullid");
+		nseid = fullid.substring(fullid.lastIndexOf(":") + 1);
 		String alert_price = secondInt.getStringExtra("alert_price");
 		//String url = secondInt.getStringExtra("url");
 		setupStockParams(nseid,alert_price,fullid);
@@ -99,9 +105,10 @@ public class StockAlertNewsListView extends Activity {
 		ListAdapterNewsFeed  adapter = new ListAdapterNewsFeed(context, R.layout.news_feed_list_item,newsFeedArray);
 		listView.setAdapter(adapter);
 
-		
+		addResetAlertButtonListener();
 		addCallBrokerButtonListner();
 		addGoToTradingWebsiteButtonListner();
+
 		setListViewListner();
 		
 	}
@@ -132,7 +139,7 @@ public class StockAlertNewsListView extends Activity {
 		// TODO Auto-generated method stub
 
 		Object object[] = new Object[1];
-		object[0] = nseid;	
+		//object[0] = nseid;
 		object[0] = fullid;
 		String quote="";
 		try {
@@ -146,10 +153,14 @@ public class StockAlertNewsListView extends Activity {
 //				TextView change = (TextView)header.findViewById(R.id.change);
 //				TextView stock_curr_price = (TextView)header.findViewById(R.id.stock_curr_price);
 //				TextView tv_alert_price = (TextView)header.findViewById(R.id.alert_price);
-				
-				name.setText("Stock Symbol : "+quoteParams.get("t"));
-				change.setText("Change : "+quoteParams.get("c_fix")+" ( "+quoteParams.get("cp_fix")+ "% ) ");
-				stock_curr_price.setText("Last Trade : "+quoteParams.get("l_fix"));
+
+				stockName = quoteParams.get("t");
+				changeStr = quoteParams.get("c_fix")+" ( "+quoteParams.get("cp_fix")+ "% )" ;
+				priceStr = quoteParams.get("l_fix");
+
+				name.setText("Stock Symbol : "+stockName);
+				change.setText("Change : "+changeStr);
+				stock_curr_price.setText("Last Trade : "+priceStr);
 				tv_alert_price.setText("Alert @ : "+alert_price);
 				
 				//System.out.println("quote - "+quote);
@@ -184,7 +195,31 @@ public class StockAlertNewsListView extends Activity {
 	    });
 		
 	}
+	private void addResetAlertButtonListener() {
 
+		//View header = getLayoutInflater().inflate(R.layout.header, null);
+
+		Button button = (Button) findViewById(R.id.resetAlertBtn);
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				//MainActivity activity = (MainActivity)getActivity();
+				Intent i = new Intent(context, SetAlertActivity.class);
+				i.putExtra("stockname",stockName);
+				i.putExtra("nseid",nseid);
+				i.putExtra("fullid",fullid);
+				i.putExtra("price",priceStr);
+				i.putExtra("change",changeStr);
+				i.putExtra("isFavorite","no");
+				//i.putExtra("id",favId); //this is id from user_favorite table and not an stock id
+				startActivity(i);
+
+			}
+		});
+	}
 	
 	private void addCallBrokerButtonListner() {
 		

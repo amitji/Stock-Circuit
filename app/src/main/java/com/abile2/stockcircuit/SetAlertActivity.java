@@ -84,7 +84,7 @@ public class SetAlertActivity extends Activity {
 		changeTv = (TextView) findViewById(R.id.change);
 		priceTv.setText("Last Trade : "+stock_price);
 		changeTv.setText("Change : "+change);
-		stockNameTv.setText(stockname);
+		stockNameTv.setText("Name/Symbol : "+stockname);
 		slider_value.setText(stock_price);
 		setupSeekBar();
 		setupAlertButtonListner();
