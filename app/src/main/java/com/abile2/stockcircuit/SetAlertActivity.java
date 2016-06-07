@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Button;
 
+import com.abile2.stockcircuit.util.DeleteStockFavoriteAsyncTask;
 import com.abile2.stockcircuit.util.SaveStockAlertAsyncTask;
 import com.abile2.stockcircuit.util.SaveStockFavoriteAsyncTask;
 
@@ -45,6 +46,8 @@ public class SetAlertActivity extends Activity {
 	String mobile;
 	String name;
 	String email;
+	String isFavorite;
+	String favID;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,6 +60,10 @@ public class SetAlertActivity extends Activity {
 		fullid = secondInt.getStringExtra("fullid");
 		String stock_price = secondInt.getStringExtra("price");
 		String change = secondInt.getStringExtra("change");
+		isFavorite = secondInt.getStringExtra("isFavorite");
+		favID = secondInt.getStringExtra("id");
+
+
 		//if(stock_price != null){
 		//UtilityActivity.showMessage(context, "in If loop ", Gravity.CENTER);
 		curr_stock_price = Double.valueOf(stock_price);
@@ -82,8 +89,18 @@ public class SetAlertActivity extends Activity {
 		setupSeekBar();
 		setupAlertButtonListner();
 		setupCloseButtonListner();
-		setupAddFavoriteButtonListner();
+
 		setupPlusMinusButtonsListner();
+
+		if(isFavorite != null && isFavorite.equals("yes")){
+			Button button = (Button) findViewById(R.id.setFavBtn);
+			button.setText("Remove Favorite");
+			setupDeleteFavoriteButtonListner();
+
+		}else{
+			setupAddFavoriteButtonListner();
+		}
+
 	}
 	private void setupPlusMinusButtonsListner() {
 		// TODO Auto-generated method stub
@@ -248,13 +265,6 @@ public class SetAlertActivity extends Activity {
 					SharedPreferences.Editor editor= mPrefs.edit();
 					editor.putBoolean("isFavListDirty", true);
 					editor.commit();
-
-					
-//					if (sResponse != null && !(sResponse.isEmpty())) {
-//						System.out.println("sResponse - "+sResponse);
-//						UtilityActivity.showMessage(context, msg, Gravity.TOP);
-//						//UtilityActivity.showMessage(context, sResponse, Gravity.CENTER);
-//					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -262,5 +272,32 @@ public class SetAlertActivity extends Activity {
 			}
 		});
 	}
-	
+
+	private void setupDeleteFavoriteButtonListner() {
+		// TODO Auto-generated method stub
+		Button button = (Button) findViewById(R.id.setFavBtn);
+		button.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				Object object[] = new Object[1];
+				//int id = ((Integer)v.getTag(R.id.TAG_PC_ID)).intValue();
+				object[0] = favID;
+				String msg = "Stock is deleted from your favorite list";
+				String sResponse;
+				try {
+					new DeleteStockFavoriteAsyncTask().execute(object);
+					UtilityActivity.showShortMessage(context, msg, Gravity.TOP);
+
+					SharedPreferences.Editor editor= mPrefs.edit();
+					editor.putBoolean("isFavListDirty", true);
+					editor.commit();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 }

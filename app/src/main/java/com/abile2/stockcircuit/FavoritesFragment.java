@@ -186,6 +186,7 @@ public class FavoritesFragment extends AbstractFragment  {
             	((ListAdapterStockFavorite) parent.getAdapter()).toggleSelection(position);
  
 	    		Stock stk = (Stock) parent.getItemAtPosition(position);
+				String favId = stk.getId();
 	    		String name  = stk.getStockname();
 	    		String nseid = stk.getNseid();
 	    		String fullid = stk.getFullid();
@@ -212,7 +213,8 @@ public class FavoritesFragment extends AbstractFragment  {
 	    		i.putExtra("nseid",nseid);
 	    		i.putExtra("fullid",fullid);
 	    		i.putExtra("price",quote);
-	    		i.putExtra("change",change);	    		
+	    		i.putExtra("change",change);
+				i.putExtra("isFavorite","yes");
 	    		startActivity(i);
             }
           });
