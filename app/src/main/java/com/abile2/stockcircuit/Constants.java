@@ -3,11 +3,11 @@ package com.abile2.stockcircuit;
 public class Constants {
 	
 	//PROD shopbindaas.co.in
-    public static final String SERVER_BASE_URL = "http://shopbindaas.co.in/StockCircuitServer/spring/";
+    //public static final String SERVER_BASE_URL = "http://shopbindaas.co.in/StockCircuitServer/spring/";
 
 
 	//DEV At// home
-    //public static final String SERVER_BASE_URL = "http://192.168.1.9:8080/StockCircuitServer/spring/";
+    public static final String SERVER_BASE_URL = "http://192.168.1.11:8080/StockCircuitServer/spring/";
 
 
     //public static final String FA_VIDEO_URL = "http://shopbindaas.co.in/stockcircuitserver/fund_analysis/videos/";
@@ -36,7 +36,7 @@ public class Constants {
     public static final String loadingText3="We first show promotions closer to your current location and then all others..";
     //sapient office 
 	//public static final String SERVER_BASE_URL = "http://10.202.98.185:8080/ShopBindaasServer/spring/";
-    public static String shareMessage="Stock Circuit App - Get Alerts for your Stocks real time when they hit High/Low circuit set by you. And Latest News on it. "
+    public static String shareMessage="Stock Circuit App - Videos to Compare Stocks on Fundamentals, Get Alert notifications for Stock Price when they hit High/Low circuit set by you. And Latest News on it. "
             +" Download here - https://play.google.com/store/apps/details?id=com.abile2.stockcircuit";
     
     public static String shareSubject="Download Stock Circuit App";

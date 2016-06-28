@@ -63,7 +63,7 @@ public class StockListView extends Activity {
 			//response = "";
 		ArrayList<Stock> list=null;
 		if(is_video_list.equals("y"))
-			list = getVideoAvailableStockNames();
+			list = getVideoEnabledStockList(stocksStr);
 		else if(is_world_indices.equals("n"))
 				list = getStocksObjects(stocksStr);
 			else
@@ -120,6 +120,13 @@ public class StockListView extends Activity {
 				Stock stk = (Stock) parent.getItemAtPosition(position);
 				if (is_video_list.equals("y")) {
 					invokeUserRequestedVideo(stk);
+
+					//reset the my_video_refresh_flag so that new request can be sent to server to get this new video..
+					SharedPreferences.Editor editor = mPrefs.edit();
+					//editor.putString("my_video_list", str);
+					editor.putBoolean("my_video_refresh_flag", true);
+					editor.commit();
+
 				} else {
 					invokeSetAlertActivity(stk);
 
@@ -239,6 +246,43 @@ public class StockListView extends Activity {
 		}
 		return list;
 	}
+
+
+
+
+	private ArrayList<Stock> getVideoEnabledStockList(String response) {
+
+		//response = "[{'nse_id':'INFY','stockname':'Infosys Limited'},{'nse_id':'ABB','stockname':'ABB India Limited'},{'nse_id':'ABBOTINDIA','stockname':'Abbott India Limited'},{'nse_id':'ABGSHIP','stockname':'ABG Shipyard Limited'},{'nse_id':'ACC','stockname':'ACC Limited'}]";
+		ArrayList<Stock> list = new ArrayList<Stock>();
+		try {
+			JSONArray getArray = new JSONArray(response);
+			for (int i = 0; i < getArray.length(); i++) {
+				JSONObject objects = getArray.getJSONObject(i);
+				Iterator key = objects.keys();
+				Stock stk;
+				String is_video_available = objects.getString("is_video_available");
+
+				if(is_video_available.equals("y")){
+					stk = new Stock(objects.getString("stockname"),objects.getString("nseid"), objects.getString("fullid"));
+					list.add(stk);
+				}
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
+
+
+
+
+
+
+/*
+
 	private ArrayList<Stock> getVideoAvailableStockNames() {
 			String stocksStr="";
 		try {
@@ -272,6 +316,7 @@ public class StockListView extends Activity {
 		}
 		return list;
 	}
+	*/
     protected void onResume() {
         super.onResume();	
         inputSearch = (EditText) findViewById(R.id.inputSearch);

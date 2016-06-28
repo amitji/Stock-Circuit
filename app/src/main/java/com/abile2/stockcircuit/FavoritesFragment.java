@@ -261,17 +261,17 @@ public class FavoritesFragment extends AbstractFragment  {
 
     }
     public void onPause() {
-        clearReferences();
+        //clearReferences();
         super.onPause();
     }
     public void onDestroy() {        
-        clearReferences();
+        //clearReferences();
         super.onDestroy();
         //UtilMobileAdvt.getInstance().showInterstitial();
     }
 
-    private void clearReferences(){
-    }
+//    private void clearReferences(){
+//    }
 
     
 }

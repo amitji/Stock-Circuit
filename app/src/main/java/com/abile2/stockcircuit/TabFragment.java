@@ -63,7 +63,9 @@ public class TabFragment extends Fragment {
         {
             switch (position){
                 case 0 : return new ActiveAlertsFragment();
-                case 1 : return new PassiveAlertsFragment();
+                //case 1 : return new PassiveAlertsFragment();
+                case 1 : return new MyVideosFragment();
+
                 case 2 : return new FavoritesFragment();
             }
             return null;
@@ -87,7 +89,7 @@ public class TabFragment extends Fragment {
                 case 0 :
                     return "Active Alerts";
                 case 1 :
-                    return "Old Alerts";
+                    return "My Videos";
                 case 2 :
                     return "Favorites";
             }

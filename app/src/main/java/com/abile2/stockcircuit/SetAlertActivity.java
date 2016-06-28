@@ -232,7 +232,7 @@ public class SetAlertActivity extends Activity {
 					//Set the Alert refresh flag so that on ActiveAlertFragment it can refresh the view
 					mPrefs = PreferenceManager.getDefaultSharedPreferences(v.getContext().getApplicationContext());
 					SharedPreferences.Editor editor= mPrefs.edit();
-					editor.putBoolean("refresh", true);
+					editor.putBoolean("active_alert_refresh", true);
 					editor.commit();
 				} catch (InterruptedException | ExecutionException e) {
 					// TODO Auto-generated catch block

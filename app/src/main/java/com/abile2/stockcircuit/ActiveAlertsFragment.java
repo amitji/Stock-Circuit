@@ -67,7 +67,7 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 	  //mMyApp = (MyApp) this.getActivity().getApplication();
 	  setHasOptionsMenu(true);
 	  mPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
-	  boolean refresh = mPrefs.getBoolean("refresh", false);
+	  boolean active_alert_refresh = mPrefs.getBoolean("active_alert_refresh", false);
 
 
 	  final TextView noAlerts = (TextView) rootView.findViewById(R.id.noAlerts);
@@ -76,11 +76,11 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 	  listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
 	  //ArrayList<StockAlerts> alerts = activity.getAlerts(refresh);
-	  activeAlerts = getActiveAlerts(refresh);
+	  activeAlerts = getActiveAlerts(active_alert_refresh);
 
 	  //reset teh refresh flag
 		SharedPreferences.Editor editor= mPrefs.edit();
-		editor.putBoolean("refresh", false);
+		editor.putBoolean("active_alert_refresh", false);
 		editor.commit();
 
 
@@ -247,7 +247,7 @@ public class ActiveAlertsFragment extends AbstractFragment  {
         super.onResume();
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-    	boolean refresh = mPrefs.getBoolean("refresh", false);
+    	boolean refresh = mPrefs.getBoolean("active_alert_refresh", false);
 		if(refresh) {
 			/*
 			listview = (ListView) rootView.findViewById(R.id.activeList);

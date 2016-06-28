@@ -1,7 +1,9 @@
 package com.abile2.stockcircuit;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -15,6 +17,8 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.abile2.stockcircuit.util.GetCompareStocksVideoAsyncTask;
+
+import java.util.HashMap;
 
 
 public class GetCompareStocksVideoActivity extends Activity implements AsyncTaskCompleteListener<String>{
@@ -84,7 +88,14 @@ public class GetCompareStocksVideoActivity extends Activity implements AsyncTask
         asynTask.execute(formList);
     }
 
-    public void onTaskComplete(String url) {
+    public void onTaskComplete(String sResponse) {
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params = UtilityActivity.getMapforJsonString(sResponse);
+        String url = params.get("url");
+        String video_under_process_msg= params.get("video_under_process_msg");
+
+
         if(url != null && !url.equals(""))
         {
             resourceView.setVisibility(View.VISIBLE);
@@ -109,9 +120,21 @@ public class GetCompareStocksVideoActivity extends Activity implements AsyncTask
                 e.printStackTrace();
             }
         }
-        else
+        else  //url is blank , that means video is getting created on sevrer in background and server has returned
+        //for app to be responsive rather stuck
         {
-
+            if(!video_under_process_msg.equals("")){
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                alertDialog.setTitle("Video Request Progress");
+                alertDialog.setMessage(video_under_process_msg);
+                alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+                        Intent intent = new Intent(context, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                alertDialog.show();
+            }
         }
 
     }

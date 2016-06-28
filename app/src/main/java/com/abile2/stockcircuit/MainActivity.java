@@ -28,7 +28,7 @@ import android.support.design.widget.NavigationView;
 
 
 public class MainActivity extends AppCompatActivity
-			implements RecommendedVideosFragment.OnVideoSelectedListener{
+			implements MyVideosFragment.OnVideoSelectedListener{
 	//public class MainActivity extends AppCompatActivity {
 	Context context;
 	protected MyApp mMyApp;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 			mTitle = getTitle();
 			SharedPreferences.Editor editor= mPrefs.edit();
 			editor.putBoolean("isFavListDirty", true);
-			editor.putBoolean("refresh", true);
+			editor.putBoolean("active_alert_refresh", true);
 			editor.commit();
 			//Get all alerts for this user
 			//Amit
@@ -205,16 +205,16 @@ public class MainActivity extends AppCompatActivity
 					startActivity(Intent.createChooser(i, "Share Stock Circuit App via"));
 
 				}
-
-				if (menuItem.getItemId() == R.id.recommended_videos) {
+				/*
+				if (menuItem.getItemId() == R.id.my_videos_fragment) {
 					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-					xfragmentTransaction.replace(R.id.containerView, new RecommendedVideosFragment(),"videos").addToBackStack(null).commit();
+					xfragmentTransaction.replace(R.id.containerView, new MyVideosFragment(),"videos").addToBackStack(null).commit();
 
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 					menu.setVisibility(View.INVISIBLE);
 					mToolbar.setTitle("    Recommended Videos");
 				}
-
+				*/
 				if (menuItem.getItemId() == R.id.user_requested_video) {
 					Intent stockVideoList= new Intent(context, StockListView.class);
 					stockVideoList.putExtra("is_video_list", "y");
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity
 		FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 		if(backStackEntryCount ==0) {
 			menu.setVisibility(View.VISIBLE);
-			mToolbar.setTitle("Alert Dashboard");
+			mToolbar.setTitle("Dashboard");
 		}
 	}
 

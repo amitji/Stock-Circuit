@@ -21,8 +21,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -66,7 +68,7 @@ public class SplashScreen extends Activity {
 	String regID;
 	String deviceID;
 	//double latitude, longitude;
-	
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +79,10 @@ public class SplashScreen extends Activity {
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		new Handler().postDelayed(new Runnable() {
-			 /*
-			 * Showing splash screen with a timer. This will be useful when you
-			 * want to show case your app logo / company
-			 */
+			/*
+            * Showing splash screen with a timer. This will be useful when you
+            * want to show case your app logo / company
+            */
 			@Override
 			public void run() {
 				checkConfig();
@@ -93,28 +95,28 @@ public class SplashScreen extends Activity {
 		if (NetworkUtil.getConnectivityStatus(getApplicationContext())) {
 			// Checks Play Service is Installed or Not
 			if (checkPlayServices()) {
-                String devId= mPrefs.getString("deviceID","");
-                if(devId.equals("") || devId==null){
-                	 TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-					 deviceID = telephonyManager.getDeviceId();
-					 SharedPreferences.Editor editor= mPrefs.edit();
-					 editor.putString("deviceID",deviceID);
-					 editor.commit();
-		        }
-                
-					// Getting RegId from Shared Prefs.
-					regID = getRegistrationId(context);
-					if (TextUtils.isEmpty(regID) && TextUtils.equals(regID, "")) {
-						String result = RegisterInBackground();
-						if (result != null) {
-							openActivityTask();
-						} else {
-							Log.d("GCM REGISTER","Error in Register or in Sending Request to Server.");
-						}
-					} else {
-						Log.d("REG ID", regID);
+				String devId= mPrefs.getString("deviceID","");
+				if(devId.equals("") || devId==null){
+					TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+					deviceID = telephonyManager.getDeviceId();
+					SharedPreferences.Editor editor= mPrefs.edit();
+					editor.putString("deviceID",deviceID);
+					editor.commit();
+				}
+
+				// Getting RegId from Shared Prefs.
+				regID = getRegistrationId(context);
+				if (TextUtils.isEmpty(regID) && TextUtils.equals(regID, "")) {
+					String result = RegisterInBackground();
+					if (result != null) {
 						openActivityTask();
+					} else {
+						Log.d("GCM REGISTER","Error in Register or in Sending Request to Server.");
 					}
+				} else {
+					Log.d("REG ID", regID);
+					openActivityTask();
+				}
 			} else {
 				AlertDialog.Builder build = new AlertDialog.Builder(this);
 				build.setMessage(
@@ -123,7 +125,7 @@ public class SplashScreen extends Activity {
 						.setPositiveButton(R.string.action_ok,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
-											int id) {
+														int id) {
 										dialog.dismiss();
 										finish();
 									}
@@ -138,7 +140,7 @@ public class SplashScreen extends Activity {
 					.setPositiveButton(R.string.action_ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
-										int id) {
+													int id) {
 									dialog.dismiss();
 									finish();
 								}
@@ -148,77 +150,120 @@ public class SplashScreen extends Activity {
 		}
 	}
 	private void openActivityTask() {
-		
+
 		String mobile = mPrefs.getString("mobile", "");
 		long nseStocksListLastFetch = mPrefs.getLong("nseStocksListLastFetch", 0);
 		String stocksStr = mPrefs.getString("nseStocksList", "");
-		
-		if(nseStocksListLastFetch !=0 && !stocksStr.equals(""))
-		{
-			Date lastUpdateDate = new Date(nseStocksListLastFetch);
-			
-			Date currDate = new Date(System.currentTimeMillis());
-			
-			long diff = Math.abs(currDate.getTime() - lastUpdateDate.getTime());
-			long diffDays = diff / (24 * 60 * 60 * 1000);
-			int app_stock_list_update_days = Constants.STOCK_LIST_FETCH_TIME;
-			try{
-				HashMap<String, String> app_config  = new GetAppConfigParamsAsyncTask().execute().get();
+
+		try {
+			String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			int vCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+			String versionCode = Integer.toString(vCode);
+			Object[] formList = new Object[2];
+			formList[0] = versionName;
+			formList[1] = versionCode;
+			HashMap<String, String> app_config = new GetAppConfigParamsAsyncTask().execute(formList).get();
+
+			if(nseStocksListLastFetch !=0 && !stocksStr.equals(""))
+			{
+				Date lastUpdateDate = new Date(nseStocksListLastFetch);
+
+				Date currDate = new Date(System.currentTimeMillis());
+
+				long diff = Math.abs(currDate.getTime() - lastUpdateDate.getTime());
+				long diffDays = diff / (24 * 60 * 60 * 1000);
+				int app_stock_list_update_days = Constants.STOCK_LIST_FETCH_TIME;
+
 
 				if(app_config.get("app_stock_list_update_days") != null)
 				{
 					app_stock_list_update_days = Integer.parseInt(app_config.get("app_stock_list_update_days"));
 				}
-			} catch (InterruptedException | ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(((int) diffDays ) > app_stock_list_update_days){
+
+				if(((int) diffDays ) > app_stock_list_update_days){
+					stocksStr = getNseStocksList();
+					SharedPreferences.Editor mpref = mPrefs.edit();
+					mpref.putString("nseStocksList", stocksStr);
+					mpref.putLong("nseStocksListLastFetch", currDate.getTime());
+					mpref.commit();
+				}
+			}else{
 				stocksStr = getNseStocksList();
 				SharedPreferences.Editor mpref = mPrefs.edit();
 				mpref.putString("nseStocksList", stocksStr);
-				mpref.putLong("nseStocksListLastFetch", currDate.getTime());
+				mpref.putLong("nseStocksListLastFetch", System.currentTimeMillis());
 				mpref.commit();
 			}
-		}else{
-			stocksStr = getNseStocksList();
-			SharedPreferences.Editor mpref = mPrefs.edit();
-			mpref.putString("nseStocksList", stocksStr);
-			mpref.putLong("nseStocksListLastFetch", System.currentTimeMillis());
-			mpref.commit();
-		}
-		
-		if(mobile.equals("")){
-			//Intent i = new Intent(SplashScreen.this, MainActivity.class);
-			Intent i = new Intent(SplashScreen.this, ProfileActivity.class);
-			startActivity(i);
-			finish();
-		}else{
-			Intent intent = getIntent();
-			String notificationIntent = intent.getStringExtra("notification");
-			if(notificationIntent==null || notificationIntent.equals("")){
-				Intent i = new Intent(SplashScreen.this, MainActivity.class);
+
+			if(mobile.equals("")){
+				//Intent i = new Intent(SplashScreen.this, MainActivity.class);
+				Intent i = new Intent(SplashScreen.this, ProfileActivity.class);
 				startActivity(i);
 				finish();
+			}else{
+				Intent intent = getIntent();
+				String notificationIntent = intent.getStringExtra("notification");
+				if(notificationIntent==null || notificationIntent.equals("")){
+					String app_upgrade_force = app_config.get("app_upgrade_force");
+					if(app_upgrade_force != null && app_upgrade_force.equals("y")) //force user to upgrade to new version
+					{
+						goToGooglePlayStoreForUpgrade();
+					}else{
+						Intent i = new Intent(SplashScreen.this, MainActivity.class);
+						startActivity(i);
+						finish();
+					}
+				}
 			}
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
 		}
-}
+	}
+	// when upgrade is required take user to google play for upgrade...
+	private void goToGooglePlayStoreForUpgrade() {
+
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+		alertDialog.setTitle("Please upgrade the App");
+		alertDialog.setMessage("You need to upgrade to an important new version to use this app.");
+
+		alertDialog.setPositiveButton(android.R.string.ok, null);
+
+		alertDialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int which) {
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.abile2.stockcircuit")));
+				//dialog.dismiss();
+			}
+		});
+
+		alertDialog.setNegativeButton("Exit App", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				System.exit(0);
+			}
+		});
+		AlertDialog dialog = alertDialog.create();
+		dialog.show();
+	}
+
 	private String  getNseStocksList() {
 		// TODO Auto-generated method stub
 		//ArrayList<Stock> list = new ArrayList<Stock>();
 		String str = "";
-			try {
-				//return new GetAllStockNames().execute().get();
-				String is_video_available = "n";
-				Object object[] = new Object[1];
-				object[0] = is_video_available;
-				return new GetAllStockNames().execute(object).get();
-			} catch (InterruptedException | ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return str;
-			
+		try {
+			//return new GetAllStockNames().execute().get();
+			String is_video_available = "n";
+			Object object[] = new Object[1];
+			object[0] = is_video_available;
+			return new GetAllStockNames().execute(object).get();
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
+
 	}
 	/*
 	private void showUserLocationSettingsDialog() {
@@ -337,11 +382,11 @@ public class SplashScreen extends Activity {
 				regID = new GCMHelper(context)
 						.GCMRegister(Constants.SENDER_ID);
 				System.out.println("regID Id is :" + regID);
-				
+
 				//save in preference
-				
+
 				SharedPreferences.Editor editor = mPrefs.edit();
-				
+
 				editor.putString("regID", String.valueOf(regID));
 				editor.putString("deviceID", String.valueOf(deviceID));
 				//editor.putString("city", String.valueOf(cityName));

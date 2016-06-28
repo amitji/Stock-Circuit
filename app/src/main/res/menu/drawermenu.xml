@@ -11,10 +11,11 @@
         android:id="@+id/compare_video"
         android:icon="@drawable/ic_video"/>
 
+    <!--
     <item android:title="Recommended Videos"
-        android:id="@+id/recommended_videos"
+        android:id="@+id/my_videos_fragment"
         android:icon="@drawable/ic_pages"/>
-
+    -->
 
 
     <item android:title="Fundamental Analysis Videos"

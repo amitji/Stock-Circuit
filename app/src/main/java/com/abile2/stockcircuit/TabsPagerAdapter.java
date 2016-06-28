@@ -20,7 +20,8 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         	break;
         case 1:
             // Games fragment activity
-        	result =  new PassiveAlertsFragment();
+        	//result =  new PassiveAlertsFragment();
+            result =  new MyVideosFragment();
         	break;
         case 2:
             // Games fragment activity

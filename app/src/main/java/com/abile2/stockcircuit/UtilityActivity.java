@@ -23,6 +23,7 @@ import android.widget.Toast;
 public class UtilityActivity {
 	static SharedPreferences mPrefs;
 
+	/*
 	public static String  refreshNseStocksList() {
 		// TODO Auto-generated method stub
 		//ArrayList<Stock> list = new ArrayList<Stock>();
@@ -46,6 +47,7 @@ public class UtilityActivity {
 		return stocksStr;
 
 	}
+	*/
 	public static void hideSoftKeyboard(Activity activity) {
 	    //InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 	    //inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);

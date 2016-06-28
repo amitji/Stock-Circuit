@@ -64,10 +64,15 @@ public class CompareStocksVideoActivity extends Activity {
 
 		ArrayList<Stock> list= getVideoEnabledStockList(stocksStr);
 
-		ArrayAdapter<Stock> adapter = new ArrayAdapter<Stock>(this,android.R.layout.simple_list_item_1, list);
+		//ArrayAdapter<Stock> adapter = new ArrayAdapter<Stock>(this,android.R.layout.simple_list_item_1, list);
+		ArrayAdapter<Stock> adapter = new ArrayAdapter<Stock>(this,R.layout.list_item_layout, R.id.listItemtext, list);
+
+
 		stock1.setThreshold(1);
 		stock2.setThreshold(1);
 		stock3.setThreshold(1);
+
+		//stock1.setDropDownHeight(5);
 
 		stock1.setAdapter(adapter);
 		stock2.setAdapter(adapter);
@@ -148,6 +153,13 @@ public class CompareStocksVideoActivity extends Activity {
 
 					UtilityActivity.showMessage(getApplicationContext(),"Please Enter different Stock Names to Compare", Gravity.TOP);
 				}else {
+
+					//reset the my_video_refresh_flag so that new request can be sent to server to get this new video..
+					SharedPreferences.Editor editor = mPrefs.edit();
+					//editor.putString("my_video_list", str);
+					editor.putBoolean("my_video_refresh_flag", true);
+					editor.commit();
+
 					Intent i = new Intent(CompareStocksVideoActivity.this, GetCompareStocksVideoActivity.class);
 					i.putExtra("fullid1", fullid1);
 					i.putExtra("fullid2", fullid2);

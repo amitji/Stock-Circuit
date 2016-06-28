@@ -32,19 +32,24 @@ public class GetAppConfigParamsAsyncTask extends AsyncTask<Object, Void, HashMap
 	public GetAppConfigParamsAsyncTask() {
 		//this.callback = cb;
 	}
-	
+
 	@Override
 	protected HashMap<String, String>  doInBackground(Object... params) {
 		HttpContext localContext = new BasicHttpContext();
 		HashMap<String, String> quoteParams = new HashMap<String, String>();
-		
+
 		try {
+			String versionName = (String) params[0];
+			String versionCode = (String) params[1];
 
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/getAppConfigParams");
 
 			MultipartEntityBuilder entity = MultipartEntityBuilder.create();
 			entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+			entity.addTextBody("versionName", versionName);
+			entity.addTextBody("versionCode", versionCode);
 
 			HttpEntity httpentity = entity.build();
 			httpPost.setEntity(httpentity);
@@ -60,7 +65,7 @@ public class GetAppConfigParamsAsyncTask extends AsyncTask<Object, Void, HashMap
 					sResponse += url;
 				}
 
-				
+
 				quoteParams = UtilityActivity.getMapforJsonString(sResponse);
 				return quoteParams;
 				//return quoteParams.get("url");

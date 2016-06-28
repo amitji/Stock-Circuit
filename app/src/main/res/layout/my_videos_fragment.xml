@@ -1,0 +1,39 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="bottom">
+
+    <ListView
+        android:id="@+id/video_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/noAlerts"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"
+        android:text="You have not watched any videos till now"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:visibility="gone" />
+
+    <com.abile2.stockcircuit.FloatingActionButton
+        android:id="@+id/video_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|left"
+        fab:fab_colorNormal="@color/yellow"
+        fab:fab_colorPressed="@color/grey"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_title="World Indices"
+        fab:fab_icon="@drawable/ic_action_refresh"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

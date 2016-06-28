@@ -75,8 +75,9 @@ public class GetUserRequestedVideoAsyncTask extends AsyncTask<Object, Void, Stri
 				}
 
 				
-				quoteParams = UtilityActivity.getMapforJsonString(sResponse);
-				return quoteParams.get("url");
+				//quoteParams = UtilityActivity.getMapforJsonString(sResponse);
+				//return quoteParams.get("url");
+				return sResponse;
 			} else {
 				response.getEntity().getContent().close();
 				System.err.println("TEMP ERROR");

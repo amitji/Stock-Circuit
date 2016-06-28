@@ -41,7 +41,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Creating Your requested Video, it might take 15-20 seconds... !" />
+            android:text="Creating Your requested Video, it might take 15-20 seconds... !\n Your Video will also be available from My Video  tab on dashboard in a minute." />
     </LinearLayout>
 
 

@@ -48,7 +48,7 @@ public class PassiveAlertsFragment extends AbstractFragment  {
 	  regID = mPrefs.getString("regID", "");
 
       //super.onCreate(savedInstanceState);
-    //setContentView(R.recommended_videos.active_alert_fragment);
+    //setContentView(R.my_videos_fragment.active_alert_fragment);
       setHasOptionsMenu(true);
 
 	//mMyApp = (MyApp)this.getActivity().getApplication();
