@@ -3,11 +3,15 @@ package com.abile2.stockcircuit;
 public class Constants {
 	
 	//PROD shopbindaas.co.in
-    //public static final String SERVER_BASE_URL = "http://shopbindaas.co.in/StockCircuitServer/spring/";
+    public static final String SERVER_BASE_URL = "http://shopbindaas.co.in/StockCircuitServer/spring/";
+
+    //NEW PROD shopbindaas.co.in
+    //public static final String SERVER_BASE_URL = "http://api.stockcircuit.in/StockCircuitServer/spring/";
+
 
 
 	//DEV At// home
-    public static final String SERVER_BASE_URL = "http://192.168.1.11:8080/StockCircuitServer/spring/";
+    //public static final String SERVER_BASE_URL = "http://192.168.1.11:8080/StockCircuitServer/spring/";
 
 
     //public static final String FA_VIDEO_URL = "http://shopbindaas.co.in/stockcircuitserver/fund_analysis/videos/";

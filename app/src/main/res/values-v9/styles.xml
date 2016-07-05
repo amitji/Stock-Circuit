@@ -8,4 +8,7 @@
         <!-- API 11 theme customizations can go here. -->
     </style>
 
+    <style name="NotificationText" parent="android:TextAppearance.StatusBar.EventContent" />
+    <style name="NotificationTitle" parent="android:TextAppearance.StatusBar.EventContent.Title" />
+
 </resources>

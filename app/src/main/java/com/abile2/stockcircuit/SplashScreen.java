@@ -155,6 +155,10 @@ public class SplashScreen extends Activity {
 		long nseStocksListLastFetch = mPrefs.getLong("nseStocksListLastFetch", 0);
 		String stocksStr = mPrefs.getString("nseStocksList", "");
 
+//		SharedPreferences.Editor editor = mPrefs.edit();
+//		editor.putBoolean("my_video_refresh_flag", true);
+//		editor.commit();
+
 		try {
 			String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 			int vCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;

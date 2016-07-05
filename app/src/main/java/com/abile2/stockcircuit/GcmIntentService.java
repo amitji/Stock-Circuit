@@ -153,6 +153,8 @@ public class GcmIntentService extends IntentService {
 						.setPriority(Notification.PRIORITY_HIGH);
 
 		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.custom_notification);
+		//RemoteViews contentView = new RemoteViews(getPackageName(),com.android.internal.R.layout.status_bar_latest_event_content);
+
 		contentView.setImageViewResource(R.id.image, R.drawable.logo_small);
 		contentView.setTextViewText(R.id.title, title);
 		contentView.setTextViewText(R.id.text, msg);
