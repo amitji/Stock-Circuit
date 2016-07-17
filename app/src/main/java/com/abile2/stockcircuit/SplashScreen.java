@@ -179,7 +179,7 @@ public class SplashScreen extends Activity {
 				int app_stock_list_update_days = Constants.STOCK_LIST_FETCH_TIME;
 
 
-				if(app_config.get("app_stock_list_update_days") != null)
+				if(app_config != null && app_config.get("app_stock_list_update_days") != null)
 				{
 					app_stock_list_update_days = Integer.parseInt(app_config.get("app_stock_list_update_days"));
 				}
@@ -208,11 +208,19 @@ public class SplashScreen extends Activity {
 				Intent intent = getIntent();
 				String notificationIntent = intent.getStringExtra("notification");
 				if(notificationIntent==null || notificationIntent.equals("")){
-					String app_upgrade_force = app_config.get("app_upgrade_force");
-					if(app_upgrade_force != null && app_upgrade_force.equals("y")) //force user to upgrade to new version
-					{
-						goToGooglePlayStoreForUpgrade();
-					}else{
+					if(app_config != null) {
+						String app_upgrade_force = app_config.get("app_upgrade_force");
+						if (app_upgrade_force != null && app_upgrade_force.equals("y")) //force user to upgrade to new version
+						{
+							goToGooglePlayStoreForUpgrade();
+						}
+						else{
+							Intent i = new Intent(SplashScreen.this, MainActivity.class);
+							startActivity(i);
+							finish();
+						}
+					}
+					else{
 						Intent i = new Intent(SplashScreen.this, MainActivity.class);
 						startActivity(i);
 						finish();
