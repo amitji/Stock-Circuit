@@ -91,6 +91,7 @@ public class ListAdapterStockFavorite extends BaseAdapter {
         String gain_loss_str = df.format(gain_loss);
         String gl_percent_str = "0.0";
         if(buy_value != 0.0) {
+            gl_percent_str = df.format(gain_loss * 100 / buy_value);
 
         }
 
