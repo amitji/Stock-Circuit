@@ -10,6 +10,7 @@
         android:id="@+id/video_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         />
     <TextView
         android:id="@+id/noAlerts"
@@ -36,4 +37,34 @@
         fab:fab_icon="@drawable/ic_action_refresh"
         android:layout_alignParentBottom="true"
         />
+    <com.abile2.stockcircuit.FloatingActionButton
+        android:id="@+id/video_watch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|center"
+        fab:fab_colorNormal="@color/yellow"
+        fab:fab_colorPressed="@color/yellow"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_title="Delete"
+        fab:fab_icon="@drawable/ic_video2"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:layout_toRightOf="@+id/video_refresh"
+        />
+    <com.abile2.stockcircuit.FloatingActionButton
+        android:id="@+id/video_delete"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|center"
+        fab:fab_colorNormal="@color/yellow"
+        fab:fab_colorPressed="@color/grey"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_title="Delete"
+        fab:fab_icon="@drawable/ic_action_discard"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:layout_toRightOf="@+id/video_watch"
+
+        />
+
 </RelativeLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:id="@+id/db1_root"
-android:layout_width="fill_parent"
+android:layout_width="wrap_content"
 android:layout_height="fill_parent"
 android:orientation="horizontal" >
 
@@ -15,13 +15,7 @@ android:orientation="horizontal" >
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_alignParentBottom="true">
-		    <Button
-		        android:id="@+id/setAlertBtn"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:background="#FFD800"
-		        android:layout_weight="1"
-		        android:text="Set Alert" />
+
 	   	   	<Button
 		       android:id="@+id/setFavBtn"
 		       android:layout_width="fill_parent"
@@ -31,7 +25,7 @@ android:orientation="horizontal" >
 		        android:layout_weight="1"
 		       android:text="+ Favorite" />		    
 		    
-		    	   	   <Button
+		    <Button
 		       android:id="@+id/closeBtn"
 		       android:layout_width="fill_parent"
 		       android:layout_height="wrap_content"
@@ -43,7 +37,7 @@ android:orientation="horizontal" >
     
     	
     <!-- LEFT COLUMN -->
-   <RelativeLayout 
+   <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" 
             android:layout_above="@id/buttons">   
@@ -61,19 +55,29 @@ android:orientation="horizontal" >
            android:id="@+id/stockname"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
-           android:layout_margin="20dp"
-           android:gravity="top"
+		   android:layout_marginLeft="20dp"
+           android:gravity="top|center"
            android:textSize="18dip"
            android:textColor="#000000"
            android:textStyle="normal"
-           android:text="name here" />
+           android:text="Stock Name" />
+		<TextView
+			android:id="@+id/viewUnderLine2"
+			android:layout_width="fill_parent"
+			android:layout_height="0dp"
+			android:layout_marginRight="20dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginTop="-5dp"
+			android:layout_weight="1"
+			android:background="@drawable/underline" />
 	    <TextView
            android:id="@+id/stock_curr_price"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
-           android:layout_margin="20dp"
+			android:layout_marginTop="15dp"
+			android:layout_marginLeft="20dp"
            android:gravity="top"
-           android:textSize="18dip"
+           android:textSize="17dip"
            android:textColor="#000000"
             android:textStyle="normal"
            android:text="price here.." />
@@ -81,9 +85,10 @@ android:orientation="horizontal" >
            android:id="@+id/change"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
-           android:layout_margin="20dp"
-           android:gravity="top"
-           android:textSize="18dip"
+			android:layout_marginTop="15dp"
+			android:layout_marginLeft="20dp"
+			android:gravity="top"
+           android:textSize="17dip"
            android:textColor="#000000"
             android:textStyle="normal"
            android:text="change" />
@@ -97,25 +102,28 @@ android:orientation="horizontal" >
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_marginLeft="20dp"
+			android:layout_marginTop="10dp"
            android:gravity="top"
            android:layout_weight=".5"
            android:inputType="text"
-           android:textSize="18dip"
+           android:textSize="17dip"
            android:textColor="#000000"
             android:textStyle="normal"
-           android:text="Set Alert @ : " />
+           android:text="Set Alert @ :       " />
        <EditText
            android:id="@+id/slider_value"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_marginRight="10dp"
 		   android:layout_marginLeft="5dp"
+		   android:layout_marginTop="10dp"
            android:ems="10"
            android:gravity="top"
            android:layout_weight=".5"
            android:hint=" Enter Alert Price"
            android:inputType="number"
            android:digits="0123456789."
+		   android:imeOptions="actionNext"
            android:textColorHighlight="@color/red"
            android:textColorHint="@color/red" />
 	    
@@ -124,31 +132,165 @@ android:orientation="horizontal" >
 	  	  <LinearLayout
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:orientation="horizontal" 
-	        android:layout_marginTop="50dp"
-	        android:gravity="end"
-	        >  
+	        android:orientation="horizontal"
+			  android:gravity="end">
 	  
 	  	 <ImageView
             android:id="@+id/plus"
             android:layout_width="80dip"
             android:layout_height="40dip"
-            android:layout_margin="30dp"
-            android:layout_marginRight="50dp"
-            android:src="@drawable/plus"/>
+			 android:layout_marginRight="50dp"
+            android:src="@drawable/plus"
+			 android:layout_marginTop="10dp"
+			 android:layout_marginLeft="20dp"
+			 android:layout_marginBottom="15dp" />
 	  	  <ImageView
             android:id="@+id/minus"
             android:layout_width="80dip"
             android:layout_height="40dip"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/minus"/>
-	  	                    
-	  	                    
-	  	      
-	  	      
+			  android:layout_marginBottom="15dp"
+            android:src="@drawable/minus"
+			  android:layout_marginTop="10dp"
+			  android:layout_marginRight="20dp"
+			  android:layout_marginLeft="50dp" />
+
 	  	</LinearLayout>
+
+	   <LinearLayout
+		   android:layout_width="265dp"
+		   android:layout_height="wrap_content"
+		   android:orientation="horizontal"
+		   android:layout_marginLeft="20dp"
+		   android:layout_marginRight="20dp"
+		   android:layout_marginBottom="5dp">
+	   <Button
+			android:id="@+id/setAlertBtn"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:background="#FFD800"
+		   android:text="Set Alert"
+		   android:layout_gravity="center_vertical"
+		   android:layout_marginLeft="20dp" />
+
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginTop="10dp">
+
+			<TextView
+				android:id="@+id/asklabel"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginRight="20dp"
+				android:layout_marginLeft="20dp"
+				android:layout_marginTop="10dp"
+				android:gravity="center"
+				android:textColor="@color/lightBrown"
+				android:text="Portfolio  Details"
+				android:textSize="17dip"
+				android:textStyle="italic"
+				android:typeface="sans"
+				android:editable="false" />
+			<TextView
+				android:id="@+id/viewUnderLine1"
+				android:layout_width="fill_parent"
+				android:layout_height="0dp"
+				android:layout_marginRight="20dp"
+				android:layout_marginLeft="20dp"
+				android:layout_marginTop="-5dp"
+				android:layout_weight="1"
+				android:background="@drawable/underline" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_marginTop="10dp">
+			<TextView
+				android:id="@+id/qtyText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="20dp"
+				android:gravity="top"
+				android:layout_weight=".5"
+				android:inputType="text"
+				android:textSize="17dip"
+				android:textColor="#000000"
+				android:textStyle="normal"
+				android:text="# of Shares :     " />
+			<EditText
+				android:id="@+id/quantity"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="10dp"
+				android:ems="10"
+				android:gravity="top"
+				android:layout_weight=".5"
+				android:hint="Enter shares quantity"
+				android:inputType="number"
+				android:digits="0123456789"
+				android:imeOptions="actionNext"
+				android:textColorHighlight="@color/red"
+				android:textColorHint="@color/red"
+				android:paddingLeft="10dp" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_marginTop="10dp">
+			<TextView
+				android:id="@+id/buyPriceText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="20dp"
+				android:gravity="top"
+				android:inputType="text"
+				android:textSize="17dip"
+				android:textColor="#000000"
+				android:textStyle="normal"
+				android:text="Buy Price :   " />
+			<EditText
+				android:id="@+id/buyPrice"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="10dp"
+				android:ems="10"
+				android:gravity="top"
+				android:layout_weight=".5"
+				android:hint="Enter Buy Price"
+				android:inputType="number"
+				android:digits="0123456789."
+				android:imeOptions="actionNext"
+				android:textColorHighlight="@color/red"
+				android:textColorHint="@color/red"
+				android:paddingLeft="10dp" />
+
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="265dp"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:layout_marginBottom="10dp">
+			<Button
+				android:id="@+id/setPortfolioBtn"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:background="#FFD800"
+				android:text="Save Portfolio"
+				android:layout_gravity="center_vertical"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="20dp"
+				android:layout_marginBottom="10dp" />
+
+		</LinearLayout>
 </LinearLayout>
 
     <!-- RIGHT COLUMN -->
@@ -173,7 +315,8 @@ android:orientation="horizontal" >
 			  />
     </LinearLayout>
 </RelativeLayout>
-</RelativeLayout>
+
+  </RelativeLayout>
 
 
 </RelativeLayout>

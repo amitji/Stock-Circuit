@@ -1,4 +1,5 @@
 package com.abile2.stockcircuit;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ public class ListAdapterStockFavorite extends BaseAdapter {
     private List <Stock> data;
     private static LayoutInflater inflater=null;
     boolean is_element_selected[];
+
     public ListAdapterStockFavorite(Activity a, List<Stock> d) {
         activity = a;
         data=d;
@@ -42,12 +44,15 @@ public class ListAdapterStockFavorite extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
         if(convertView==null)
-            vi = inflater.inflate(R.layout.user_alerts_list_row, null);
+            vi = inflater.inflate(R.layout.favorite_list_row_item, null);
         TextView title = (TextView)vi.findViewById(R.id.title); // title
         TextView desc = (TextView)vi.findViewById(R.id.description); // artist name
         TextView weight = (TextView)vi.findViewById(R.id.weightage); // duration
         TextView change = (TextView)vi.findViewById(R.id.change); // duration
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
+
+        TextView qty = (TextView)vi.findViewById(R.id.qty); // duration
+        TextView gainTv = (TextView)vi.findViewById(R.id.gain); // duration
 
         final int listenerPos = position;
         Stock pc = data.get(position);
@@ -79,7 +84,22 @@ public class ListAdapterStockFavorite extends BaseAdapter {
         }else{
         	change.setTextColor(Color.parseColor("#29BA1B"));
         }
-        //thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.one_person));
+        DecimalFormat df = new DecimalFormat("####0.00");
+        qty.setText("Qty : "+pc.getQty());
+        Double buy_value =  Double.parseDouble(pc.getQty()) * Double.parseDouble(pc.getBuy_price());
+        Double gain_loss = Double.parseDouble(pc.getQty()) * (Double.parseDouble(pc.getCurrentPrice()) - Double.parseDouble(pc.getBuy_price()));
+        String gain_loss_str = df.format(gain_loss);
+        String gl_percent_str = "0.0";
+        if(buy_value != 0.0) {
+
+        }
+
+        gainTv.setText("Gain : [ "+gain_loss_str+" , "+gl_percent_str+" % ]");
+        if(gain_loss_str.contains("-")){
+            gainTv.setTextColor(Color.parseColor("#ff0000"));
+        }else{
+            gainTv.setTextColor(Color.parseColor("#29BA1B"));
+        }
         return vi;
     }
     public void toggleSelection(int index) {

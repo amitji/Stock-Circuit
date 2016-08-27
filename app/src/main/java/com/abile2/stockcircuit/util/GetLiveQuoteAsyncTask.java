@@ -84,7 +84,7 @@ public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<Strin
 				
 
 			} else {
-				Log.d("GetLiveQuoteAsyncTask error","GetLiveQuoteAsyncTask Status : " + statusLine.getStatusCode());
+
 				response.getEntity().getContent().close();
 				System.err.println("TEMP ERROR");
 				return quoteParams;

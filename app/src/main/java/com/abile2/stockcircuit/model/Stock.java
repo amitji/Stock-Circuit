@@ -15,7 +15,8 @@ public class Stock {
 	private String change;
 	private String change_percent;
 	private String changeStr;
-
+	private String qty;
+	private String buy_price;
 
 	public Stock()
 	{
@@ -112,6 +113,19 @@ public class Stock {
 	}
 	public void setChangeStr(String changeStr) {
 		this.changeStr = changeStr;
+	}
+
+	public String getQty() {
+		return qty;
+	}
+	public void setQty(String qty) {
+		this.qty = qty;
+	}
+	public String getBuy_price() {
+		return buy_price;
+	}
+	public void setBuy_price(String buy_price) {
+		this.buy_price = buy_price;
 	}
 
 }

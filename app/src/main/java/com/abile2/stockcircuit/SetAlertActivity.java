@@ -19,6 +19,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Button;
 
 import com.abile2.stockcircuit.util.DeleteStockFavoriteAsyncTask;
+import com.abile2.stockcircuit.util.SavePortfolioDetailsAsyncTask;
 import com.abile2.stockcircuit.util.SaveStockAlertAsyncTask;
 import com.abile2.stockcircuit.util.SaveStockFavoriteAsyncTask;
 
@@ -48,6 +49,8 @@ public class SetAlertActivity extends Activity {
 	String email;
 	String isFavorite;
 	String favID;
+	String qty;
+	String buy_price;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,6 +61,9 @@ public class SetAlertActivity extends Activity {
 		stockname = secondInt.getStringExtra("stockname");
 		nseid = secondInt.getStringExtra("nseid");
 		fullid = secondInt.getStringExtra("fullid");
+		qty = secondInt.getStringExtra("qty");
+		buy_price = secondInt.getStringExtra("buy_price");
+
 		String stock_price = secondInt.getStringExtra("price");
 		String change = secondInt.getStringExtra("change");
 		isFavorite = secondInt.getStringExtra("isFavorite");
@@ -84,13 +90,21 @@ public class SetAlertActivity extends Activity {
 		changeTv = (TextView) findViewById(R.id.change);
 		priceTv.setText("Last Trade : "+stock_price);
 		changeTv.setText("Change : "+change);
-		stockNameTv.setText("Name/Symbol : "+stockname);
+		stockNameTv.setText(stockname);
+        if(stockname.length() > 20)
+            stockNameTv.setTextSize(16);
+
+		((TextView) findViewById(R.id.quantity)).setText(qty);
+		((TextView) findViewById(R.id.buyPrice)).setText(buy_price);
+
 		slider_value.setText(stock_price);
 		setupSeekBar();
 		setupAlertButtonListner();
 		setupCloseButtonListner();
 
 		setupPlusMinusButtonsListner();
+		setupPortfolioSaveButtonsListner();
+
 
 		if(isFavorite != null && isFavorite.equals("yes")){
 			Button button = (Button) findViewById(R.id.setFavBtn);
@@ -249,17 +263,65 @@ public class SetAlertActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				Object object[] = new Object[6];
-				object[0] = mobile;
-				object[1] = deviceID;
-				object[2] = regID;
-				object[3] = nseid;
-				object[4] = stockname;
-				object[5] = fullid;
-				String msg = "Stock is added to your favorite screen";
+                SaveFavorite();
+
+			}
+		});
+	}
+
+    private void SaveFavorite(){
+
+        String _qty = ((TextView) findViewById(R.id.quantity)).getText().toString();
+        String _buy_price = ((TextView) findViewById(R.id.buyPrice)).getText().toString();
+
+        Object object[] = new Object[8];
+        object[0] = mobile;
+        object[1] = deviceID;
+        object[2] = regID;
+        object[3] = nseid;
+        object[4] = stockname;
+        object[5] = fullid;
+        object[6] = _qty;
+        object[7] = _buy_price;
+
+        String msg = "Stock is added to your favorite screen";
+        String sResponse;
+        try {
+            new SaveStockFavoriteAsyncTask().execute(object);
+            UtilityActivity.showShortMessage(context, msg, Gravity.TOP);
+
+            SharedPreferences.Editor editor= mPrefs.edit();
+            editor.putBoolean("isFavListDirty", true);
+            editor.commit();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+	private void setupPortfolioSaveButtonsListner() {
+		// TODO Auto-generated method stub
+		Button button = (Button) findViewById(R.id.setPortfolioBtn);
+		button.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+                if(favID == null){
+                    SaveFavorite();
+                    return;
+                }
+
+				String _qty = ((TextView) findViewById(R.id.quantity)).getText().toString();
+				String _buy_price = ((TextView) findViewById(R.id.buyPrice)).getText().toString();
+
+				Object object[] = new Object[3];
+				object[0] = favID;
+				object[1] = _qty;
+				object[2] = _buy_price;
+
+				String msg = "Portfolio Details are saved";
 				String sResponse;
 				try {
-					new SaveStockFavoriteAsyncTask().execute(object);
+					new SavePortfolioDetailsAsyncTask().execute(object);
 					UtilityActivity.showShortMessage(context, msg, Gravity.TOP);
 
 					SharedPreferences.Editor editor= mPrefs.edit();

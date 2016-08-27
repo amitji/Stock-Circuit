@@ -1,6 +1,7 @@
 package com.abile2.stockcircuit;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -12,9 +13,11 @@ import org.json.simple.JSONValue;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +44,7 @@ public class FavoritesFragment extends AbstractFragment  {
     ArrayList<Stock> favorites;
 	TextView noAlerts;
 	FloatingActionButton refresh_btn;
+	ListAdapterStockFavorite mAdapter;
 
 
 	public 	FavoritesFragment(){
@@ -75,18 +79,46 @@ public class FavoritesFragment extends AbstractFragment  {
 	if(favorites.size()==  0){
 		noAlerts.setVisibility(View.VISIBLE);
 	}else{
-	    //setup passive list
 
 		listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-	    ListAdapterStockFavorite  adapter2 = new ListAdapterStockFavorite(activity, favorites);
-		listview.setAdapter(adapter2);
+	    mAdapter = new ListAdapterStockFavorite(activity, favorites);
+		listview.setAdapter(mAdapter);
 		listview.setTextFilterEnabled(true);
-	    addListItemListner();
 	}
-
+	  addListItemListner();
+	  setPortfolioValue(favorites);
 	  setupFloatingMenu();
+
     return rootView;  	
   }
+
+	private void setPortfolioValue( ArrayList<Stock> favorites){
+
+		TextView totalValue = (TextView)rootView.findViewById(R.id.totalValue);
+		DecimalFormat df = new DecimalFormat("####0.00");
+		Double gain_loss = 0.0;
+		Double total_buy_value = 0.0;
+
+		for(Stock pc: favorites){
+			//pc.getQty();
+			total_buy_value += Double.parseDouble(pc.getQty()) *  Double.parseDouble(pc.getBuy_price());
+			gain_loss += Double.parseDouble(pc.getQty()) * (Double.parseDouble(pc.getCurrentPrice()) - Double.parseDouble(pc.getBuy_price()));
+		}
+		Double percent_change = 0.0;
+		if(total_buy_value != 0.0) {
+			percent_change = (gain_loss * 100) / total_buy_value;
+		}
+
+		String  percent_change_str = df.format(percent_change);
+
+		String gl = df.format(gain_loss);
+		totalValue.setText("[ "+gl+" , "+percent_change_str+ " % ]");
+		if(gl.contains("-")){
+			totalValue.setTextColor(Color.parseColor("#ff0000"));
+		}else{
+			totalValue.setTextColor(Color.parseColor("#29BA1B"));
+		}
+	}
 	private void setupFloatingMenu() {
 
 		refresh_btn  = (FloatingActionButton) rootView.findViewById(R.id.refresh);
@@ -165,6 +197,8 @@ public class FavoritesFragment extends AbstractFragment  {
 			stk.setCurrentPrice((String) object.get("currentPrice"));
 			stk.setChange((String) object.get("change"));
 			stk.setChangeStr((String) object.get("changeStr"));
+			stk.setQty(String.valueOf( object.get("qty")));
+			stk.setBuy_price(String.valueOf( object.get("buy_price")));
 			alertList.add(stk);
 		}
 		return alertList;
@@ -190,6 +224,8 @@ public class FavoritesFragment extends AbstractFragment  {
 	    		String name  = stk.getStockname();
 	    		String nseid = stk.getNseid();
 	    		String fullid = stk.getFullid();
+				String qty = stk.getQty();
+				String buy_price = stk.getBuy_price();
 				Object object[] = new Object[1];
 				object[0] = fullid;
 
@@ -197,11 +233,13 @@ public class FavoritesFragment extends AbstractFragment  {
 				String change="";
 				try {
 					HashMap<String, String> quoteParams = new GetLiveQuoteAsyncTask().execute(object).get();
+					if(quoteParams.size() == 0){
+
+						UtilityActivity.showShortMessage(context, "Google quote service seems to be down. Try in a minute...", Gravity.TOP);
+						return;
+					}
 					quote = quoteParams.get("l_fix");
 					change = quoteParams.get("c_fix")+" ( "+quoteParams.get("cp_fix")+ "% ) ";
-					if (quote != null && !(quote.isEmpty())) {
-						System.out.println("quote - "+quote);
-					}
 
 				} catch (InterruptedException | ExecutionException e) {
 					// TODO Auto-generated catch block
@@ -212,6 +250,8 @@ public class FavoritesFragment extends AbstractFragment  {
 	    		i.putExtra("stockname",name);
 	    		i.putExtra("nseid",nseid);
 	    		i.putExtra("fullid",fullid);
+				i.putExtra("qty",qty);
+				i.putExtra("buy_price",buy_price);
 	    		i.putExtra("price",quote);
 	    		i.putExtra("change",change);
 				i.putExtra("isFavorite","yes");
@@ -243,15 +283,13 @@ public class FavoritesFragment extends AbstractFragment  {
         super.onResume();
 
 		boolean isFavListDirty = mPrefs.getBoolean("isFavListDirty", true);
-		if(favorites.size()==  0){
-			noAlerts.setVisibility(View.VISIBLE);
-		}else{
-			noAlerts.setVisibility(View.INVISIBLE);
-		}
+
 		if(isFavListDirty){
 			favorites = getUserFavorites();
 			ListAdapterStockFavorite  adapter2 = new ListAdapterStockFavorite(getActivity(), favorites);
 			listview.setAdapter(adapter2);
+			adapter2.notifyDataSetChanged();
+			setPortfolioValue(favorites);
 
 		}else{
 			String favStr = mPrefs.getString("FavList", "");
@@ -259,6 +297,11 @@ public class FavoritesFragment extends AbstractFragment  {
 				favorites = convertJsonToStockList(favStr);
 		}
 
+		if(favorites.size()==  0){
+			noAlerts.setVisibility(View.VISIBLE);
+		}else{
+			noAlerts.setVisibility(View.INVISIBLE);
+		}
     }
     public void onPause() {
         //clearReferences();
