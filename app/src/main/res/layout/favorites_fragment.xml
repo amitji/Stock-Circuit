@@ -19,7 +19,7 @@
 			android:layout_marginLeft="50dp"
 			android:textSize="15dip"
 			android:textColor="#040404"
-			android:text="Total Portfolio Value :     "
+			android:text="Portfolio Change :     "
 			android:layout_marginBottom="10dp" />
 		<TextView
 			android:id="@+id/totalValue"

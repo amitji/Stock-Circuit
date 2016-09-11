@@ -67,6 +67,16 @@
        android:layout_marginTop="5dip"
        android:layout_toRightOf="@+id/thumbnail"
         />
+    <TextView
+        android:id="@+id/shared_by"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_marginRight="20dip"
+        android:textSize="15dip"
+        android:textColor="#000000"
+        />
     <!--
    <TextView
        android:id="@+id/weightage"
@@ -78,16 +88,7 @@
        android:textSize="15dip"
        android:textColor="#000000"
        />
-   <TextView
-       android:id="@+id/change"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_alignParentRight="true"
-       android:layout_alignTop="@id/description"
-       android:layout_marginRight="20dip"
-       android:textSize="15dip"
-       android:textColor="#000000"
-       />
+
 
 
      <ImageView android:layout_width="wrap_content"

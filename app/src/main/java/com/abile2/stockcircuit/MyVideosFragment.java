@@ -2,6 +2,7 @@ package com.abile2.stockcircuit;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.abile2.stockcircuit.model.StockVideo;
 import com.abile2.stockcircuit.util.DeleteVideoAsyncTask;
 import com.abile2.stockcircuit.util.EmailAndLoggingAsyncTask;
 import com.abile2.stockcircuit.util.GetMyVideosAsyncTask;
+import com.abile2.stockcircuit.util.SaveStockVideoShareAsyncTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +51,9 @@ public class MyVideosFragment extends AbstractFragment {//implements AsyncTaskCo
     FloatingActionButton video_refresh_btn;
     FloatingActionButton video_delete_btn;
     FloatingActionButton video_watch_btn ;
+    FloatingActionButton video_share_btn ;
     StockVideo selectedVideo;
+    String userName;
 
 
     @Override
@@ -65,6 +69,7 @@ public class MyVideosFragment extends AbstractFragment {//implements AsyncTaskCo
         deviceID = mPrefs.getString("deviceID","");
         regID = mPrefs.getString("regID", "");
         mobile = mPrefs.getString("mobile", "");
+        userName = mPrefs.getString("name", "");
         boolean my_video_refresh_flag = mPrefs.getBoolean("my_video_refresh_flag", true);
 
         listview = (ListView) rootView.findViewById(R.id.video_list);
@@ -73,6 +78,7 @@ public class MyVideosFragment extends AbstractFragment {//implements AsyncTaskCo
         video_refresh_btn = (FloatingActionButton) rootView.findViewById(R.id.video_refresh);
         video_delete_btn = (FloatingActionButton) rootView.findViewById(R.id.video_delete);
         video_watch_btn = (FloatingActionButton) rootView.findViewById(R.id.video_watch);
+        video_share_btn = (FloatingActionButton) rootView.findViewById(R.id.video_share);
 
         if(my_video_refresh_flag){//if flag is true means needs to get new list from server
             allVideos = getAllRecommendedVideos(deviceID, regID);
@@ -153,8 +159,82 @@ public class MyVideosFragment extends AbstractFragment {//implements AsyncTaskCo
             }
         });
 
+        video_share_btn  = (FloatingActionButton) rootView.findViewById(R.id.video_share);
+        video_share_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareVideo();
+            }
+        });
     }
 
+    private void shareVideo(){
+
+        boolean noneSelected = true;
+        listview = (ListView) rootView.findViewById(R.id.video_list);
+        boolean[] selItems = ((ListAdapterVideos) listview.getAdapter()).getSelectedItems(); //mAdapter.getSelectedItems();
+        StringBuilder commaSepRecommIds = new StringBuilder();
+
+        for(int j=0;j < selItems.length; j++ )
+        {
+
+            boolean isSelected =  selItems[j];
+            if(isSelected)
+            {
+                noneSelected = false;
+                StockVideo sa = (StockVideo)listview.getAdapter().getItem(j);
+                int id = Integer.valueOf(sa.getId());
+                commaSepRecommIds.append(id);
+                commaSepRecommIds.append(",");
+            }
+        }
+        if(noneSelected){
+            UtilityActivity.showMessage(context, "You didn't Select any video to share.", Gravity.CENTER);
+            //return false;
+        }
+
+        //strip ','
+        String recomID = commaSepRecommIds.substring(0, commaSepRecommIds.length()-1);
+
+
+        //String recomID = selectedVideo.getId();
+        //((ListAdapterStockAlerts) parent.getAdapter()).toggleSelection(position);
+        Object object[] = new Object[5];
+        object[0] = mobile;
+        object[1] = deviceID;
+        object[2] = regID;
+        object[3] = userName;
+        object[4] = recomID;
+        String str="";
+
+        try {
+            str = new SaveStockVideoShareAsyncTask().execute(object).get();
+            //str = "{'621': '1111', '689': '2222'}";
+            if(str != null && !str.equals("")) {
+
+                HashMap<String, String> idMap = UtilityActivity.getMapforJsonString(str);
+                String message = "";
+                for(String shareID: idMap.values()){
+
+                    message += Constants.shareVideoMessage+shareID+"\n\n";
+
+                }
+                message += Constants.shareVideoMessage2;
+                Intent i= new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, Constants.shareVideoSubject);
+                i.putExtra(Intent.EXTRA_TEXT, message);
+                startActivity(Intent.createChooser(i, "Share Stock Video via"));
+
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        refreshVideos();
+
+    }
     private void watchVideo( ){
 
         boolean noneSelected = true;
@@ -286,10 +366,12 @@ public class MyVideosFragment extends AbstractFragment {//implements AsyncTaskCo
                     video_refresh_btn.setVisibility(View.GONE);
                     video_delete_btn.setVisibility(View.VISIBLE);
                     video_watch_btn.setVisibility(View.VISIBLE);
+                    video_share_btn.setVisibility(View.VISIBLE);
                 }else{
                     video_refresh_btn.setVisibility(View.VISIBLE);
                     video_delete_btn.setVisibility(View.GONE);
                     video_watch_btn.setVisibility(View.GONE);
+                    video_share_btn.setVisibility(View.GONE);
                 }
 
             }

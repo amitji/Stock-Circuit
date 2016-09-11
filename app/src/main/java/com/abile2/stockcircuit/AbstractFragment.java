@@ -126,6 +126,8 @@ public void onPause() {
 			stkVideo.setVideo_url((String) object.get("video_url"));
 			stkVideo.setThumbnail_url((String) object.get("thumbnail_url"));
 			stkVideo.setDisplay_seq((String) object.get("display_seq"));
+			stkVideo.setShared_by((String) object.get("shared_by"));
+
 			alertList.add(stkVideo);
 
 		}

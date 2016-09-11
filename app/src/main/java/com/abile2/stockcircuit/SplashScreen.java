@@ -2,6 +2,7 @@ package com.abile2.stockcircuit;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,6 +53,7 @@ import com.abile2.stockcircuit.model.Stock;
 import com.abile2.stockcircuit.util.GPSTracker;
 import com.abile2.stockcircuit.util.GetAppConfigParamsAsyncTask;
 import com.abile2.stockcircuit.util.NetworkUtil;
+import com.abile2.stockcircuit.util.ProcessSharedVideoAsyncTask;
 import com.abile2.stockcircuit.util.SaveUserAsyncTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -78,6 +80,8 @@ public class SplashScreen extends Activity {
 		context = this;
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+
+
 		new Handler().postDelayed(new Runnable() {
 			/*
             * Showing splash screen with a timer. This will be useful when you
@@ -88,6 +92,55 @@ public class SplashScreen extends Activity {
 				checkConfig();
 			}
 		}, SPLASH_TIME_OUT);
+
+	}
+
+	private void processSharedVideoIntent(){
+		StringBuilder text = new StringBuilder();
+
+		Uri data = getIntent().getData();
+		if(data != null){
+			text.append("Path:\n");
+			text.append(data.getPath());
+
+			text.append("\n\nScheme:\n");
+			text.append(data.getScheme());
+
+			text.append("\n\nHost:\n");
+			text.append(data.getHost());
+
+			text.append("\n\nPath segments:\n");
+			text.append(Arrays.toString(data.getPathSegments().toArray()));
+
+			System.out.println("Data from Video Intent - "+text);
+			String mobile = mPrefs.getString("mobile", "");
+			String deviceID= mPrefs.getString("deviceID","");
+			String regID = mPrefs.getString("regID", "");
+
+
+
+			Object object[] = new Object[5];
+			object[0] = mobile;
+			object[1] = deviceID;
+			object[2] = regID;
+			object[3] = data.getPathSegments().get(0);
+
+			try {
+				new ProcessSharedVideoAsyncTask().execute(object).get();
+				//reset video refersh flag so that updated list is fetched from server
+				SharedPreferences.Editor editor= mPrefs.edit();
+				editor.putBoolean("my_video_refresh_flag", true);
+				editor.commit();
+
+			} catch (InterruptedException | ExecutionException e) {
+
+				e.printStackTrace();
+			}
+
+		} else {
+			text.append("Uri is null");
+		}
+
 	}
 	@SuppressLint("NewApi")
 	private void checkConfig() {
@@ -155,9 +208,7 @@ public class SplashScreen extends Activity {
 		long nseStocksListLastFetch = mPrefs.getLong("nseStocksListLastFetch", 0);
 		String stocksStr = mPrefs.getString("nseStocksList", "");
 
-//		SharedPreferences.Editor editor = mPrefs.edit();
-//		editor.putBoolean("my_video_refresh_flag", true);
-//		editor.commit();
+		processSharedVideoIntent();
 
 		try {
 			String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;

@@ -61,6 +61,9 @@ public class ListAdapterVideos extends BaseAdapter {
         TextView title = (TextView)vi.findViewById(R.id.title);
         TextView desc = (TextView)vi.findViewById(R.id.description);
         TextView imageTitle = (TextView)vi.findViewById(R.id.imageTitle);
+        TextView shared_by = (TextView)vi.findViewById(R.id.shared_by);
+
+
 
 //        TextView weight = (TextView)vi.findViewById(R.id.weightage);
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.video_thumbnail); // thumb image
@@ -95,12 +98,21 @@ public class ListAdapterVideos extends BaseAdapter {
         vi.setTag(R.id.TAG_PC_ID, new Integer(pc.getId()));
         
         // Setting all values in listview
-       desc.setText(pc.getDescription());
+        desc.setText(pc.getDescription());
+        String sharedByStr = pc.getShared_by();
+        if(sharedByStr != null){
+            shared_by.setText("Shared By : "+sharedByStr);
+            shared_by.setTextColor(Color.parseColor("#29BA1B"));
+        }else{
+            shared_by.setText("");
+            //shared_by.setTextColor(Color.parseColor("#29BA1B"));
 
-            String stockName = pc.getName();
-            if(stockName.length() > 20)
-                stockName = stockName.substring(0, 20)+"...";
-            title.setText(stockName);
+        }
+
+        String stockName = pc.getName();
+        if(stockName.length() > 20)
+            stockName = stockName.substring(0, 20)+"...";
+        title.setText(stockName);
 
         listOfViews.put(pc.getId(), vi);
         return vi;

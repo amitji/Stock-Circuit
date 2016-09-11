@@ -11,7 +11,7 @@ public class StockVideo {
     private String thumbnail_url;
     private String is_active;
     private String display_seq;
-
+    private String shared_by;
 
 
 
@@ -107,6 +107,13 @@ public class StockVideo {
         this.display_seq = display_seq;
     }
 
+    public String getShared_by() {
+        return shared_by;
+    }
 
+
+    public void setShared_by(String shared_by) {
+        this.shared_by = shared_by;
+    }
 
 }
