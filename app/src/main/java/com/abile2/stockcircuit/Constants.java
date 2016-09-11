@@ -5,14 +5,12 @@ public class Constants {
 	//PROD shopbindaas.co.in
     public static final String SERVER_BASE_URL = "http://shopbindaas.co.in/StockCircuitServer/spring/";
 
-    //NEW PROD shopbindaas.co.in
-    //public static final String SERVER_BASE_URL = "http://api.stockcircuit.in/StockCircuitServer/spring/";
-
-
 
 	//DEV At// home
-    //public static final String SERVER_BASE_URL = "http://192.168.1.11:8080/StockCircuitServer/spring/";
+    //public static final String SERVER_BASE_URL = "http://192.168.1.10:8080/StockCircuitServer/spring/";
 
+    //sapient
+    //public static final String SERVER_BASE_URL = "http://10.202.204.54:8080/StockCircuitServer/spring/";
 
     //public static final String FA_VIDEO_URL = "http://shopbindaas.co.in/stockcircuitserver/fund_analysis/videos/";
 
@@ -46,5 +44,11 @@ public class Constants {
     public static String shareSubject="Download Stock Circuit App";
 	public static final int promo_image_width = 1600;
 
+    //videos
+    public static String shareVideoSubject="Sharing a useful stock analysis video";
+    public static String shareVideoMessage="Hey, I am sharing this fundamental analysis video I just watched on Stock Circuit App.I feel you would definitely find useful for investing decision."
+            +" Watch it here (you need app) - http://stockcircuitapp.in/";
+    public static String shareVideoMessage2="In case you don't have the Stock Circuit App installed, Download it here -"
+            +" https://play.google.com/store/apps/details?id=com.abile2.stockcircuit";
 
 }
