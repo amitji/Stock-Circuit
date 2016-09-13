@@ -99,6 +99,8 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 
 	  setupFloatingMenu();
 
+	  AppRater.app_launched(this.getActivity());
+
 	  return rootView;
   }
 

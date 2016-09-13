@@ -219,6 +219,17 @@ public class SplashScreen extends Activity {
 			formList[1] = versionCode;
 			HashMap<String, String> app_config = new GetAppConfigParamsAsyncTask().execute(formList).get();
 
+			if(app_config != null && app_config.get("app_rater_show") != null)
+			{
+				SharedPreferences.Editor mpref = mPrefs.edit();
+				mpref.putString("app_rater_show", app_config.get("app_rater_show"));
+				mpref.putString("app_rater_days_until_prompt", app_config.get("app_rater_days_until_prompt"));
+
+				mpref.commit();
+			}
+
+
+
 			if(nseStocksListLastFetch !=0 && !stocksStr.equals(""))
 			{
 				Date lastUpdateDate = new Date(nseStocksListLastFetch);
