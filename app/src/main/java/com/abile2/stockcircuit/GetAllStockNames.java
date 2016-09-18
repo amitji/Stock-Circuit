@@ -38,6 +38,7 @@ public class GetAllStockNames extends AsyncTask<Object, Void, String>{
 		try {
 			//String emailID = "amitji@gmail.com";
 			String is_video_available = (String) params[0];
+			String exchange_flag = (String) params[1];
 
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/getAllStockNames");
@@ -46,6 +47,8 @@ public class GetAllStockNames extends AsyncTask<Object, Void, String>{
 			MultipartEntityBuilder entity = MultipartEntityBuilder.create();
 			entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 			entity.addTextBody("is_video_available", is_video_available);
+			entity.addTextBody("exchange_flag", exchange_flag);
+
             HttpEntity httpentity = entity.build();
             httpPost.setEntity(httpentity);
 			

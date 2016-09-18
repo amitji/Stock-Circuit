@@ -313,6 +313,7 @@ public class MainActivity extends AppCompatActivity
       public void onClick(View view) {
     	  Intent appInfo = new Intent(view.getContext(), StockListView.class);
     	  appInfo.putExtra("is_world_indices", "n");
+		  appInfo.putExtra("exchange", "NSE");
           startActivity(appInfo);
   		FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
   		menu.toggle();
@@ -320,12 +321,19 @@ public class MainActivity extends AppCompatActivity
     });
 
     //Need to chage this...
-    final FloatingActionButton bseBtn = (FloatingActionButton) findViewById(R.id.bseBtn);
-    bseBtn.setOnClickListener(new OnClickListener() {
+    final FloatingActionButton nasdaqBtn = (FloatingActionButton) findViewById(R.id.nasdaqBtn);
+    nasdaqBtn.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
-    	  UtilityActivity.showMessage(context, "Coming Soon...Use Nse Stocks for now", Gravity.CENTER);
-      }
+    	  //UtilityActivity.showMessage(context, "Coming Soon...Use Nse Stocks for now", Gravity.CENTER);
+		  Intent appInfo = new Intent(view.getContext(), StockListView.class);
+		  appInfo.putExtra("is_world_indices", "n");
+		  appInfo.putExtra("exchange", "NASDAQ");
+		  startActivity(appInfo);
+		  FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+		  menu.toggle();
+
+	  }
      });
     
     

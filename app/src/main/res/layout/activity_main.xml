@@ -68,11 +68,11 @@
                         fab:fab_colorPressed="@color/white_pressed"/>
 
                     <com.abile2.stockcircuit.FloatingActionButton
-                        android:id="@+id/bseBtn"
+                        android:id="@+id/nasdaqBtn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        fab:fab_title="BSE Stocks"
-                        fab:fab_icon="@drawable/bse"
+                        fab:fab_title="NASDAQ Stocks"
+                        fab:fab_icon="@drawable/nasdaq"
                         fab:fab_colorPressed="@color/white_pressed"/>
 
 

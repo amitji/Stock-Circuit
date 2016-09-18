@@ -50,6 +50,8 @@ public class StockListView extends Activity {
 		Intent secondInt = getIntent();
 		String is_world_indices = secondInt.getStringExtra("is_world_indices");
 		is_video_list = secondInt.getStringExtra("is_video_list" );
+		String exchange = secondInt.getStringExtra("exchange");
+
 		if(is_video_list == null)
 			is_video_list = "n";
 
@@ -57,15 +59,13 @@ public class StockListView extends Activity {
 		String stocksStr = mPrefs.getString("nseStocksList","");
 
 		
-		//String response;
-		//try {
-			//response = new GetAllStockNames(this).execute().get();
-			//response = "";
 		ArrayList<Stock> list=null;
 		if(is_video_list.equals("y"))
 			list = getVideoEnabledStockList(stocksStr);
-		else if(is_world_indices.equals("n"))
-				list = getStocksObjects(stocksStr);
+		else if(exchange != null && ! exchange.equals(""))
+			list = getExchangeStocks(stocksStr,exchange);
+//		else if(is_world_indices.equals("n"))
+//				list = getStocksObjects(stocksStr);
 			else
 				list = getWorldIndicesObjects(stocksStr );
 			
@@ -188,9 +188,28 @@ public class StockListView extends Activity {
 
 	}
 
-	private ArrayList<Stock> getStocksObjects(String response) {
+//	private ArrayList<Stock> getStocksObjects(String response) {
+//
+//		//response = "[{'nse_id':'INFY','stockname':'Infosys Limited'},{'nse_id':'ABB','stockname':'ABB India Limited'},{'nse_id':'ABBOTINDIA','stockname':'Abbott India Limited'},{'nse_id':'ABGSHIP','stockname':'ABG Shipyard Limited'},{'nse_id':'ACC','stockname':'ACC Limited'}]";
+//		ArrayList<Stock> list = new ArrayList<Stock>();
+//		try {
+//			JSONArray getArray = new JSONArray(response);
+//			for (int i = 0; i < getArray.length(); i++) {
+//				JSONObject objects = getArray.getJSONObject(i);
+//				Iterator key = objects.keys();
+//				Stock stk;
+//							stk = new Stock(objects.getString("stockname"),objects.getString("nseid"), objects.getString("fullid"));
+//							list.add(stk);
+//			}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+//		return list;
+//	}
 
-		//response = "[{'nse_id':'INFY','stockname':'Infosys Limited'},{'nse_id':'ABB','stockname':'ABB India Limited'},{'nse_id':'ABBOTINDIA','stockname':'Abbott India Limited'},{'nse_id':'ABGSHIP','stockname':'ABG Shipyard Limited'},{'nse_id':'ACC','stockname':'ACC Limited'}]";	
+	private ArrayList<Stock> getExchangeStocks(String response, String exchange) {
+
+		//response = "[{'nse_id':'INFY','stockname':'Infosys Limited'},{'nse_id':'ABB','stockname':'ABB India Limited'},{'nse_id':'ABBOTINDIA','stockname':'Abbott India Limited'},{'nse_id':'ABGSHIP','stockname':'ABG Shipyard Limited'},{'nse_id':'ACC','stockname':'ACC Limited'}]";
 		ArrayList<Stock> list = new ArrayList<Stock>();
 		try {
 			JSONArray getArray = new JSONArray(response);
@@ -198,17 +217,13 @@ public class StockListView extends Activity {
 				JSONObject objects = getArray.getJSONObject(i);
 				Iterator key = objects.keys();
 				Stock stk;
-				//while (key.hasNext()) {
-					//String k1 = key.next().toString();
-					// System.out.println("Key : " + k1 + ", value : " +
-					// objects.getString(k1));
-					//String k2 = key.next().toString();
-					// System.out.println("Key : " + k2 + ", value : " +
-					// objects.getString(k2));
-					//stk = new Stock(objects.getString(k1),objects.getString(k2), null);
-					//String is_world_indices2 = objects.getString("is_world_indices");
-							stk = new Stock(objects.getString("stockname"),objects.getString("nseid"), objects.getString("fullid"));
-							list.add(stk);
+				String exchange2 = objects.getString("exchange");
+
+				if(exchange2.equals(exchange)){
+					stk = new Stock(objects.getString("stockname"),objects.getString("nseid"), objects.getString("fullid"));
+					list.add(stk);
+				}
+
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -225,14 +240,6 @@ public class StockListView extends Activity {
 				JSONObject objects = getArray.getJSONObject(i);
 				Iterator key = objects.keys();
 				Stock stk;
-				//while (key.hasNext()) {
-					//String k1 = key.next().toString();
-					// System.out.println("Key : " + k1 + ", value : " +
-					// objects.getString(k1));
-					//String k2 = key.next().toString();
-					// System.out.println("Key : " + k2 + ", value : " +
-					// objects.getString(k2));
-					//stk = new Stock(objects.getString(k1),objects.getString(k2), null);
 					String is_world_indices2 = objects.getString("is_world_indices");
 
 						if(is_world_indices2.equals("y")){
@@ -246,8 +253,6 @@ public class StockListView extends Activity {
 		}
 		return list;
 	}
-
-
 
 
 	private ArrayList<Stock> getVideoEnabledStockList(String response) {
@@ -275,48 +280,6 @@ public class StockListView extends Activity {
 	}
 
 
-
-
-
-
-
-
-/*
-
-	private ArrayList<Stock> getVideoAvailableStockNames() {
-			String stocksStr="";
-		try {
-			String is_video_available = "y";
-			Object object[] = new Object[1];
-			object[0] = is_video_available;
-
-			stocksStr =  new GetAllStockNames().execute(object).get();
-		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ArrayList<Stock> list = new ArrayList<Stock>();
-		try {
-			JSONArray getArray = new JSONArray(stocksStr);
-			for (int i = 0; i < getArray.length(); i++) {
-				JSONObject object = getArray.getJSONObject(i);
-				//Iterator key = object.keys();
-				Stock stk;
-				if (object.has("is_video_available")) {
-					String is_video_available = object.getString("is_video_available");
-
-					if (is_video_available.equals("y")) {
-						stk = new Stock(object.getString("stockname"), object.getString("nseid"), object.getString("fullid"));
-						list.add(stk);
-					}
-				}
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-	*/
     protected void onResume() {
         super.onResume();	
         inputSearch = (EditText) findViewById(R.id.inputSearch);

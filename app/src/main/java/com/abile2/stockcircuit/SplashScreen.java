@@ -327,10 +327,12 @@ public class SplashScreen extends Activity {
 		//ArrayList<Stock> list = new ArrayList<Stock>();
 		String str = "";
 		try {
-			//return new GetAllStockNames().execute().get();
+
 			String is_video_available = "n";
-			Object object[] = new Object[1];
+			String exchange_flag = "y";
+			Object object[] = new Object[2];
 			object[0] = is_video_available;
+			object[1] = exchange_flag;
 			return new GetAllStockNames().execute(object).get();
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block

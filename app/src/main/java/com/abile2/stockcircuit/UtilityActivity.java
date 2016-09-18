@@ -23,31 +23,6 @@ import android.widget.Toast;
 public class UtilityActivity {
 	static SharedPreferences mPrefs;
 
-	/*
-	public static String  refreshNseStocksList() {
-		// TODO Auto-generated method stub
-		//ArrayList<Stock> list = new ArrayList<Stock>();
-		String stocksStr = "";
-		Date currDate = new Date(System.currentTimeMillis());
-		try {
-			String is_video_available = "n";
-			Object object[] = new Object[1];
-			object[0] = is_video_available;
-
-			stocksStr =  new GetAllStockNames().execute(object).get();
-		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		SharedPreferences.Editor mpref = mPrefs.edit();
-		mpref.putString("nseStocksList", stocksStr);
-		mpref.putLong("nseStocksListLastFetch", currDate.getTime());
-		mpref.commit();
-
-		return stocksStr;
-
-	}
-	*/
 	public static void hideSoftKeyboard(Activity activity) {
 	    //InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 	    //inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
