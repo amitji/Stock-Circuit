@@ -48,7 +48,7 @@ public class StockListView extends Activity {
 		inputSearch = (EditText) findViewById(R.id.inputSearch);
 		
 		Intent secondInt = getIntent();
-		String is_world_indices = secondInt.getStringExtra("is_world_indices");
+		//String is_world_indices = secondInt.getStringExtra("is_world_indices");
 		is_video_list = secondInt.getStringExtra("is_video_list" );
 		String exchange = secondInt.getStringExtra("exchange");
 
@@ -61,7 +61,7 @@ public class StockListView extends Activity {
 		
 		ArrayList<Stock> list=null;
 		if(is_video_list.equals("y"))
-			list = getVideoEnabledStockList(stocksStr);
+			list = getVideoEnabledStockList(stocksStr, exchange);
 		else if(exchange != null && ! exchange.equals(""))
 			list = getExchangeStocks(stocksStr,exchange);
 //		else if(is_world_indices.equals("n"))
@@ -255,7 +255,7 @@ public class StockListView extends Activity {
 	}
 
 
-	private ArrayList<Stock> getVideoEnabledStockList(String response) {
+	private ArrayList<Stock> getVideoEnabledStockList(String response, String exchange) {
 
 		//response = "[{'nse_id':'INFY','stockname':'Infosys Limited'},{'nse_id':'ABB','stockname':'ABB India Limited'},{'nse_id':'ABBOTINDIA','stockname':'Abbott India Limited'},{'nse_id':'ABGSHIP','stockname':'ABG Shipyard Limited'},{'nse_id':'ACC','stockname':'ACC Limited'}]";
 		ArrayList<Stock> list = new ArrayList<Stock>();
@@ -266,8 +266,9 @@ public class StockListView extends Activity {
 				Iterator key = objects.keys();
 				Stock stk;
 				String is_video_available = objects.getString("is_video_available");
+				String exchange2 = objects.getString("exchange");
 
-				if(is_video_available.equals("y")){
+				if(is_video_available.equals("y")&& exchange2.equals(exchange)){
 					stk = new Stock(objects.getString("stockname"),objects.getString("nseid"), objects.getString("fullid"));
 					list.add(stk);
 				}

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="#fff" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true" >
+
+        <LinearLayout
+            android:id="@+id/resourceView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dip"
+
+            >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/asklabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/lightBrown"
+                    android:text="Please Select an Exchange"
+                    android:textSize="17dip"
+                    android:textStyle="italic"
+                    android:typeface="sans"
+                    android:editable="false" />
+                <TextView
+                    android:id="@+id/viewUnderLine1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="-5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/underline" />
+            </LinearLayout>
+
+            <com.abile2.stockcircuit.FloatingActionButton
+                android:id="@+id/nse_option"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                fab:fab_colorNormal="@color/yellow"
+                fab:fab_colorPressed="@color/yellow"
+                fab:fab_labelStyle="@style/menu_labels_style"
+                fab:fab_title="NSE Stocks"
+                fab:fab_size="big"
+                fab:fab_icon="@drawable/nse"
+                android:layout_centerVertical="true"
+                android:layout_alignTop="@+id/us_option"
+                android:layout_toLeftOf="@+id/us_option"
+                />
+            <TextView
+                android:id="@+id/nseLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textColor="@color/lightBrown"
+                android:text="NSE Stocks"
+                android:textSize="17dip"
+                android:textStyle="italic"
+                android:typeface="sans"
+                android:editable="false" />
+
+            <com.abile2.stockcircuit.FloatingActionButton
+                android:id="@+id/us_option"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                fab:fab_colorNormal="@color/yellow"
+                fab:fab_colorPressed="@color/grey"
+                fab:fab_labelStyle="@style/menu_labels_style"
+                fab:fab_title="NASDAQ Stocks"
+                fab:fab_size="big"
+                fab:fab_icon="@drawable/nasdaq"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                />
+            <TextView
+                android:id="@+id/usLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textColor="@color/lightBrown"
+                android:text="NASDAQ Stocks"
+                android:textSize="17dip"
+                android:textStyle="italic"
+                android:typeface="sans"
+                android:editable="false" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>

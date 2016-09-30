@@ -53,6 +53,11 @@ public class CompareStocksVideoActivity extends Activity {
 
 		setContentView(R.layout.compare_stocks_video);
 		activity = this;
+
+		Intent secondInt = getIntent();
+		String exchange = secondInt.getStringExtra("exchange");
+
+
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		geoCoder = new Geocoder(this);
 		stock1 = (AutoCompleteTextView) findViewById(R.id.stock1);
@@ -62,7 +67,7 @@ public class CompareStocksVideoActivity extends Activity {
 
 		String stocksStr = mPrefs.getString("nseStocksList","");
 
-		ArrayList<Stock> list= getVideoEnabledStockList(stocksStr);
+		ArrayList<Stock> list= getVideoEnabledStockList(stocksStr, exchange);
 
 		//ArrayAdapter<Stock> adapter = new ArrayAdapter<Stock>(this,android.R.layout.simple_list_item_1, list);
 		ArrayAdapter<Stock> adapter = new ArrayAdapter<Stock>(this,R.layout.list_item_layout, R.id.listItemtext, list);
@@ -172,7 +177,7 @@ public class CompareStocksVideoActivity extends Activity {
 	}
 
 
-	private ArrayList<Stock> getVideoEnabledStockList(String response) {
+	private ArrayList<Stock> getVideoEnabledStockList(String response, String exchange) {
 
 		//response = "[{'nse_id':'INFY','stockname':'Infosys Limited'},{'nse_id':'ABB','stockname':'ABB India Limited'},{'nse_id':'ABBOTINDIA','stockname':'Abbott India Limited'},{'nse_id':'ABGSHIP','stockname':'ABG Shipyard Limited'},{'nse_id':'ACC','stockname':'ACC Limited'}]";
 		ArrayList<Stock> list = new ArrayList<Stock>();
@@ -183,12 +188,12 @@ public class CompareStocksVideoActivity extends Activity {
 				Iterator key = objects.keys();
 				Stock stk;
 				String is_video_available = objects.getString("is_video_available");
+				String exchange2 = objects.getString("exchange");
 
-				if(is_video_available.equals("y")){
+				if(is_video_available.equals("y") && exchange2.equals(exchange)){
 					stk = new Stock(objects.getString("stockname"),objects.getString("nseid"), objects.getString("fullid"));
 					list.add(stk);
 				}
-
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

@@ -21,7 +21,7 @@ public class AppRater {
     private final static String APP_PNAME = "com.abile2.stockcircuit";// Package Name
 
     //private final static int DAYS_UNTIL_PROMPT = 3;//Min number of days
-    private final static int LAUNCHES_UNTIL_PROMPT = 3;//Min number of launches
+    private final static int LAUNCHES_UNTIL_PROMPT = 6;//Min number of launches (before you start shwoing it again)
 
 
     public static void app_launched(Context mContext) {

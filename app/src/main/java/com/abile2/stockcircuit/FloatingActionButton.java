@@ -38,9 +38,10 @@ public class FloatingActionButton extends ImageButton {
 
   public static final int SIZE_NORMAL = 0;
   public static final int SIZE_MINI = 1;
+  public static final int SIZE_BIG = 2;
 
   @Retention(RetentionPolicy.SOURCE)
-  @IntDef({ SIZE_NORMAL, SIZE_MINI })
+  @IntDef({ SIZE_NORMAL, SIZE_MINI,SIZE_BIG })
   public @interface FAB_SIZE {
   }
 
@@ -97,11 +98,17 @@ public class FloatingActionButton extends ImageButton {
   }
 
   private void updateCircleSize() {
-    mCircleSize = getDimension(mSize == SIZE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+    //mCircleSize = getDimension(mSize == SIZE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+    if(mSize == SIZE_NORMAL)
+      mCircleSize = getDimension(R.dimen.fab_size_normal);
+    else if(mSize == SIZE_BIG)
+      mCircleSize = getDimension(R.dimen.fab_size_big);
+    else
+      mCircleSize = getDimension(R.dimen.fab_size_mini);
   }
 
   public void setSize(@FAB_SIZE int size) {
-    if (size != SIZE_MINI && size != SIZE_NORMAL) {
+    if (size != SIZE_MINI && size != SIZE_NORMAL && size != SIZE_BIG ) {
       throw new IllegalArgumentException("Use @FAB_SIZE constants only!");
     }
 
@@ -235,6 +242,7 @@ public class FloatingActionButton extends ImageButton {
 
     LayerDrawable layerDrawable = new LayerDrawable(
         new Drawable[] {
+
             getResources().getDrawable(mSize == SIZE_NORMAL ? R.drawable.fab_bg_normal : R.drawable.fab_bg_mini),
             createFillDrawable(strokeWidth),
             createOuterStrokeDrawable(strokeWidth),

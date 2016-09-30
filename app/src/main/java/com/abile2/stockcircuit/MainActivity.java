@@ -205,28 +205,14 @@ public class MainActivity extends AppCompatActivity
 					startActivity(Intent.createChooser(i, "Share Stock Circuit App via"));
 
 				}
-				/*
-				if (menuItem.getItemId() == R.id.my_videos_fragment) {
-					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-					xfragmentTransaction.replace(R.id.containerView, new MyVideosFragment(),"videos").addToBackStack(null).commit();
-
-					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
-					menu.setVisibility(View.INVISIBLE);
-					mToolbar.setTitle("    Recommended Videos");
-				}
-				*/
 				if (menuItem.getItemId() == R.id.user_requested_video) {
-					Intent stockVideoList= new Intent(context, StockListView.class);
-					stockVideoList.putExtra("is_video_list", "y");
-					stockVideoList.putExtra("is_world_indices", "n");
-
+					Intent stockVideoList = new Intent(context, ChooseExchangeActivity.class);
+					stockVideoList.putExtra("type", "single");
 					startActivity(stockVideoList);
 				}
 				if (menuItem.getItemId() == R.id.compare_video) {
-					Intent compareVideosList = new Intent(context, CompareStocksVideoActivity.class);
-					//compareVideosList.putExtra("is_video_list", "y");
-					//compareVideosList.putExtra("is_world_indices", "n");
-
+					Intent compareVideosList = new Intent(context, ChooseExchangeActivity.class);
+					compareVideosList.putExtra("type", "compare");
 					startActivity(compareVideosList);
 				}
 

@@ -8,6 +8,7 @@
         <attr name="fab_size" format="enum">
             <enum name="normal" value="0" />
             <enum name="mini" value="1" />
+            <enum name="big" value="2" />
         </attr>
         <attr name="fab_title" format="string" />
         <attr name="fab_stroke_visible" format="boolean" />

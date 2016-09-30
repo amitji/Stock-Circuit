@@ -21,6 +21,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.TouchDelegate;
@@ -677,8 +678,8 @@ public void setFragmentVisibility(int isvisible){
 
 }
 
-public void setParentActivity(MainActivity mainActivity) {
+public void setParentActivity(AppCompatActivity activity) {
 	// TODO Auto-generated method stub
-	context = mainActivity;
+	context = activity;
 }
 }

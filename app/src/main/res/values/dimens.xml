@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="fab_size_normal">56dp</dimen>
+    <dimen name="fab_size_normal">66dp</dimen>
+    <dimen name="fab_size_big">100dp</dimen>
     <dimen name="fab_size_mini">40dp</dimen>
     <dimen name="fab_icon_size">48dp</dimen>
     <dimen name="fab_plus_icon_size">14dp</dimen>
