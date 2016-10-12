@@ -23,6 +23,34 @@ import android.widget.Toast;
 public class UtilityActivity {
 	static SharedPreferences mPrefs;
 
+	public static String  getStocksListForExchange(String exchange) {
+		// TODO Auto-generated method stub
+		//ArrayList<Stock> list = new ArrayList<Stock>();
+		String str = "";
+		try {
+			long startTime = System.currentTimeMillis();
+			//String is_video_available = "n";
+			//String exchange_flag = "y";
+			//exchange = "NSE";
+			Object object[] = new Object[1];
+			//object[0] = is_video_available;
+			//object[1] = exchange_flag;
+			object[0] = exchange;
+			str  = new GetAllStockNames().execute(object).get();
+			long endTime = System.currentTimeMillis();
+			System.out.println("\n\n Time taken to get the Stocks List - "+(endTime-startTime));
+			return str;
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
+
+	}
+
+
+
+
 	public static void hideSoftKeyboard(Activity activity) {
 	    //InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 	    //inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);

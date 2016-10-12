@@ -207,7 +207,6 @@ public class SplashScreen extends Activity {
 		String mobile = mPrefs.getString("mobile", "");
 		long nseStocksListLastFetch = mPrefs.getLong("nseStocksListLastFetch", 0);
 		String stocksStr = mPrefs.getString("nseStocksList", "");
-
 		processSharedVideoIntent();
 
 		try {
@@ -218,43 +217,43 @@ public class SplashScreen extends Activity {
 			formList[0] = versionName;
 			formList[1] = versionCode;
 			HashMap<String, String> app_config = new GetAppConfigParamsAsyncTask().execute(formList).get();
+			saveAllAppConfigParamsInPreference(app_config);
 
-			if(app_config != null && app_config.get("app_rater_show") != null)
-			{
-				SharedPreferences.Editor mpref = mPrefs.edit();
-				mpref.putString("app_rater_show", app_config.get("app_rater_show"));
-				mpref.putString("app_rater_days_until_prompt", app_config.get("app_rater_days_until_prompt"));
-
-				mpref.commit();
-			}
+//			if(app_config != null && app_config.get("app_rater_show") != null)
+//			{
+//				SharedPreferences.Editor mpref = mPrefs.edit();
+//				mpref.putString("app_rater_show", app_config.get("app_rater_show"));
+//				mpref.putString("app_rater_days_until_prompt", app_config.get("app_rater_days_until_prompt"));
+//
+//				mpref.commit();
+//			}
 
 
 
 			if(nseStocksListLastFetch !=0 && !stocksStr.equals(""))
 			{
 				Date lastUpdateDate = new Date(nseStocksListLastFetch);
-
 				Date currDate = new Date(System.currentTimeMillis());
-
 				long diff = Math.abs(currDate.getTime() - lastUpdateDate.getTime());
 				long diffDays = diff / (24 * 60 * 60 * 1000);
-				int app_stock_list_update_days = Constants.STOCK_LIST_FETCH_TIME;
+				int app_nse_stock_list_update_days = Constants.STOCK_LIST_FETCH_TIME;
 
 
-				if(app_config != null && app_config.get("app_stock_list_update_days") != null)
+				//if(app_config != null && app_config.get("app_nse_stock_list_update_days") != null)
+				if(app_config != null )
 				{
-					app_stock_list_update_days = Integer.parseInt(app_config.get("app_stock_list_update_days"));
+					app_nse_stock_list_update_days = Integer.parseInt(mPrefs.getString("app_nse_stock_list_update_days", "7"));
 				}
 
-				if(((int) diffDays ) > app_stock_list_update_days){
-					stocksStr = getNseStocksList();
+				if(((int) diffDays ) > app_nse_stock_list_update_days){
+					stocksStr = UtilityActivity.getStocksListForExchange("NSE");
 					SharedPreferences.Editor mpref = mPrefs.edit();
 					mpref.putString("nseStocksList", stocksStr);
 					mpref.putLong("nseStocksListLastFetch", currDate.getTime());
 					mpref.commit();
 				}
 			}else{
-				stocksStr = getNseStocksList();
+				stocksStr = UtilityActivity.getStocksListForExchange("NSE");
 				SharedPreferences.Editor mpref = mPrefs.edit();
 				mpref.putString("nseStocksList", stocksStr);
 				mpref.putLong("nseStocksListLastFetch", System.currentTimeMillis());
@@ -296,6 +295,27 @@ public class SplashScreen extends Activity {
 			e.printStackTrace();
 		}
 	}
+
+	private void saveAllAppConfigParamsInPreference(HashMap<String, String> app_config) {
+
+		//if(app_config != null && app_config.get("app_rater_show") != null)
+		if(app_config != null )
+		{
+			SharedPreferences.Editor mpref = mPrefs.edit();
+			mpref.putString("app_rater_show", app_config.get("app_rater_show"));
+			mpref.putString("app_rater_days_until_prompt", app_config.get("app_rater_days_until_prompt"));
+
+			mpref.putString("app_nse_stock_list_update_days", app_config.get("app_nse_stock_list_update_days"));
+			mpref.putString("app_bom_stock_list_update_days", app_config.get("app_bom_stock_list_update_days"));
+			mpref.putString("app_nasdaq_stock_list_update_days", app_config.get("app_nasdaq_stock_list_update_days"));
+			mpref.putString("app_rater_show", app_config.get("app_rater_show"));
+
+
+			mpref.commit();
+		}
+
+	}
+
 	// when upgrade is required take user to google play for upgrade...
 	private void goToGooglePlayStoreForUpgrade() {
 
@@ -322,25 +342,6 @@ public class SplashScreen extends Activity {
 		dialog.show();
 	}
 
-	private String  getNseStocksList() {
-		// TODO Auto-generated method stub
-		//ArrayList<Stock> list = new ArrayList<Stock>();
-		String str = "";
-		try {
-
-			String is_video_available = "n";
-			String exchange_flag = "y";
-			Object object[] = new Object[2];
-			object[0] = is_video_available;
-			object[1] = exchange_flag;
-			return new GetAllStockNames().execute(object).get();
-		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return str;
-
-	}
 	/*
 	private void showUserLocationSettingsDialog() {
 		// TODO Auto-generated method stub

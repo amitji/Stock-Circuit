@@ -59,7 +59,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
                 fab:fab_colorNormal="@color/yellow"
-                fab:fab_colorPressed="@color/yellow"
+                fab:fab_colorPressed="@color/grey"
                 fab:fab_labelStyle="@style/menu_labels_style"
                 fab:fab_title="NSE Stocks"
                 fab:fab_size="big"

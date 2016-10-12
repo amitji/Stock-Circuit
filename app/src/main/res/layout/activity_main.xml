@@ -57,15 +57,17 @@
                         android:layout_height="match_parent"
                         fab:fab_title="NSE Stocks"
                         fab:fab_icon="@drawable/nse"
-                        fab:fab_colorPressed="@color/white_pressed"/>
+                        fab:fab_colorNormal="@color/yellow"
+                        fab:fab_colorPressed="@color/grey"/>
 
                     <com.abile2.stockcircuit.FloatingActionButton
-                        android:id="@+id/indexesBtn"
+                        android:id="@+id/bseBtn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        fab:fab_title="World Indices"
-                        fab:fab_icon="@drawable/world"
-                        fab:fab_colorPressed="@color/white_pressed"/>
+                        fab:fab_icon="@drawable/bse"
+                        fab:fab_title="BSE Stocks"
+                        fab:fab_colorNormal="@color/yellow"
+                        fab:fab_colorPressed="@color/grey"/>
 
                     <com.abile2.stockcircuit.FloatingActionButton
                         android:id="@+id/nasdaqBtn"
@@ -73,17 +75,17 @@
                         android:layout_height="match_parent"
                         fab:fab_title="NASDAQ Stocks"
                         fab:fab_icon="@drawable/nasdaq"
-                        fab:fab_colorPressed="@color/white_pressed"/>
-
-
+                        fab:fab_colorNormal="@color/yellow"
+                        fab:fab_colorPressed="@color/grey"/>
 
                     <com.abile2.stockcircuit.FloatingActionButton
-                        android:id="@+id/commdtBtn"
+                        android:id="@+id/indexesBtn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        fab:fab_icon="@drawable/commodities"
-                        fab:fab_title="Commodities" />
-
+                        fab:fab_title="World Indices"
+                        fab:fab_icon="@drawable/world"
+                        fab:fab_colorNormal="@color/yellow"
+                        fab:fab_colorPressed="@color/grey"/>
 
                 </com.abile2.stockcircuit.FloatingActionsMenu>
                 </FrameLayout>

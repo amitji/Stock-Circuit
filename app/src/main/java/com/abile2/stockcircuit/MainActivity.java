@@ -2,6 +2,7 @@ package com.abile2.stockcircuit;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 
 //import android.app.FragmentTransaction;
 import android.content.Context;
@@ -337,29 +338,52 @@ public class MainActivity extends AppCompatActivity
       }
      });    
 
-    final FloatingActionButton commdtBtn = (FloatingActionButton) findViewById(R.id.commdtBtn);
-    commdtBtn.setOnClickListener(new OnClickListener() {
+    final FloatingActionButton bseBtn = (FloatingActionButton) findViewById(R.id.bseBtn);
+		bseBtn.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
-    	  UtilityActivity.showMessage(context, "Coming Soon...Use Nse Stocks for now", Gravity.CENTER);
-    	  
-    	  
-    	//this is for testing
-    	  /*
-			Intent resultIntent = new Intent(getApplicationContext(),StockAlertNewsListView.class);
-			resultIntent.putExtra("notification", "yes");
-			resultIntent.putExtra("fullid", "NSE:NIFTY");
-			
-			resultIntent.putExtra("alert_price", "7200");
-			startActivity(resultIntent);
-    	  */
-    	  
-    	  
+		//Get the BSE stocks list if not recently updated depending on
+		  fetchBOMStockListIfNotAlreadySaved();
+		  Intent appInfo = new Intent(view.getContext(), StockListView.class);
+		  appInfo.putExtra("is_world_indices", "n");
+		  appInfo.putExtra("exchange", "BOM");
+		  startActivity(appInfo);
+		  FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+		  menu.toggle();
       }
      });   			
 	
 }
 
+	public void fetchBOMStockListIfNotAlreadySaved() {
+
+		long bomStocksListLastFetch = mPrefs.getLong("bomStocksListLastFetch", 0);
+		String stocksStr = mPrefs.getString("bomStocksList", "");
+
+		if(bomStocksListLastFetch !=0 && !stocksStr.equals(""))
+		{
+			Date lastUpdateDate = new Date(bomStocksListLastFetch);
+			Date currDate = new Date(System.currentTimeMillis());
+			long diff = Math.abs(currDate.getTime() - lastUpdateDate.getTime());
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			//int app_nse_stock_list_update_days = Constants.STOCK_LIST_FETCH_TIME;
+			int app_bom_stock_list_update_days = Integer.parseInt(mPrefs.getString("app_bom_stock_list_update_days", "30"));
+			if(((int) diffDays ) > app_bom_stock_list_update_days){
+				stocksStr = UtilityActivity.getStocksListForExchange("BOM");
+				SharedPreferences.Editor mpref = mPrefs.edit();
+				mpref.putString("bomStocksList", stocksStr);
+				mpref.putLong("bomStocksListLastFetch", currDate.getTime());
+				mpref.commit();
+			}
+		}else{
+			stocksStr = UtilityActivity.getStocksListForExchange("BOM");
+			SharedPreferences.Editor mpref = mPrefs.edit();
+			mpref.putString("bomStocksList", stocksStr);
+			mpref.putLong("bomStocksListLastFetch", System.currentTimeMillis());
+			mpref.commit();
+		}
+
+	}
 
 
 
@@ -389,8 +413,6 @@ private void setViewPagrListner() {
 
 	*/
 }
-
-
 
 
 }

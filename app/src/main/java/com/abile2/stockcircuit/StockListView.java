@@ -60,14 +60,19 @@ public class StockListView extends Activity {
 
 		
 		ArrayList<Stock> list=null;
-		if(is_video_list.equals("y"))
+		if(is_video_list.equals("y")){
 			list = getVideoEnabledStockList(stocksStr, exchange);
-		else if(exchange != null && ! exchange.equals(""))
-			list = getExchangeStocks(stocksStr,exchange);
-//		else if(is_world_indices.equals("n"))
-//				list = getStocksObjects(stocksStr);
-			else
-				list = getWorldIndicesObjects(stocksStr );
+		}else if(exchange != null && ! exchange.equals("")) {
+			if(exchange.equals("NSE") || exchange.equals("NASDAQ")){
+				list = getExchangeStocks(stocksStr, exchange);
+			}else if(exchange.equals("BOM") ){
+				String bomStocksStr = mPrefs.getString("bomStocksList","");
+				list = getExchangeStocks(bomStocksStr, exchange);
+			}
+		}else{
+			list = getWorldIndicesObjects(stocksStr );
+		}
+
 			
 			Stock[] stockArray = new Stock[list.size()];
 			stockArray = list.toArray(stockArray);
@@ -76,10 +81,6 @@ public class StockListView extends Activity {
 
 			lv.setAdapter(adapter);
 
-//		} catch (InterruptedException | ExecutionException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 
 		inputSearch.addTextChangedListener(new TextWatcher() {
 
@@ -187,25 +188,6 @@ public class StockListView extends Activity {
 		startActivity(i);
 
 	}
-
-//	private ArrayList<Stock> getStocksObjects(String response) {
-//
-//		//response = "[{'nse_id':'INFY','stockname':'Infosys Limited'},{'nse_id':'ABB','stockname':'ABB India Limited'},{'nse_id':'ABBOTINDIA','stockname':'Abbott India Limited'},{'nse_id':'ABGSHIP','stockname':'ABG Shipyard Limited'},{'nse_id':'ACC','stockname':'ACC Limited'}]";
-//		ArrayList<Stock> list = new ArrayList<Stock>();
-//		try {
-//			JSONArray getArray = new JSONArray(response);
-//			for (int i = 0; i < getArray.length(); i++) {
-//				JSONObject objects = getArray.getJSONObject(i);
-//				Iterator key = objects.keys();
-//				Stock stk;
-//							stk = new Stock(objects.getString("stockname"),objects.getString("nseid"), objects.getString("fullid"));
-//							list.add(stk);
-//			}
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//		return list;
-//	}
 
 	private ArrayList<Stock> getExchangeStocks(String response, String exchange) {
 
