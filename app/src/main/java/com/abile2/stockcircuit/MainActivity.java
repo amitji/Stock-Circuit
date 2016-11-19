@@ -96,16 +96,25 @@ public class MainActivity extends AppCompatActivity
 			Boolean isNotification = secondInt.getBooleanExtra("isNotification", false);
 			String fullid = secondInt.getStringExtra("fullid");
 			String alert_price = secondInt.getStringExtra("alert_price");
+			String notification_type = secondInt.getStringExtra("notification_type");
+
 
 			if(isNotification){
 				//Intent resultIntent = new Intent(getApplicationContext(),StockAlertNewsWebView.class);
-				Intent resultIntent = new Intent(getApplicationContext(),StockAlertNewsListView.class);
-				resultIntent.putExtra("notification", "yes");
-				resultIntent.putExtra("fullid", fullid);
-				
-				resultIntent.putExtra("alert_price", alert_price);
-				startActivity(resultIntent);
-				//resultIntent.putExtra("isNotification", true);			
+				if(notification_type.equals("post")) {
+					Intent resultIntent = new Intent(getApplicationContext(), StockAlertNewsListView.class);
+					resultIntent.putExtra("notification", "yes");
+					resultIntent.putExtra("fullid", fullid);
+
+					resultIntent.putExtra("alert_price", alert_price);
+					startActivity(resultIntent);
+					//resultIntent.putExtra("isNotification", true);
+				}else if(notification_type.equals("video_notification")){
+					Intent i = new Intent(getApplicationContext(), GetUserRequestedVideoActivity.class);
+					i.putExtra("fullid", fullid);
+					startActivity(i);
+
+				}
 			}
 			
 }

@@ -102,7 +102,7 @@ public class GcmIntentService extends IntentService {
 		}
 		String message = extras.getString("message");
 		String type = extras.getString("message_type");
-		String imageURL = extras.getString("image_url");
+		String url = extras.getString("url");
         String title=extras.getString("title");
         String fullid =extras.getString("fullid");
         String alert_price =extras.getString("alert_price");
@@ -112,7 +112,7 @@ public class GcmIntentService extends IntentService {
         if(notificationState){
         	count = count+5;
         	//sendNotification(title,message, type, imageURL,fullid, alert_price, count);
-			sendNotification(title,message, type, imageURL,fullid, alert_price, count);
+			sendNotification(title,message, type, url,fullid, alert_price, count);
         }
 		// Post notification of received message.
 		Log.i(TAG, "Received: " + extras.toString());
@@ -120,23 +120,35 @@ public class GcmIntentService extends IntentService {
 		GcmBroadcastReceiver.completeWakefulIntent(intent);
 	}
 	@SuppressLint("NewApi")
-	private void sendNotification(String title, String msg, String type, String imageURl, String fullid, String alert_price, int count) {
+	private void sendNotification(String title, String msg, String type, String url, String fullid, String alert_price, int count) {
 		WakeLocker.acquire(this);
 		//msg = msg+"Amit this is testing for long text";
 		long when = System.currentTimeMillis();
 		//count = count+5;
 		System.out.println(msg);
 		Intent resultIntent = null;
-		if(type.equals("post")) {
+		if (type.equals("post")) {
 			resultIntent = new Intent(getApplicationContext(),
 					MainActivity.class);
 			resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			resultIntent.putExtra("notification", "yes");
+			//resultIntent.putExtra("notification", "yes");
 			resultIntent.putExtra("fullid", fullid);
 			resultIntent.putExtra("alert_price", alert_price);
 			resultIntent.putExtra("isNotification", true);
+			resultIntent.putExtra("notification_type", type);
 
-		}else{
+		} else if(type.equals("video_notification")){
+			resultIntent = new Intent(getApplicationContext(),
+					MainActivity.class);
+			resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			//resultIntent.putExtra("notification", "yes");
+			resultIntent.putExtra("fullid", fullid);
+			//resultIntent.putExtra("url", url);
+			resultIntent.putExtra("isNotification", true);
+			resultIntent.putExtra("notification_type", type);
+
+		}
+		else{
 			resultIntent = new Intent(
 					Intent.ACTION_VIEW,
 					Uri.parse("https://play.google.com/store/apps/details?id=com.abile2.stockcircuit"));
@@ -150,15 +162,17 @@ public class GcmIntentService extends IntentService {
 				new NotificationCompat.Builder(this)
 						.setSmallIcon(R.drawable.logo_small)
 						.setAutoCancel(true)
-						.setPriority(Notification.PRIORITY_HIGH);
+						.setPriority(Notification.PRIORITY_HIGH)
+						.setContentText(msg)
+						.setContentTitle(title)
+						.setStyle(new NotificationCompat.BigTextStyle()
+								.bigText(msg));
 
-		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.custom_notification);
-		//RemoteViews contentView = new RemoteViews(getPackageName(),com.android.internal.R.layout.status_bar_latest_event_content);
-
-		contentView.setImageViewResource(R.id.image, R.drawable.logo_small);
-		contentView.setTextViewText(R.id.title, title);
-		contentView.setTextViewText(R.id.text, msg);
-		mBuilder.setContent(contentView);
+//		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.custom_notification);
+//		contentView.setImageViewResource(R.id.image, R.drawable.logo_small);
+//		contentView.setTextViewText(R.id.title, title);
+//		contentView.setTextViewText(R.id.text, msg);
+//		mBuilder.setContent(contentView);
 		mBuilder.setContentIntent(resultPendingIntent);
 
 		Notification notification = mBuilder.build();
