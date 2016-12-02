@@ -33,7 +33,7 @@
 			        android:layout_marginTop="20dp"
 			        android:gravity="center"
 			        android:textColor="@color/lightBrown"
-			        android:text="Please Enter Your Details"
+			        android:text="Please Enter Your Details\n Mobile and Email details should be correct for verification"
 			        android:textSize="17dip"
 			        android:textStyle="italic"
 			        android:typeface="sans" 

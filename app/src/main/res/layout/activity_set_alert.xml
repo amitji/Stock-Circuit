@@ -23,7 +23,7 @@ android:orientation="horizontal" >
 		        android:background="#404040"
 		        android:textColor="#ffffff"
 		        android:layout_weight="1"
-		       android:text="+ Favorite" />		    
+		       android:text="Add to Portfolio" />
 		    
 		    <Button
 		       android:id="@+id/closeBtn"

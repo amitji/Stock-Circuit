@@ -49,7 +49,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
             android:textColor="@color/black"
-            android:text="You dont have any favorites"
+            android:text="You dont have any stocks added to your portfolio"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:visibility="gone" />

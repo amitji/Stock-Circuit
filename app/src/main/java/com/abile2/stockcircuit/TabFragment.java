@@ -91,7 +91,8 @@ public class TabFragment extends Fragment {
                 case 1 :
                     return "My Videos";
                 case 2 :
-                    return "Favorites";
+                    //return "Favorites";
+                    return "Portfolio";
             }
             return null;
         }

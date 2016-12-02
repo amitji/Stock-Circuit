@@ -41,20 +41,19 @@
 
     <string-array name="instructions">
         <item> Dashboard... </item>
-        <item> Dashboard allows you to view and add Active alerts, Favorites and old Alerts </item>
+        <item> Dashboard allows you to add alerts, watch and add new videos and build your Portfolio</item>
         <item> Active Alerts Tab shows you all the alerts set by you and still not hit. You can add new laerts by clicking \'+\' Floating Menu on bottom right corner.</item>
-        <item> Old Alerts Tab shows you the alerts which are already hit in past. </item>
-        <item> Compare Stocks Video...</item>
-        <item> You can request for a Comparison video on demand for comparing upto three stocks based on their fundamentals.</item>
-        <item> Recommended Videos...</item>
-        <item> You can watch Fundamental Analysis Video for top NSE stocks.</item>
+        <item> My Videos Tab shows you all the videos you have requested so far.</item>
         <item> Fundamental Analysis Videos...</item>
         <item> You can request for a Fundamental Analysis Video for a stock of your choice from top traded NSE stocks.</item>
-        <item> Favorites...</item>
-        <item> You can build your favorites stock list by clicking \'+\' Floating menu on bottom right. Menu gives you options to select NSE stocks , World Indices and so on.</item>
-        <item> Once you select a stock/indice on next screen , it takes you to the Alert and Favorite Set up screen. You can click on \'+ Favorite\' button on bottom to add.</item>
+        <item> Compare Stocks Video...</item>
+        <item> You can request for a Comparison video on demand for comparing upto three stocks based on their fundamentals.</item>
+        <item> Portfolio...</item>
+        <item> You can add stocks to your portfolio by clicking \'+\' Floating menu on bottom right. Menu gives you options to select NSE / BSE stocks , World Indices and so on.</item>
+        <item> Once you select a stock/indice on next screen , it takes you to the Alert and Portfolio Set up screen. You can enter buy details of a stock and click on \'Add Portfolio\' button on bottom to add.</item>
+        <item> Alerts / Notification...</item>
         <item> To set alert, set the alert price by either using 1% increment buttons or sliding the bar on right side. you can also enter the value yourself in the field.</item>
-        <item> Once you have your favorite list build you can directly click on a stock there to set new alerts for it. No need to search that script again.</item>
+        <item> Once you have your portfolio list build you can directly click on a stock there to set new alerts for it. No need to search that script again.</item>
         <item> There is a \'Refresh\' floating button on bottom left side which allows you to get last traded price for your stocks.</item>
         <item> Broker Details...</item>
         <item> You should setup your broker details so that when your Stock alert hits you can directly call him from this app.</item>
