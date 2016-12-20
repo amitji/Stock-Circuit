@@ -108,7 +108,7 @@ public class SetAlertActivity extends Activity {
 
 		if(isFavorite != null && isFavorite.equals("yes")){
 			Button button = (Button) findViewById(R.id.setFavBtn);
-			button.setText("Remove Favorite");
+			button.setText("Remove from Portfolio");
 			setupDeleteFavoriteButtonListner();
 
 		}else{
@@ -284,7 +284,7 @@ public class SetAlertActivity extends Activity {
         object[6] = _qty;
         object[7] = _buy_price;
 
-        String msg = "Stock is added to your favorite screen";
+        String msg = "Stock is added to your portfolio";
         String sResponse;
         try {
             new SaveStockFavoriteAsyncTask().execute(object);
@@ -345,7 +345,7 @@ public class SetAlertActivity extends Activity {
 				Object object[] = new Object[1];
 				//int id = ((Integer)v.getTag(R.id.TAG_PC_ID)).intValue();
 				object[0] = favID;
-				String msg = "Stock is deleted from your favorite list";
+				String msg = "Stock is deleted from your portfolio";
 				String sResponse;
 				try {
 					new DeleteStockFavoriteAsyncTask().execute(object);

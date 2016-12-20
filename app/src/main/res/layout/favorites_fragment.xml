@@ -48,10 +48,12 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/black"
-            android:text="You dont have any stocks added to your portfolio"
+            android:text="You don't have any stocks added to your portfolio"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@color/lightBrown"
+			android:textSize="17dip"
+			android:textStyle="italic"
+			android:typeface="sans"
             android:visibility="gone" />
 
 	<com.abile2.stockcircuit.FloatingActionButton

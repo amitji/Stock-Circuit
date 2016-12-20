@@ -7,28 +7,50 @@
     android:layout_gravity="bottom"
     android:id="@+id/activeFragment">
 
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:id="@+id/linearLayout1">
+		<TextView
+			android:id="@+id/asklabel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="10dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginTop="2dp"
+			android:gravity="center"
+			android:text="An alert will be active for 30 days."
+			android:textColor="@color/lightBrown"
+			android:textSize="17dip"
+			android:textStyle="italic"
+			android:typeface="sans"
+			android:layout_gravity="center_horizontal" />
+   </LinearLayout>
 
-   
-			<ListView 
-			    android:id="@+id/activeList"
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"			    
-			    android:scaleType="center"
-			    android:padding="10dp"
-			    android:textSize="20sp" >
-			</ListView> 	
-			<TextView
-            android:id="@+id/noAlerts"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/black"
-            android:text="You dont have any active Alerts"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:visibility="gone" />
+	<ListView
+		android:id="@+id/activeList"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:scaleType="center"
+		android:padding="10dp"
+		android:textSize="20sp"
+		android:layout_below="@+id/linearLayout1">
+	</ListView>
+	<TextView
+	android:id="@+id/noAlerts"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:layout_alignParentLeft="true"
+	android:layout_alignParentTop="true"
+	android:layout_marginBottom="10dp"
+	android:textColor="@color/lightBrown"
+	android:text="You dont have any active Alerts. Add an alert by clicking + button below."
+	android:gravity="center"
+	android:textSize="17dip"
+	android:textStyle="italic"
+	android:typeface="sans"
+	android:visibility="gone" />
 
 
 	<com.abile2.stockcircuit.FloatingActionButton

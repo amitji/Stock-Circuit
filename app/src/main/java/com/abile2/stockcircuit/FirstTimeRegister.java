@@ -1,28 +1,24 @@
 package com.abile2.stockcircuit;
 
-import com.abile2.stockcircuit.util.SaveUserAsyncTask;
-
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abile2.stockcircuit.util.SaveUserAsyncTask;
+
 public class FirstTimeRegister extends AbstractFragment implements AsyncTaskCompleteListener<String>{
+
+	public static final String TAG = "FirstTimeRegister";
 
     SharedPreferences mPrefs;	
     String user_id;
@@ -55,6 +51,7 @@ public class FirstTimeRegister extends AbstractFragment implements AsyncTaskComp
 
 		setUpInitialValues();
 		addSaveButtonListner();
+		addPayButtonListner();
 	return x;
     }
 	private void setUpInitialValues() {
@@ -133,7 +130,27 @@ public class FirstTimeRegister extends AbstractFragment implements AsyncTaskComp
 
 		
 	}
-	
+	private void addPayButtonListner() {
+
+		Button button = (Button) x.findViewById(R.id.paybutton);
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				//Intent for payU SDK
+				//Intent i = new Intent(context, PayUActivity.class);
+				//startActivity(i);
+
+				//Intent for PayU webview
+				Intent i = new Intent(context, PayUWebViewActivity.class);
+				i.putExtra("amount", "300");
+				startActivity(i);
+
+			}
+		});
+
+	}
+
 	public void onTaskComplete(String sResponse) {
         // do whatever you need
 

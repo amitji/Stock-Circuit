@@ -19,10 +19,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="10dp"
-        android:textColor="@color/black"
         android:text="You have not watched any videos till now"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/lightBrown"
+        android:textSize="17dip"
+        android:textStyle="italic"
+        android:typeface="sans"
         android:visibility="gone" />
 
     <com.abile2.stockcircuit.FloatingActionButton
