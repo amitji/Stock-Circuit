@@ -47,12 +47,12 @@
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="10dp"
-            android:text="You don't have any stocks added to your portfolio"
+            android:layout_margin="5dp"
+            android:text="You will get notification for analysis video with latest quarterly results for stocks added in portfolio."
             android:gravity="center"
 			android:textColor="@color/lightBrown"
 			android:textSize="17dip"
-			android:textStyle="italic"
+			android:textStyle="italic|bold"
 			android:typeface="sans"
             android:visibility="gone" />
 

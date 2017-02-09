@@ -62,6 +62,7 @@ public class MyVideosFragment extends AbstractFragment {//implements AsyncTaskCo
         rootView = inflater.inflate(R.layout.my_videos_fragment, container, false);
 
         MainActivity activity = (MainActivity) getActivity();
+
         context = activity;
         //activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
@@ -412,11 +413,19 @@ public class MyVideosFragment extends AbstractFragment {//implements AsyncTaskCo
 	    action_help.setVisible(false);
         */
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //Amit -  Diable Floating menu
+            ((MainActivity)getActivity()).getMultipleActionFloatingMenu().setVisibility(View.INVISIBLE);
+            ((MainActivity)getActivity()).getMyVideoFloatingMenu().setVisibility(View.VISIBLE);
+       }
+    }
     public void onResume() {
         super.onResume();
 
         boolean my_video_refresh_flag = mPrefs.getBoolean("my_video_refresh_flag", true);
-
 
         if(my_video_refresh_flag){//if flag is true means needs to get new list from server
             allVideos = getAllRecommendedVideos(deviceID, regID);

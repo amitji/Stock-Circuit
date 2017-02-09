@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/containerView"
-                    android:layout_weight="1">
+                    android:layout_weight=".5">
                 </FrameLayout>
                 <com.abile2.stockcircuit.FloatingActionsMenu
                     android:id="@+id/multiple_actions"
@@ -48,7 +48,7 @@
                     fab:fab_labelStyle="@style/menu_labels_style"
                     android:layout_alignParentRight="true"
                     android:layout_alignBottom="@id/containerView"
-                    >
+                    android:visibility="visible">
 
 
                     <com.abile2.stockcircuit.FloatingActionButton
@@ -88,7 +88,58 @@
                         fab:fab_colorPressed="@color/grey"/>
 
                 </com.abile2.stockcircuit.FloatingActionsMenu>
+
+
+
+
+                <FrameLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/my_video_containerView"
+                    android:layout_weight=".5">
                 </FrameLayout>
+                <com.abile2.stockcircuit.FloatingActionsMenu
+                    android:id="@+id/my_video_actions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom|right"
+                    fab:fab_addButtonColorNormal="@color/yellow"
+                    fab:fab_addButtonColorPressed="@color/yellow"
+                    fab:fab_addButtonPlusIconColor="@color/white"
+                    fab:fab_labelStyle="@style/menu_labels_style"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignBottom="@id/my_video_containerView"
+                    android:visibility="visible">
+
+
+                    <com.abile2.stockcircuit.FloatingActionButton
+                        android:id="@+id/singleVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        fab:fab_title="Fundamental Analysis Video"
+                        fab:fab_icon="@drawable/ic_video2"
+                        fab:fab_colorNormal="@color/yellow"
+                        fab:fab_colorPressed="@color/grey"/>
+
+
+                    <com.abile2.stockcircuit.FloatingActionButton
+                        android:id="@+id/compareVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        fab:fab_title="Compare Video"
+                        fab:fab_icon="@drawable/ic_video_compare"
+                        fab:fab_colorNormal="@color/yellow"
+                        fab:fab_colorPressed="@color/grey"/>
+                </com.abile2.stockcircuit.FloatingActionsMenu>
+            </FrameLayout>
+
+
+
+
+
+
+
         </LinearLayout>
         <android.support.design.widget.NavigationView
             xmlns:android="http://schemas.android.com/apk/res/android"

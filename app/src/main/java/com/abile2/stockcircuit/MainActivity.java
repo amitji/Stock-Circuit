@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity
 			setupNavigationDrawer222(savedInstanceState);
 			//setViewPagrListner();
 			setupFloatingMenu();
+			setupFloatingMenu222();
 
 			Intent secondInt = getIntent();
 			Boolean isNotification = secondInt.getBooleanExtra("isNotification", false);
@@ -296,6 +297,16 @@ public class MainActivity extends AppCompatActivity
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
+
+
+	public FloatingActionsMenu getMultipleActionFloatingMenu(){
+		return (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+	}
+	public FloatingActionsMenu getMyVideoFloatingMenu(){
+		return (FloatingActionsMenu) findViewById(R.id.my_video_actions);
+	}
+
 	private void setupFloatingMenu() {
 	// TODO Auto-generated method stub
     FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);    
@@ -364,6 +375,42 @@ public class MainActivity extends AppCompatActivity
 	
 }
 
+
+	private void setupFloatingMenu222() {
+		// TODO Auto-generated method stub
+		FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.my_video_actions);
+		menu.setParentActivity(this);
+		menu.setVisibility(View.VISIBLE);
+		final FloatingActionButton singleVideo = (FloatingActionButton) findViewById(R.id.singleVideo);
+		singleVideo.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
+				Intent stockVideoList = new Intent(context, ChooseExchangeActivity.class);
+				stockVideoList.putExtra("type", "single");
+				startActivity(stockVideoList);
+
+				FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.my_video_actions);
+				menu.toggle();
+			}
+		});
+
+		//Need to chage this...
+		final FloatingActionButton compareVideo = (FloatingActionButton) findViewById(R.id.compareVideo);
+		compareVideo.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent compareVideosList = new Intent(context, ChooseExchangeActivity.class);
+				compareVideosList.putExtra("type", "compare");
+				startActivity(compareVideosList);
+				FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.my_video_actions);
+				menu.toggle();
+
+			}
+		});
+
+
+	}
 	public void fetchBOMStockListIfNotAlreadySaved() {
 
 		long bomStocksListLastFetch = mPrefs.getLong("bomStocksListLastFetch", 0);

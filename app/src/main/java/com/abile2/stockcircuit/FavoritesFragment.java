@@ -279,7 +279,17 @@ public class FavoritesFragment extends AbstractFragment  {
 	    action_help.setVisible(false);
         */
     }
-    public void onResume() {
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (isVisibleToUser) {
+			//Amit -  Diable Floating menu
+			((MainActivity)getActivity()).getMultipleActionFloatingMenu().setVisibility(View.VISIBLE);
+			((MainActivity)getActivity()).getMyVideoFloatingMenu().setVisibility(View.INVISIBLE);
+		}
+	}
+
+	public void onResume() {
         super.onResume();
 
 		boolean isFavListDirty = mPrefs.getBoolean("isFavListDirty", true);

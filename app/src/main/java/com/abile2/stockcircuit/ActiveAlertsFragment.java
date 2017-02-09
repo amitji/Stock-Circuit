@@ -52,6 +52,7 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 	  rootView = inflater.inflate(R.layout.active_alert_fragment, container, false);
 
 	  MainActivity activity = (MainActivity) getActivity();
+
 	  context = activity;
 	  //activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
@@ -244,11 +245,20 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 	}
 
 
-	
-    public void onResume() {
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (isVisibleToUser) {
+			//Amit -  Diable Floating menu
+			((MainActivity)getActivity()).getMultipleActionFloatingMenu().setVisibility(View.VISIBLE);
+			((MainActivity)getActivity()).getMyVideoFloatingMenu().setVisibility(View.INVISIBLE);
+		}
+	}
+
+	public void onResume() {
         super.onResume();
 
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     	boolean refresh = mPrefs.getBoolean("active_alert_refresh", false);
 		if(refresh) {
 			/*

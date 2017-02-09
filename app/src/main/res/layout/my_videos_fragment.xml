@@ -35,7 +35,7 @@
         fab:fab_colorNormal="@color/yellow"
         fab:fab_colorPressed="@color/grey"
         fab:fab_labelStyle="@style/menu_labels_style"
-        fab:fab_title="World Indices"
+        fab:fab_title="Refresh"
         fab:fab_icon="@drawable/ic_action_refresh"
         android:layout_alignParentBottom="true"
         />
@@ -47,7 +47,7 @@
         fab:fab_colorNormal="@color/yellow"
         fab:fab_colorPressed="@color/yellow"
         fab:fab_labelStyle="@style/menu_labels_style"
-        fab:fab_title="Delete"
+        fab:fab_title="Watch Video"
         fab:fab_icon="@drawable/ic_video2"
         android:layout_alignParentBottom="true"
         android:visibility="gone"
@@ -81,5 +81,6 @@
         android:visibility="gone"
         android:layout_toRightOf="@+id/video_delete"
         />
+
 
 </RelativeLayout>
