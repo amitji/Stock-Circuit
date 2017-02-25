@@ -40,6 +40,8 @@ public class GetAllStockNames extends AsyncTask<Object, Void, String>{
 			//String is_video_available = (String) params[0];
 			//String exchange_flag = (String) params[1];
 			String exchange = (String) params[0];
+			String deviceID = (String) params[1];
+			String isNewUser = (String) params[2];
 
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/getAllStockNames");
@@ -50,6 +52,8 @@ public class GetAllStockNames extends AsyncTask<Object, Void, String>{
 			//entity.addTextBody("is_video_available", is_video_available);
 			//entity.addTextBody("exchange_flag", exchange_flag);
 			entity.addTextBody("exchange", exchange);
+			entity.addTextBody("deviceID", deviceID);
+			entity.addTextBody("isNewUser", isNewUser);
 
             HttpEntity httpentity = entity.build();
             httpPost.setEntity(httpentity);

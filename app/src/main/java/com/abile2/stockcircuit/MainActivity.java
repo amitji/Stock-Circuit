@@ -425,14 +425,14 @@ public class MainActivity extends AppCompatActivity
 			//int app_nse_stock_list_update_days = Constants.STOCK_LIST_FETCH_TIME;
 			int app_bom_stock_list_update_days = Integer.parseInt(mPrefs.getString("app_bom_stock_list_update_days", "30"));
 			if(((int) diffDays ) > app_bom_stock_list_update_days){
-				stocksStr = UtilityActivity.getStocksListForExchange("BOM");
+				stocksStr = UtilityActivity.getStocksListForExchange("BOM", deviceID);
 				SharedPreferences.Editor mpref = mPrefs.edit();
 				mpref.putString("bomStocksList", stocksStr);
 				mpref.putLong("bomStocksListLastFetch", currDate.getTime());
 				mpref.commit();
 			}
 		}else{
-			stocksStr = UtilityActivity.getStocksListForExchange("BOM");
+			stocksStr = UtilityActivity.getStocksListForExchange("BOM", deviceID);
 			SharedPreferences.Editor mpref = mPrefs.edit();
 			mpref.putString("bomStocksList", stocksStr);
 			mpref.putLong("bomStocksListLastFetch", System.currentTimeMillis());

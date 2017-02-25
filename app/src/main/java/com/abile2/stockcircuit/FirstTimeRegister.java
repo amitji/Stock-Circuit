@@ -62,8 +62,11 @@ public class FirstTimeRegister extends AbstractFragment implements AsyncTaskComp
 		String name = mPrefs.getString("name", "");
 		String city = mPrefs.getString("city", "");
 		//String brokerWebsite = mPrefs.getString("brokerWebsite", "");
-
-		((EditText) x.findViewById(R.id.userMobile)).setText(mobile);
+		EditText et = (EditText) x.findViewById(R.id.userMobile);
+		et.setText(mobile);
+		if(mobile != "") {
+			et.setEnabled(false);
+		}
 		((EditText) x.findViewById(R.id.userEmail)).setText(emailid);
 		((EditText) x.findViewById(R.id.userName)).setText(name);
 		((EditText) x.findViewById(R.id.city)).setText(city);

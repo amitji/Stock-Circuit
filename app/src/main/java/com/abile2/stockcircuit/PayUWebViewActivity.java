@@ -56,6 +56,8 @@ public class PayUWebViewActivity extends Activity {
 		StringBuilder url_s = new StringBuilder();
 
 		url_s.append("https://test.payu.in/_payment");
+		//url_s.append("https://secure.payu.in/_payment");
+
 
 		Log.e(TAG, "call url " + url_s);
 
@@ -94,13 +96,13 @@ public class PayUWebViewActivity extends Activity {
             runOnUiThread(new Runnable() {
                 public void run() {
 
-                	Toast.makeText(PayUWebViewActivity.this, "Status is txn is success "+" payment id is "+paymentId, 8000).show();
+                	Toast.makeText(PayUWebViewActivity.this, "Dear Stock Circuit User, your transaction is successful."+"Your Payment id is "+paymentId, 8000).show();
                 	//String str="Status is txn is success "+" payment id is "+paymentId;
                   // new PayUWebViewActivity().writeStatus(str);
 
                 	TextView  txtview;
                 	txtview = (TextView) findViewById(R.id.textView1);
-                	txtview.setText("Status is txn is success "+" payment id is "+paymentId);
+                	txtview.setText("Dear Stock Circuit User, your transaction is successful."+"Your Payment id is "+paymentId);
 
                 }
             });
@@ -110,13 +112,13 @@ public class PayUWebViewActivity extends Activity {
 			runOnUiThread(new Runnable() {
 				public void run() {
 
-					Toast.makeText(PayUWebViewActivity.this, "Status is txn is failed "+" payment id is "+paymentId, 8000).show();
+					Toast.makeText(PayUWebViewActivity.this, "Dear Stock Circuit User, your transaction is failed "+" payment id is "+paymentId, 8000).show();
 					//String str="Status is txn is failed "+" payment id is "+paymentId;
 					// new PayUWebViewActivity().writeStatus(str);
 
 					TextView  txtview;
 					txtview = (TextView) findViewById(R.id.textView1);
-					txtview.setText("Status is txn is failed "+" payment id is "+paymentId);
+					txtview.setText("Dear Stock Circuit User, your transaction is failed "+" payment id is "+paymentId);
 
 				}
 			});
@@ -145,8 +147,8 @@ public class PayUWebViewActivity extends Activity {
 
 	private String getPostString()
 	{
-		String key  = "dRQuiA";
-		String salt  = "teEkuVg2";
+		String key  = "EDsjiB";
+		String salt  = "zS5oFOo8";
 		String txnid = "TXN_1";
 		String amount = "200";
 		String firstname = "test";

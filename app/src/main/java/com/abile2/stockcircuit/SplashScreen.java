@@ -1,20 +1,5 @@
 package com.abile2.stockcircuit;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,42 +8,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.Window;
-import android.widget.Toast;
 
-
-
-
-
-
-
-
-
-
-
-
-import com.abile2.stockcircuit.model.Stock;
-import com.abile2.stockcircuit.util.GPSTracker;
 import com.abile2.stockcircuit.util.GetAppConfigParamsAsyncTask;
 import com.abile2.stockcircuit.util.NetworkUtil;
 import com.abile2.stockcircuit.util.ProcessSharedVideoAsyncTask;
-import com.abile2.stockcircuit.util.SaveUserAsyncTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.maps.model.LatLng;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class SplashScreen extends Activity {
 	// Splash screen timer
@@ -155,6 +123,11 @@ public class SplashScreen extends Activity {
 					SharedPreferences.Editor editor= mPrefs.edit();
 					editor.putString("deviceID",deviceID);
 					editor.commit();
+				}else{
+					deviceID = devId;
+					SharedPreferences.Editor editor= mPrefs.edit();
+					editor.putString("deviceID",deviceID);
+					editor.commit();
 				}
 
 				// Getting RegId from Shared Prefs.
@@ -204,6 +177,7 @@ public class SplashScreen extends Activity {
 	}
 	private void openActivityTask() {
 
+		String isNewUser = "y";
 		String mobile = mPrefs.getString("mobile", "");
 		long nseStocksListLastFetch = mPrefs.getLong("nseStocksListLastFetch", 0);
 		String stocksStr = mPrefs.getString("nseStocksList", "");
@@ -246,14 +220,20 @@ public class SplashScreen extends Activity {
 				}
 
 				if(((int) diffDays ) > app_nse_stock_list_update_days){
-					stocksStr = UtilityActivity.getStocksListForExchange("NSE");
+					stocksStr = UtilityActivity.getStocksListForExchange("NSE", deviceID);
 					SharedPreferences.Editor mpref = mPrefs.edit();
 					mpref.putString("nseStocksList", stocksStr);
 					mpref.putLong("nseStocksListLastFetch", currDate.getTime());
 					mpref.commit();
 				}
 			}else{
-				stocksStr = UtilityActivity.getStocksListForExchange("NSE");
+				//if we are here , it means user might be a new user or someone deleted the cash/ reinstalled.
+				//Amit - Collect teh stats how many people installed the app but did not register at all and dropped.
+				//This is to check google adwords install numbers because they are showing way high
+
+				//String isNewUser = "y";
+				stocksStr = UtilityActivity.getStocksListForExchange("NSE", deviceID, isNewUser);
+				isNewUser = "n";
 				SharedPreferences.Editor mpref = mPrefs.edit();
 				mpref.putString("nseStocksList", stocksStr);
 				mpref.putLong("nseStocksListLastFetch", System.currentTimeMillis());
@@ -261,7 +241,20 @@ public class SplashScreen extends Activity {
 			}
 
 			if(mobile.equals("")){
-				//Intent i = new Intent(SplashScreen.this, MainActivity.class);
+
+				if(isNewUser.equals("y")) {
+					//if we are here , it means user might be a new user or someone deleted the cash/ reinstalled.
+					//Amit - Collect teh stats how many people installed the app but did not register at all and dropped.
+					//This is to check google adwords install numbers because they are showing way high
+
+
+					stocksStr = UtilityActivity.getStocksListForExchange("NSE", deviceID, isNewUser);
+					isNewUser = "n";
+					SharedPreferences.Editor mpref = mPrefs.edit();
+					mpref.putString("nseStocksList", stocksStr);
+					mpref.putLong("nseStocksListLastFetch", System.currentTimeMillis());
+					mpref.commit();
+				}
 				Intent i = new Intent(SplashScreen.this, ProfileActivity.class);
 				startActivity(i);
 				finish();

@@ -99,14 +99,6 @@
                 android:hint="City"
                 android:textColorHint="@color/red"
                 android:inputType="textCapWords" />
-			<Button
-				android:id="@+id/paybutton"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_margin="15dip"
-				android:background="#FFD800"
-				android:text="Pay"
-				android:visibility="gone"/>
 
             <Button
                 android:id="@+id/savebutton"
@@ -115,6 +107,14 @@
                 android:layout_margin="15dip"
                 android:background="#FFD800"
                 android:text="Save" />
+			<Button
+				android:id="@+id/paybutton"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="15dip"
+				android:background="#FFD800"
+				android:text="Pay"
+				android:visibility="gone"/>
 
 
         </LinearLayout>
