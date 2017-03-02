@@ -24,6 +24,7 @@ import android.view.View.OnClickListener;
 
 
 import com.abile2.stockcircuit.model.StockAlerts;
+import com.abile2.stockcircuit.util.GetIndustryVerticalsAsynTask;
 
 import android.support.design.widget.NavigationView;
 
@@ -216,15 +217,31 @@ public class MainActivity extends AppCompatActivity
 					startActivity(Intent.createChooser(i, "Share Stock Circuit App via"));
 
 				}
-				if (menuItem.getItemId() == R.id.user_requested_video) {
-					Intent stockVideoList = new Intent(context, ChooseExchangeActivity.class);
-					stockVideoList.putExtra("type", "single");
-					startActivity(stockVideoList);
-				}
-				if (menuItem.getItemId() == R.id.compare_video) {
-					Intent compareVideosList = new Intent(context, ChooseExchangeActivity.class);
-					compareVideosList.putExtra("type", "compare");
-					startActivity(compareVideosList);
+//				if (menuItem.getItemId() == R.id.user_requested_video) {
+//					Intent stockVideoList = new Intent(context, ChooseExchangeActivity.class);
+//					stockVideoList.putExtra("type", "single");
+//					startActivity(stockVideoList);
+//				}
+//				if (menuItem.getItemId() == R.id.compare_video) {
+//					Intent compareVideosList = new Intent(context, ChooseExchangeActivity.class);
+//					compareVideosList.putExtra("type", "compare");
+//					startActivity(compareVideosList);
+//				}
+
+				if (menuItem.getItemId() == R.id.top_performers) {
+
+					new GetIndustryVerticalsAsynTask(getApplicationContext()).execute();
+
+					Intent tpIntent = new Intent(context, TopPerformersActivity.class);
+					tpIntent.putExtra("type", "single");
+					startActivity(tpIntent);
+
+					//Amit For testing
+					/*
+					Intent tpIntent = new Intent(context, StockStatisticActivity.class);
+					startActivity(tpIntent);
+					*/
+
 				}
 
 				return true;

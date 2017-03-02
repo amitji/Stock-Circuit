@@ -11,6 +11,7 @@ public class Stock {
 	public String bseid;
 	private String isin;
 	private String industry_vertical;
+	private String industry_sub_vertical;
 	private String currentPrice;
 	private String change;
 	private String change_percent;
@@ -78,6 +79,13 @@ public class Stock {
 	public void setIndustry_vertical(String industry_vertical) {
 		this.industry_vertical = industry_vertical;
 	}
+	public String getIndustry_sub_vertical() {
+		return industry_sub_vertical;
+	}
+	public void setIndustry_sub_vertical(String industry_sub_vertical) {
+		this.industry_sub_vertical = industry_sub_vertical;
+	}
+
 	public String getCurrentPrice() {
 		return currentPrice;
 	}

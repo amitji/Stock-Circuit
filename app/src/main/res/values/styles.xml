@@ -4,8 +4,8 @@
     <style name="NotificationTitle">
         <item name="android:textStyle">bold</item>
     </style>
-    <style name="NotificationText">
-    </style>
+
+    <style name="NotificationText"></style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
@@ -17,6 +17,21 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">italic</item>
         <item name="android:typeface">serif</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Divider">
+        <item name="android:layout_width">1dip</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Divider_invisible">
+        <item name="android:layout_width">1dip</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
 </resources>

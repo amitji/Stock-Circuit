@@ -7,20 +7,18 @@
         android:id="@+id/dashboard"
         android:icon="@drawable/ic_home"/>
 
-    <item android:title="Compare Stocks Video"
-        android:id="@+id/compare_video"
-        android:icon="@drawable/ic_video"/>
+    <item android:title="Top Performers"
+        android:id="@+id/top_performers"
+        android:icon="@drawable/ic_whats_hot"/>
 
-    <!--
-    <item android:title="Recommended Videos"
-        android:id="@+id/my_videos_fragment"
-        android:icon="@drawable/ic_pages"/>
-    -->
+    <!--<item android:title="Compare Stocks Video"-->
+        <!--android:id="@+id/compare_video"-->
+        <!--android:icon="@drawable/ic_video"/>-->
 
 
-    <item android:title="Fundamental Analysis Videos"
-        android:id="@+id/user_requested_video"
-        android:icon="@drawable/ic_video"/>
+    <!--<item android:title="Fundamental Analysis Videos"-->
+        <!--android:id="@+id/user_requested_video"-->
+        <!--android:icon="@drawable/ic_video"/>-->
 
     <item android:title="Profile"
         android:id="@+id/profile"
