@@ -1,31 +1,19 @@
 <TableRow android:id="@+id/tableRow1"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="#92C94A"
+    android:background="@drawable/table_row_style"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <TextView
-            android:id="@+id/textView11"
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="10dp" />
-
-        <LinearLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent" >
-
-            <View style="@style/Divider_invisible" />
-        </LinearLayout>
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/row_title"
             android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:text="Revenue %"
-            android:textColor="@color/white"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/grey"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -36,13 +24,14 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/col_q5"
             android:paddingBottom="10dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingTop="10dp"
+            android:gravity="center"
             android:text="1234567890"
-            android:textColor="@color/white"
+            android:textColor="@color/grey"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -53,14 +42,16 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/col_q4"
             android:paddingBottom="10dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingTop="10dp"
             android:text="1234567890"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            android:gravity="center"
+            />
 
     <LinearLayout
         android:layout_width="1dp"
@@ -70,14 +61,16 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/col_q3"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="10dp"
         android:text="1234567890"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:gravity="center"
+        />
     <LinearLayout
         android:layout_width="1dp"
         android:layout_height="match_parent" >
@@ -86,13 +79,51 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/col_q2"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="10dp"
         android:text="1234567890"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:gravity="center"
+        />
 
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="match_parent" >
+
+        <View style="@style/Divider" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/col_q1"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:text="1234567890"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:gravity="center"
+        />
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="match_parent" >
+
+        <View style="@style/Divider" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/last_one"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:text=""
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:gravity="center"
+        />
 </TableRow>

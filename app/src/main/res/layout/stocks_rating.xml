@@ -29,6 +29,20 @@
 			android:typeface="sans"
 			android:editable="false" />
 		<TextView
+			android:id="@+id/disclaimer"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginRight="20dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginTop="10dp"
+			android:gravity="center"
+			android:textColor="@color/lightBrown"
+			android:text="@string/rating_disclaimer"
+			android:textSize="11dip"
+			android:textStyle="italic"
+			android:typeface="sans"
+			android:editable="false" />
+		<TextView
 			android:id="@+id/viewUnderLine1"
 			android:layout_width="fill_parent"
 			android:layout_height="0dp"
@@ -69,14 +83,13 @@
 		android:id="@+id/showVideo"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginLeft="50dp"
-		android:layout_marginRight="50dp"
 		android:layout_gravity="bottom|center"
+		android:layout_marginLeft="10dp"
 		fab:fab_colorNormal="@color/yellow"
 		fab:fab_colorPressed="@color/grey"
 		fab:fab_labelStyle="@style/menu_labels_style"
 		fab:fab_title="Show Video"
-		android:visibility="gone"
+		android:visibility="visible"
 		fab:fab_icon="@drawable/ic_video2"
 		android:layout_alignParentBottom="true"
 		/>
@@ -84,8 +97,6 @@
 		android:id="@+id/compareVideo"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginLeft="50dp"
-		android:layout_marginRight="50dp"
 		android:layout_gravity="bottom|center"
 		fab:fab_colorNormal="@color/yellow"
 		fab:fab_colorPressed="@color/grey"
@@ -93,10 +104,10 @@
 		fab:fab_title="Compare Video"
 		fab:fab_icon="@drawable/ic_video_compare"
 		android:layout_alignParentBottom="true"
-		android:visibility="gone"
+		android:visibility="visible"
 		android:layout_toRightOf="@+id/showVideo"
 		/>
-	<!--
+
 	<com.abile2.stockcircuit.FloatingActionButton
 		android:id="@+id/stats"
 		android:layout_width="match_parent"
@@ -106,24 +117,25 @@
 		fab:fab_colorPressed="@color/grey"
 		fab:fab_labelStyle="@style/menu_labels_style"
 		fab:fab_title="Stats At a Glance"
-		fab:fab_icon="@drawable/ic_action_discard"
+		fab:fab_icon="@drawable/ic_sheet"
 		android:layout_alignParentBottom="true"
-		android:visibility="gone"
+		android:visibility="visible"
 		android:layout_toRightOf="@+id/compareVideo"
 		/>
-	<com.abile2.stockcircuit.FloatingActionButton
-		android:id="@+id/addToPortfolio"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_gravity="bottom|center"
-		fab:fab_colorNormal="@color/yellow"
-		fab:fab_colorPressed="@color/grey"
-		fab:fab_labelStyle="@style/menu_labels_style"
-		fab:fab_title="Add to Portfolio"
-		fab:fab_icon="@drawable/ic_share"
-		android:layout_alignParentBottom="true"
-		android:visibility="gone"
-		android:layout_toRightOf="@+id/stats"
-		/>
--->
+
+<com.abile2.stockcircuit.FloatingActionButton
+    android:id="@+id/addToPortfolio"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom|center"
+    fab:fab_colorNormal="@color/yellow"
+    fab:fab_colorPressed="@color/grey"
+    fab:fab_labelStyle="@style/menu_labels_style"
+    fab:fab_title="Add to Portfolio"
+    fab:fab_icon="@drawable/ic_add_to_portfolio"
+    android:layout_alignParentBottom="true"
+    android:visibility="visible"
+    android:layout_toRightOf="@+id/stats"
+    />
+
 </RelativeLayout>

@@ -241,7 +241,6 @@ public class MainActivity extends AppCompatActivity
 					Intent tpIntent = new Intent(context, StockStatisticActivity.class);
 					startActivity(tpIntent);
 					*/
-
 				}
 
 				return true;
