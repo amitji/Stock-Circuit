@@ -14,12 +14,14 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.abile2.stockcircuit.model.Stock;
 import com.abile2.stockcircuit.util.GetStocksForIndustryVerticalsAsynTask;
 
 import org.json.JSONArray;
@@ -37,10 +39,12 @@ public class TopPerformersActivity extends Activity {
 	SharedPreferences mPrefs;
 	Geocoder geoCoder;
 	AutoCompleteTextView sector;
+	AutoCompleteTextView stockSearch;
 	ListView listViewSubSector;
 	ArrayList<String> sectorList;
 	ArrayList<String> subSectorList;
 	String industryVerticalsStr;
+	String nseStocksList;
 	String[] subSectorArray;
 
 	String deviceID;
@@ -48,7 +52,7 @@ public class TopPerformersActivity extends Activity {
 	String mobile;
 
 	String  selected1;
-
+	StockListAdapter stockSearchAdapter;
 
 	Context context = null;
 	Activity activity = null;
@@ -75,17 +79,31 @@ public class TopPerformersActivity extends Activity {
 
 		geoCoder = new Geocoder(this);
 		sector = (AutoCompleteTextView) findViewById(R.id.sector);
+		stockSearch = (AutoCompleteTextView) findViewById(R.id.stockSearch);
 
 
 		//String stocksStr = mPrefs.getString("nseStocksList","");
 		industryVerticalsStr = mPrefs.getString("industry_verticals","");
+		nseStocksList = mPrefs.getString("nseStocksList","");
 
 		sectorList = getSectorList(industryVerticalsStr);
 		//ArrayAdapter<Stock> adapter = new ArrayAdapter<Stock>(this,android.R.layout.simple_list_item_1, list);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.list_item_layout, R.id.listItemtext, sectorList);
-		sector.setThreshold(0);
+		sector.setThreshold(1);
 		sector.setAdapter(adapter);
 
+		//
+		ArrayList<Stock> list = UtilityActivity.getExchangeStocks(nseStocksList, "NSE");
+		Stock[] stockArray = new Stock[list.size()];
+		stockArray = list.toArray(stockArray);
+		stockSearchAdapter = new StockListAdapter(this, R.layout.nse_stock_list_item,
+				stockArray);
+		stockSearch.setThreshold(1);
+		stockSearch.setAdapter(stockSearchAdapter);
+
+
+
+		//
 		subSectorList = new ArrayList<String>();//getSubSectorList(sectorStr);
 
 		listViewSubSector = (ListView) findViewById(R.id.listViewSubSector);
@@ -104,6 +122,7 @@ public class TopPerformersActivity extends Activity {
 		 //dialog = new ProgressDialog(context,AlertDialog.THEME_HOLO_LIGHT);
 			//dialog.setMessage("loading please wait...");
 		addTextViewListners();
+		addStockSearchTextViewListners();
 		addMultiSelectsBtnListner();
 
 	}
@@ -117,7 +136,9 @@ public class TopPerformersActivity extends Activity {
 									long arg3) {
 
 				selected1 = (String) arg0.getAdapter().getItem(arg2);
-				UtilityActivity.hideSoftKeyboard(activity);
+				//UtilityActivity.hideSoftKeyboard(activity);
+				InputMethodManager inputManager = (InputMethodManager)arg1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
 
 				subSectorList = getSubSectorList(industryVerticalsStr, selected1);
 				subSectorArray = subSectorList.toArray(new String[subSectorList.size()]);
@@ -137,6 +158,42 @@ public class TopPerformersActivity extends Activity {
 		});
 	}
 
+
+	private void addStockSearchTextViewListners() {
+
+		stockSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+									long arg3) {
+
+
+				Stock stk = (Stock) arg0.getAdapter().getItem(arg2);
+				//UtilityActivity.hideSoftKeyboard(arg1);
+				InputMethodManager inputManager = (InputMethodManager)arg1.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+
+				String str =stk.getStockname()+" ["+stk.getIndustry_vertical()+"]";
+
+				stockSearch.setText(str);
+
+				subSectorList = getSubSectorList(industryVerticalsStr, stk.getIndustry_vertical());
+				subSectorArray = subSectorList.toArray(new String[subSectorList.size()]);
+				ArrayAdapter<String> subSectorAdapter = new ArrayAdapter<String>(activity,android.R.layout.simple_list_item_multiple_choice, subSectorArray);
+
+				listViewSubSector.setAdapter(subSectorAdapter);
+
+			}
+		});
+
+		stockSearch.setOnTouchListener(new View.OnTouchListener(){
+			@Override
+			public boolean onTouch(View v, MotionEvent event){
+				stockSearch.showDropDown();
+				return false;
+			}
+		});
+	}
 
 
 	private void addMultiSelectsBtnListner() {

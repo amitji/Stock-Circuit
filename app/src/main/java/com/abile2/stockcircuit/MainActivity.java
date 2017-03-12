@@ -178,6 +178,9 @@ public class MainActivity extends AppCompatActivity
 					//mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
 					mToolbar.setTitle("    Broker Details");
 					//mToolbar.setLogo(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_people));
+
+					FloatingActionsMenu menu2 = (FloatingActionsMenu) findViewById(R.id.my_video_actions);
+					menu2.setVisibility(View.INVISIBLE);
 				}
 
 				if (menuItem.getItemId() == R.id.profile) {
@@ -191,6 +194,9 @@ public class MainActivity extends AppCompatActivity
 					//Intent i = new Intent(MainActivity.this, FirstTimeRegister.class);
 					//startActivity(i);
 					//mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+					FloatingActionsMenu menu2 = (FloatingActionsMenu) findViewById(R.id.my_video_actions);
+					menu2.setVisibility(View.INVISIBLE);
+
 				}
 				if (menuItem.getItemId() == R.id.feeback) {
 					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
@@ -199,6 +205,10 @@ public class MainActivity extends AppCompatActivity
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 					menu.setVisibility(View.INVISIBLE);
 					mToolbar.setTitle("    Feedback");
+
+					FloatingActionsMenu menu2 = (FloatingActionsMenu) findViewById(R.id.my_video_actions);
+					menu2.setVisibility(View.INVISIBLE);
+
 				}
 				if (menuItem.getItemId() == R.id.help) {
 					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
@@ -207,6 +217,9 @@ public class MainActivity extends AppCompatActivity
 					FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 					menu.setVisibility(View.INVISIBLE);
 					mToolbar.setTitle("    Help is Here !");
+					FloatingActionsMenu menu2 = (FloatingActionsMenu) findViewById(R.id.my_video_actions);
+					menu2.setVisibility(View.INVISIBLE);
+
 				}
 
 				if (menuItem.getItemId() == R.id.share) {

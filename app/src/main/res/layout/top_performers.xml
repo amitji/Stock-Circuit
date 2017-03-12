@@ -16,8 +16,8 @@
             android:id="@+id/sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:gravity="center_horizontal"
@@ -28,12 +28,43 @@
             android:textStyle="italic"
             android:typeface="sans"
             android:inputType="textCapWords" />
+        <TextView
+            android:id="@+id/asklabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightBrown"
+            android:text=" Or "
+            android:textSize="17dip"
+            android:textStyle="italic"
+            android:typeface="sans"
+            android:editable="false"
+            android:layout_below="@+id/sector"
+            android:layout_margin="10dp"
+            android:layout_centerHorizontal="true" />
+        <AutoCompleteTextView
+            android:id="@+id/stockSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:gravity="center_horizontal"
+            android:hint="Stock name to find a Sector"
+            android:textColorHint="@color/lightBrown"
+            android:textColor="@color/lightBrown"
+            android:textSize="17dip"
+            android:textStyle="italic"
+            android:typeface="sans"
+            android:inputType="textCapWords"
+            android:layout_below="@+id/sector"/>
+
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:fillViewport="true"
             android:layout_weight="8.68"
-            android:layout_below="@+id/sector">
+            android:layout_below="@+id/stockSearch">
 
             <ListView
                 android:id="@+id/listViewSubSector"

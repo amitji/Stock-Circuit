@@ -1,10 +1,12 @@
 package com.abile2.stockcircuit;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +21,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.abile2.stockcircuit.model.Stock;
 
 public class UtilityActivity {
 	static SharedPreferences mPrefs;
@@ -66,8 +70,7 @@ public class UtilityActivity {
 	InputMethodManager inputManager = (InputMethodManager)
             v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE); 
 
-		inputManager.hideSoftInputFromWindow(v.getWindowToken(),
-               InputMethodManager.HIDE_NOT_ALWAYS);
+		inputManager.hideSoftInputFromWindow(v.getWindowToken(),0);
 	}
 
 	public static void showMessage(String msg, Context ctx) {
@@ -183,5 +186,31 @@ public class UtilityActivity {
 		 return map; 		
 
 	}
-	
+
+	public static ArrayList<Stock> getExchangeStocks(String response, String exchange) {
+
+		//response = "[{'nse_id':'INFY','stockname':'Infosys Limited'},{'nse_id':'ABB','stockname':'ABB India Limited'},{'nse_id':'ABBOTINDIA','stockname':'Abbott India Limited'},{'nse_id':'ABGSHIP','stockname':'ABG Shipyard Limited'},{'nse_id':'ACC','stockname':'ACC Limited'}]";
+		ArrayList<Stock> list = new ArrayList<Stock>();
+		try {
+			JSONArray getArray = new JSONArray(response);
+			for (int i = 0; i < getArray.length(); i++) {
+				JSONObject objects = getArray.getJSONObject(i);
+				Iterator key = objects.keys();
+				Stock stk;
+				String exchange2 = objects.getString("exchange");
+
+				if(exchange2.equals(exchange)){
+					stk = new Stock(objects.getString("stockname"),objects.getString("nseid"), objects.getString("fullid"));
+					stk.setIndustry_vertical(objects.getString("industry_vertical"));
+					stk.setIndustry_sub_vertical(objects.getString("industry_sub_vertical"));
+					list.add(stk);
+				}
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }
