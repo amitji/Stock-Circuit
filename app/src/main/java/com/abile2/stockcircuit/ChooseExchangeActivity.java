@@ -75,6 +75,7 @@ public class ChooseExchangeActivity extends AppCompatActivity {
                 Intent appInfo = new Intent(view.getContext(), StockListView.class);
                 appInfo.putExtra("is_video_list", "y");
                 appInfo.putExtra("exchange", "NSE");
+                appInfo.putExtra("parent", "dashboard");
                 startActivity(appInfo);
             }
         });
@@ -88,6 +89,7 @@ public class ChooseExchangeActivity extends AppCompatActivity {
                 //appInfo.putExtra("is_world_indices", is_world_indices);
                 appInfo.putExtra("is_video_list", "y");
                 appInfo.putExtra("exchange", "NASDAQ");
+                appInfo.putExtra("parent", "dashboard");
                 startActivity(appInfo);
 
             }

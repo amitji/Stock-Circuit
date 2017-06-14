@@ -7,10 +7,11 @@ public class Constants {
 
 
 	//DEV At// home
-    //public static final String SERVER_BASE_URL = "http://192.168.1.10:8080/StockCircuitServer/spring/";
+    //public static final String SERVER_BASE_URL = "http://192.168.0.100:8080/StockCircuitServer/spring/";
+    //public static final String SERVER_BASE_URL = "http://10.0.2.2:8080/StockCircuitServer/spring/";
 
     //sapient
-    //public static final String SERVER_BASE_URL = "http://10.202.204.54:8080/StockCircuitServer/spring/";
+    //public static final String SERVER_BASE_URL = "http://10.202.101.69:8080/StockCircuitServer/spring/";
 
     //public static final String FA_VIDEO_URL = "http://shopbindaas.co.in/stockcircuitserver/fund_analysis/videos/";
 

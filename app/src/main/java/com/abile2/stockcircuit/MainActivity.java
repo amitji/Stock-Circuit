@@ -241,6 +241,18 @@ public class MainActivity extends AppCompatActivity
 //					startActivity(compareVideosList);
 //				}
 
+				if (menuItem.getItemId() == R.id.stock_forecast) {
+
+					Intent i = new Intent(context, StockListView.class);
+					i.putExtra("is_world_indices", "n");
+					i.putExtra("exchange", "NSE");
+					i.putExtra("parent", "stock_forecast");
+
+					startActivity(i);
+
+
+				}
+
 				if (menuItem.getItemId() == R.id.top_performers) {
 
 					new GetIndustryVerticalsAsynTask(getApplicationContext()).execute();
@@ -350,6 +362,7 @@ public class MainActivity extends AppCompatActivity
     	  Intent appInfo = new Intent(view.getContext(), StockListView.class);
     	  appInfo.putExtra("is_world_indices", "n");
 		  appInfo.putExtra("exchange", "NSE");
+		  appInfo.putExtra("parent", "dashboard");
           startActivity(appInfo);
   		FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
   		menu.toggle();
@@ -365,6 +378,7 @@ public class MainActivity extends AppCompatActivity
 		  Intent appInfo = new Intent(view.getContext(), StockListView.class);
 		  appInfo.putExtra("is_world_indices", "n");
 		  appInfo.putExtra("exchange", "NASDAQ");
+		  appInfo.putExtra("parent", "dashboard");
 		  startActivity(appInfo);
 		  FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 		  menu.toggle();
@@ -380,6 +394,7 @@ public class MainActivity extends AppCompatActivity
     	  //UtilityActivity.showMessage(context, "Coming Soon...Use Nse Stocks for now", Gravity.CENTER);
     	  Intent appInfo = new Intent(view.getContext(), StockListView.class);
     	  appInfo.putExtra("is_world_indices", "y");
+		  appInfo.putExtra("parent", "dashboard");
           startActivity(appInfo);
   		FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
   		menu.toggle();
@@ -396,6 +411,7 @@ public class MainActivity extends AppCompatActivity
 		  Intent appInfo = new Intent(view.getContext(), StockListView.class);
 		  appInfo.putExtra("is_world_indices", "n");
 		  appInfo.putExtra("exchange", "BOM");
+		  appInfo.putExtra("parent", "dashboard");
 		  startActivity(appInfo);
 		  FloatingActionsMenu menu  = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
 		  menu.toggle();

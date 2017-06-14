@@ -12,12 +12,35 @@
         android:orientation="vertical"
         android:weightSum="1"
         android:layout_above="@+id/luckyBtn">
+        <TextView
+            android:id="@+id/asklabel2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightBrown"
+            android:text="@string/top_performer_rating_writeup"
+            android:textSize="17dip"
+            android:textStyle="italic"
+            android:typeface="sans"
+            android:gravity="center_horizontal"
+            android:editable="false"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/viewUnderLine2"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/asklabel2"
+            android:background="@drawable/underline"/>
         <AutoCompleteTextView
             android:id="@+id/sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:gravity="center_horizontal"
@@ -27,7 +50,8 @@
             android:textSize="17dip"
             android:textStyle="italic"
             android:typeface="sans"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:layout_below="@+id/asklabel2"/>
         <TextView
             android:id="@+id/asklabel"
             android:layout_width="wrap_content"

@@ -5,7 +5,7 @@
     <color name="half_black">#808080</color>
     <color name="grey">#404040</color>
     <color name="darkgrey">#606060</color>
-    <color name="white">#fafafa</color>
+    <color name="white">#ffffff</color>
     <color name="white_pressed">#f1f1f1</color>
     <color name="pink">#e91e63</color>
     <color name="pink_pressed">#ec407a</color>
@@ -33,7 +33,9 @@
     <color name="buttonTextColor1">#000000</color>
     <color name="buttonTextColor2">#FFFFFF</color>
     <color name="green">#008000</color>
+    <color name="lightgreen">#6DD500</color>
     <color name="lightgrey">#C0C0C0</color>
+    <color name="lightpink">#ff0090</color>
     <color name="custom_theme_color">#b0b0ff</color>
 
 

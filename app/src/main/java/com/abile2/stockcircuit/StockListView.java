@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.abile2.stockcircuit.model.Stock;
 import com.abile2.stockcircuit.util.GetLiveQuoteAsyncTask;
+import com.abile2.stockcircuit.util.GetStocksListForForecastAsynTask;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -35,6 +37,7 @@ public class StockListView extends Activity {
 	Context context;
 	 SharedPreferences mPrefs;
 	String is_video_list;
+	String comingFrom;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,11 +49,14 @@ public class StockListView extends Activity {
 		// findViewById(R.id.nse_stock_list);
 		lv = (ListView) findViewById(R.id.stockListView);
 		inputSearch = (EditText) findViewById(R.id.inputSearch);
+		LinearLayout layout= (LinearLayout) findViewById(R.id.linearLayout1);
 		
 		Intent secondInt = getIntent();
 		//String is_world_indices = secondInt.getStringExtra("is_world_indices");
 		is_video_list = secondInt.getStringExtra("is_video_list" );
 		String exchange = secondInt.getStringExtra("exchange");
+		comingFrom = secondInt.getStringExtra("parent");
+
 
 		if(is_video_list == null)
 			is_video_list = "n";
@@ -60,17 +66,26 @@ public class StockListView extends Activity {
 
 		
 		ArrayList<Stock> list=null;
-		if(is_video_list.equals("y")){
-			list = getVideoEnabledStockList(stocksStr, exchange);
-		}else if(exchange != null && ! exchange.equals("")) {
-			if(exchange.equals("NSE") || exchange.equals("NASDAQ")){
-				list = getExchangeStocks(stocksStr, exchange);
-			}else if(exchange.equals("BOM") ){
-				String bomStocksStr = mPrefs.getString("bomStocksList","");
-				list = getExchangeStocks(bomStocksStr, exchange);
+		if(comingFrom.equals("dashboard")){
+			if(is_video_list.equals("y")){
+				list = getVideoEnabledStockList(stocksStr, exchange);
+			}else if(exchange != null && ! exchange.equals("")) {
+				if(exchange.equals("NSE") || exchange.equals("NASDAQ")){
+					list = getExchangeStocks(stocksStr, exchange);
+				}else if(exchange.equals("BOM") ){
+					String bomStocksStr = mPrefs.getString("bomStocksList","");
+					list = getExchangeStocks(bomStocksStr, exchange);
+				}
+			}else{
+				list = getWorldIndicesObjects(stocksStr );
 			}
+
+		}else if(comingFrom.equals("stock_forecast")){
+
+			layout.setVisibility(View.VISIBLE);
+			list = getStocksListForForecast();
 		}else{
-			list = getWorldIndicesObjects(stocksStr );
+			System.out.println("No Parent , Its a problem...");
 		}
 
 			
@@ -119,18 +134,25 @@ public class StockListView extends Activity {
 	    			int position, long id) {
 
 				Stock stk = (Stock) parent.getItemAtPosition(position);
-				if (is_video_list.equals("y")) {
-					invokeUserRequestedVideo(stk);
+				if(comingFrom.equals("dashboard")){
+					if (is_video_list.equals("y")) {
+						invokeUserRequestedVideo(stk);
 
-					//reset the my_video_refresh_flag so that new request can be sent to server to get this new video..
-					SharedPreferences.Editor editor = mPrefs.edit();
-					//editor.putString("my_video_list", str);
-					editor.putBoolean("my_video_refresh_flag", true);
-					editor.commit();
+						//reset the my_video_refresh_flag so that new request can be sent to server to get this new video..
+						SharedPreferences.Editor editor = mPrefs.edit();
+						//editor.putString("my_video_list", str);
+						editor.putBoolean("my_video_refresh_flag", true);
+						editor.commit();
 
-				} else {
-					invokeSetAlertActivity(stk);
+					} else {
+						invokeSetAlertActivity(stk);
 
+					}
+				}else if(comingFrom.equals("stock_forecast")){
+					Intent i = new Intent(context, StockForecastActivity.class);
+					i.putExtra("fullid", stk.getFullid());
+					i.putExtra("name", stk.getStockname());
+					startActivity(i);
 				}
 			}
 	    	
@@ -153,6 +175,29 @@ public class StockListView extends Activity {
 
 	}
 
+	private ArrayList<Stock> getStocksListForForecast(){
+
+		Object object[] = new Object[1];
+		//object[0] = mobile;
+		object[0] = "";
+//		object[1] = deviceID;
+//		object[2] = regID;
+		String sResponse="";
+		ArrayList<Stock> list = new ArrayList<Stock>();
+		try {
+			sResponse = new GetStocksListForForecastAsynTask(getApplicationContext()).execute(object).get();
+			System.out.println("\n\n*** sResponse - " + sResponse);
+
+			list = UtilityActivity.convertJsonIntoStockList(sResponse);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 	private void invokeSetAlertActivity(Stock stk){
 
 		String name = stk.getStockname();

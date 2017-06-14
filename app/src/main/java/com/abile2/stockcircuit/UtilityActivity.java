@@ -213,4 +213,26 @@ public class UtilityActivity {
 		return list;
 	}
 
+	public static ArrayList<Stock> convertJsonIntoStockList(String response) {
+
+		ArrayList<Stock> list = new ArrayList<Stock>();
+		try {
+			JSONArray getArray = new JSONArray(response);
+			for (int i = 0; i < getArray.length(); i++) {
+				JSONObject objects = getArray.getJSONObject(i);
+				Iterator key = objects.keys();
+
+				Stock stk = new Stock(objects.getString("stockname"),objects.getString("nseid"), objects.getString("fullid"));
+				//stk.setIndustry_vertical(objects.getString("industry_vertical"));
+				//stk.setIndustry_sub_vertical(objects.getString("industry_sub_vertical"));
+				list.add(stk);
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
 }

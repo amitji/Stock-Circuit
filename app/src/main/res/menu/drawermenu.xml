@@ -7,9 +7,13 @@
         android:id="@+id/dashboard"
         android:icon="@drawable/ic_home"/>
 
+    <item android:title="Stock Forecast"
+        android:id="@+id/stock_forecast"
+        android:icon="@drawable/ic_forecast"/>
+
     <item android:title="Top Performers"
         android:id="@+id/top_performers"
-        android:icon="@drawable/ic_whats_hot"/>
+        android:icon="@drawable/ic_top_performer"/>
 
     <!--<item android:title="Compare Stocks Video"-->
         <!--android:id="@+id/compare_video"-->

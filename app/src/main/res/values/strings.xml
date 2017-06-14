@@ -67,5 +67,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_stock_statistic">StockStatisticActivity</string>
     <string name="rating_disclaimer">This rating is based on company\'s performance in last four quarters in growing revenues,profits, margins,operating efficiency, return to shareholders equity, debt and interest liability and similar parameters</string>
-    rating_disclaimer
+
+    <string name="stock_forecast_list_disclaimer">Only Stocks with positive EPS and PE for last 4-5 years are listed below. If you do not find a stock below, it is most likely that its has either negative P&amp;L/EPS or not enough data available to predict the price. </string>
+    <string name="stock_forecast_top_writeup">Stock Price forecast below is calculated based on the PE &amp; EPS growth over last 5 years for the company. It is solely based on historic fundamental data without any human bias and only indicative of future movements, not suggesting any recommendation.</string>
+    <string name="top_performer_rating_writeup">Stock Ratings in comparison to peers in the same sector.</string>
+
+
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abile2.stockcircuit"
-    android:versionCode="59"
-    android:versionName="1.59">
+    android:versionCode="61"
+    android:versionName="1.61">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -136,6 +136,8 @@
         <activity android:name=".TopPerformersActivity" />
         <activity android:name=".StocksRatingActivity" />
         <activity android:name=".StockStatisticActivity" />
+        <activity android:name=".StockForecastActivity" />
+
     </application>
 
 </manifest>

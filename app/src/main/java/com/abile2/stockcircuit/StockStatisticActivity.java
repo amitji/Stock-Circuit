@@ -194,25 +194,25 @@ public class StockStatisticActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<String> getSubSectorList(String industryVerticalsStr, String selected1) {
-
-        TreeSet<String> hashSet = new TreeSet<String>();
-        try {
-            JSONArray getArray = new JSONArray(industryVerticalsStr);
-            for (int i = 0; i < getArray.length(); i++) {
-                JSONObject objects = getArray.getJSONObject(i);
-                //Iterator key = objects.keys();
-                //Stock stk;
-                String industry_sub_vertical = objects.getString("industry_sub_vertical");
-                String industry_vertical = objects.getString("industry_vertical");
-                if(industry_vertical.equals(selected1))
-                    hashSet.add(industry_sub_vertical);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        ArrayList<String> list = new ArrayList<String>(hashSet);
-        return list;
-
-    }
+//    private ArrayList<String> getSubSectorList(String industryVerticalsStr, String selected1) {
+//
+//        TreeSet<String> hashSet = new TreeSet<String>();
+//        try {
+//            JSONArray getArray = new JSONArray(industryVerticalsStr);
+//            for (int i = 0; i < getArray.length(); i++) {
+//                JSONObject objects = getArray.getJSONObject(i);
+//                //Iterator key = objects.keys();
+//                //Stock stk;
+//                String industry_sub_vertical = objects.getString("industry_sub_vertical");
+//                String industry_vertical = objects.getString("industry_vertical");
+//                if(industry_vertical.equals(selected1))
+//                    hashSet.add(industry_sub_vertical);
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        ArrayList<String> list = new ArrayList<String>(hashSet);
+//        return list;
+//
+//    }
 }
