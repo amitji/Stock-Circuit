@@ -1,6 +1,7 @@
 package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.apache.http.HttpEntity;
@@ -38,7 +39,7 @@ public class GetAlertsForAUserAsyncTask extends AsyncTask<Object, Void, String >
         String deviceID=(String)params[0];
         String regID =(String)params[1];
 
-    	try{
+
          HttpClient httpClient = new DefaultHttpClient();  
          HttpContext localContext = new BasicHttpContext();  
          HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/getAlertsForAUser");
@@ -48,9 +49,9 @@ public class GetAlertsForAUserAsyncTask extends AsyncTask<Object, Void, String >
          entity.addTextBody("deviceID", deviceID);
          entity.addTextBody("regID", regID);
          HttpEntity httpentity = entity.build();
-         httpPost.setEntity(httpentity);  
+         httpPost.setEntity(httpentity);
 
-         
+		try{
 			HttpResponse response = httpClient.execute(httpPost, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
@@ -71,12 +72,20 @@ public class GetAlertsForAUserAsyncTask extends AsyncTask<Object, Void, String >
 				return "";
 			}        
   
-    } catch (Exception e) {  
-        System.out.println("\n\n **** GetAlertsForAUserAsyncTask  - Error in Getting Stock Alert" +e.getMessage());  
-    	e.printStackTrace();
-    	return "";
-    }  
-
+		} catch (Exception e) {
+			System.out.println("\n\n **** GetAlertsForAUserAsyncTask  - Error in Getting Stock Alert" +e.getMessage());
+			e.printStackTrace();
+			return "";
+		}
+		finally{
+			if (httpentity != null) {
+				try {
+					httpentity.consumeContent();
+				} catch (IOException e) {
+					Log.d( "",e.getMessage());
+				}
+			}
+		}
   	
     }
 

@@ -1,6 +1,7 @@
 package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<Strin
 	protected HashMap<String, String>  doInBackground(Object... params) {
 		HttpContext localContext = new BasicHttpContext();
 		HashMap<String, String> quoteParams = new HashMap<String, String>();
-		
+		HttpResponse response = null;
 		try {
 			//String emailID = "amitji@gmail.com";
 			String fullid = (String) params[0];
@@ -63,9 +64,10 @@ public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<Strin
 			
 			//entity.addTextBody("emailID", emailID);
             //HttpEntity httpentity = entity.build();
-            //httpPost.setEntity(httpentity);  
-			
-			HttpResponse response = httpClient.execute(httpGet, localContext);
+            //httpPost.setEntity(httpentity);
+
+
+			response = httpClient.execute(httpGet, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
 			StatusLine statusLine = response.getStatusLine();
@@ -95,7 +97,14 @@ public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<Strin
 			e.printStackTrace();
 			return quoteParams;
 		}
-
+		finally{
+				try {
+					response.getEntity().consumeContent();
+				} catch (IOException e) {
+					Log.d( "",e.getMessage());
+				}
+			}
+		}
 	}
 
 }

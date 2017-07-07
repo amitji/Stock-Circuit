@@ -1,6 +1,7 @@
 package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.apache.http.HttpEntity;
@@ -18,13 +19,14 @@ import org.apache.http.protocol.HttpContext;
 import com.abile2.stockcircuit.Constants;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class DeleteStockFavoriteAsyncTask extends AsyncTask<Object, Void, String> {
 
 	@Override
 	protected String doInBackground(Object... params) {
 		 String favIDs=params[0].toString();
-		try{
+
 	        HttpClient httpClient = new DefaultHttpClient();  
 	        HttpContext localContext = new BasicHttpContext();  
 	        HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/deleteStockFavorite");
@@ -32,9 +34,9 @@ public class DeleteStockFavoriteAsyncTask extends AsyncTask<Object, Void, String
 	        entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 	        entity.addTextBody("favIDs", favIDs);
 	        HttpEntity httpentity = entity.build();
-	        httpPost.setEntity(httpentity);  
-	  
-	        HttpResponse response = httpClient.execute(httpPost, localContext);  
+	        httpPost.setEntity(httpentity);
+		try{
+	        HttpResponse response = httpClient.execute(httpPost, localContext);
 	        BufferedReader reader = new BufferedReader(new InputStreamReader( response.getEntity().getContent(), "UTF-8"));  
 	        String sResponse = reader.readLine();
 	      return sResponse;
@@ -42,8 +44,16 @@ public class DeleteStockFavoriteAsyncTask extends AsyncTask<Object, Void, String
 	        System.out.println("\n\n ****DeleteStockFavoriteAsyncTask Task  - Error in Deleting Favorites" +e.getMessage());  
 	    	e.printStackTrace();
 	    	return "";
-	    }  
-
+	    }
+		finally{
+			if (httpentity != null) {
+				try {
+					httpentity.consumeContent();
+				} catch (IOException e) {
+					Log.d( "",e.getMessage());
+				}
+			}
+		}
 	    	
 
 	}

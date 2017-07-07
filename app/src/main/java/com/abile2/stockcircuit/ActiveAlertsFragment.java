@@ -201,11 +201,12 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 			//return false;
 		}
 
-    	//strip ','
-    	String alertIds = commaSepAlertIds.substring(0, commaSepAlertIds.length()-1);
-		Object params[] = new Object[1];
-		params[0] = alertIds;
 		try {
+			//strip ','
+			String alertIds = commaSepAlertIds.substring(0, commaSepAlertIds.length()-1);
+			Object params[] = new Object[1];
+			params[0] = alertIds;
+
 			 String sResponse = new DeleteUserAlertsAsyncTask().execute(params).get();
 			 //Iterator<String>  promoPositionItrator= selecetedPromos.keySet().iterator();
 			 if(sResponse!=null && !sResponse.trim().equals("")){
@@ -219,6 +220,8 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 		 }catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}catch (Exception e) {
 				e.printStackTrace();
 			}
 

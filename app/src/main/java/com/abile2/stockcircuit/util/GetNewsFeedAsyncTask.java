@@ -1,6 +1,7 @@
 package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -46,12 +47,13 @@ public class GetNewsFeedAsyncTask extends AsyncTask<Object, Void, String >{
 		HashMap<String, String> quoteParams = new HashMap<String, String>();
 		String feed = "";
 		String sResponse = "";
-		
-		try {
+		HttpResponse response = null;
+
 			String url = (String) params[0];
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpGet httpGet = new HttpGet(url);
-			HttpResponse response = httpClient.execute(httpGet, localContext);
+		try{
+			response = httpClient.execute(httpGet, localContext);
 			
 			
 			//InputStream is = new InputStream(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
@@ -83,6 +85,15 @@ public class GetNewsFeedAsyncTask extends AsyncTask<Object, Void, String >{
 					+ e.getMessage());
 			e.printStackTrace();
 			return sResponse;
+		}
+		finally{
+			if (response != null && response.getEntity() != null) {
+				try {
+					response.getEntity().consumeContent();
+				} catch (IOException e) {
+					Log.d( "",e.getMessage());
+				}
+			}
 		}
 
 	}

@@ -19,6 +19,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class GetAllRecommendedVideoAsyncTask extends AsyncTask<Object, Void, String > {
@@ -36,7 +37,7 @@ public class GetAllRecommendedVideoAsyncTask extends AsyncTask<Object, Void, Str
         String deviceID=(String)params[0];
         String regID =(String)params[1];
 
-    	try{
+
          HttpClient httpClient = new DefaultHttpClient();  
          HttpContext localContext = new BasicHttpContext();  
          HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/getAllRecommendedVideo");
@@ -48,7 +49,7 @@ public class GetAllRecommendedVideoAsyncTask extends AsyncTask<Object, Void, Str
          HttpEntity httpentity = entity.build();
          httpPost.setEntity(httpentity);  
 
-         
+      try{
 			HttpResponse response = httpClient.execute(httpPost, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
@@ -72,7 +73,16 @@ public class GetAllRecommendedVideoAsyncTask extends AsyncTask<Object, Void, Str
         System.out.println("\n\n **** GetAllRecommendedVideoAsyncTask  - Error in Getting Stock Alert" +e.getMessage());
     	e.printStackTrace();
     	return "";
-    }  
+    }
+        finally{
+            if (httpentity != null) {
+                try {
+                    httpentity.consumeContent();
+                } catch (IOException e) {
+                    Log.d( "",e.getMessage());
+                }
+            }
+        }
 
   	
     }

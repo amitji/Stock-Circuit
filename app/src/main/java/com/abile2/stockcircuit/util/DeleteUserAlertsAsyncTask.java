@@ -1,6 +1,7 @@
 package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.apache.http.HttpEntity;
@@ -18,13 +19,14 @@ import org.apache.http.protocol.HttpContext;
 import com.abile2.stockcircuit.Constants;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class DeleteUserAlertsAsyncTask extends AsyncTask<Object, Void, String> {
 
 	@Override
 	protected String doInBackground(Object... params) {
 		 String alertIDs=params[0].toString();
-		try{
+
 	        HttpClient httpClient = new DefaultHttpClient();  
 	        HttpContext localContext = new BasicHttpContext();  
 	  
@@ -37,8 +39,8 @@ public class DeleteUserAlertsAsyncTask extends AsyncTask<Object, Void, String> {
 	        
 	         System.out.println("alertIDs to be Deleted are  :" + alertIDs);   
 	        HttpEntity httpentity = entity.build();
-	        httpPost.setEntity(httpentity);  
-	  
+	        httpPost.setEntity(httpentity);
+		try{
 	        HttpResponse response = httpClient.execute(httpPost, localContext);  
 	        BufferedReader reader = new BufferedReader(new InputStreamReader( response.getEntity().getContent(), "UTF-8"));  
 	        String sResponse = reader.readLine();
@@ -48,8 +50,16 @@ public class DeleteUserAlertsAsyncTask extends AsyncTask<Object, Void, String> {
 	        System.out.println("\n\n ****DeleteUserAlertsAsyncTask Task  - Error in Deleting Aletrs" +e.getMessage());  
 	    	e.printStackTrace();
 	    	return "";
-	    }  
-
+	    }
+		finally{
+			if (httpentity != null) {
+				try {
+					httpentity.consumeContent();
+				} catch (IOException e) {
+					Log.d( "",e.getMessage());
+				}
+			}
+		}
 	    	
 
 	}

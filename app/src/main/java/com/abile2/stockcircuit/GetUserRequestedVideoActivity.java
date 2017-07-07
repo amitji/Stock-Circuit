@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -91,6 +92,12 @@ public class GetUserRequestedVideoActivity extends Activity implements AsyncTask
     public void onTaskComplete(String sResponse) {
 
         HashMap<String, String> params = new HashMap<String, String>();
+        if(sResponse == null || sResponse.equals("")){
+            UtilityActivity.showMessage(context, "There seems to be problem with Internet connection, pl go back and try again.", Gravity.TOP);
+            loadingView.setVisibility(View.GONE);
+            this.finish();
+            return;
+        }
         params = UtilityActivity.getMapforJsonString(sResponse);
         String url = params.get("url");
         String video_under_process_msg= params.get("video_under_process_msg");

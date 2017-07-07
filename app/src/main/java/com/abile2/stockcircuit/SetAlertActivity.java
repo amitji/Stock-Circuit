@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,11 +70,14 @@ public class SetAlertActivity extends Activity {
 		isFavorite = secondInt.getStringExtra("isFavorite");
 		favID = secondInt.getStringExtra("id");
 
+		//stock_price could be null if Google Quote Api didnt work last time..
+		if(stock_price == null || stock_price.equals("")){
+			stock_price="0.0";
+			change = "";
+			UtilityActivity.showShortMessage(context, "Stock quote service seems to have problem. Please go back and try again.", Gravity.TOP);
+		}
 
-		//if(stock_price != null){
-		//UtilityActivity.showMessage(context, "in If loop ", Gravity.CENTER);
 		curr_stock_price = Double.valueOf(stock_price);
-		//}
 		//UtilityActivity.showMessage(context, "After If loop name "+stockname, Gravity.CENTER);
 		setupseekBarParams(curr_stock_price);
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);

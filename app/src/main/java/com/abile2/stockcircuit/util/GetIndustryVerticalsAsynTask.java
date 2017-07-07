@@ -22,6 +22,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
@@ -34,7 +35,7 @@ public class GetIndustryVerticalsAsynTask extends AsyncTask<Object, Void, String
 	@Override
 	protected String doInBackground(Object... params) {
 		HttpContext localContext = new BasicHttpContext();
-		try {
+
 			//String emailID = "amitji@gmail.com";
 			//String is_video_available = (String) params[0];
 			//String exchange_flag = (String) params[1];
@@ -50,7 +51,7 @@ public class GetIndustryVerticalsAsynTask extends AsyncTask<Object, Void, String
 
             HttpEntity httpentity = entity.build();
             httpPost.setEntity(httpentity);
-			
+		try{
 			HttpResponse response = httpClient.execute(httpPost, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
@@ -87,6 +88,16 @@ public class GetIndustryVerticalsAsynTask extends AsyncTask<Object, Void, String
 			e.printStackTrace();
 			return "";
 		}
+		finally{
+			if (httpentity != null) {
+				try {
+					httpentity.consumeContent();
+				} catch (IOException e) {
+					Log.d( "",e.getMessage());
+				}
+			}
+		}
+
 
 	}
 

@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,29 +65,30 @@ public class MainActivity extends AppCompatActivity
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
+			FragmentManager.enableDebugLogging(true);
+		try {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_main);
 			final Toolbar ttoolbar = (Toolbar) findViewById(R.id.toolbar);
 			mToolbar = ttoolbar;
 
 			context = this;
-			mMyApp = (MyApp)this.getApplication();
-			
+			mMyApp = (MyApp) this.getApplication();
+
 			mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			deviceID = mPrefs.getString("deviceID","");
+			deviceID = mPrefs.getString("deviceID", "");
 			regID = mPrefs.getString("regID", "");
 			city = mPrefs.getString("city", "");
-		 	mobile = mPrefs.getString("mobile", "");
+			mobile = mPrefs.getString("mobile", "");
 
 			mTitle = getTitle();
-			SharedPreferences.Editor editor= mPrefs.edit();
+			SharedPreferences.Editor editor = mPrefs.edit();
 			editor.putBoolean("isFavListDirty", true);
 			editor.putBoolean("active_alert_refresh", true);
 			editor.commit();
 			//Get all alerts for this user
 			//Amit
-		//allAlerts = getUserAlertsFromDB();
-
+			//allAlerts = getUserAlertsFromDB();
 
 
 			setupNavigationDrawer222(savedInstanceState);
@@ -101,9 +103,9 @@ public class MainActivity extends AppCompatActivity
 			String notification_type = secondInt.getStringExtra("notification_type");
 
 
-			if(isNotification){
+			if (isNotification) {
 				//Intent resultIntent = new Intent(getApplicationContext(),StockAlertNewsWebView.class);
-				if(notification_type.equals("post")) {
+				if (notification_type.equals("post")) {
 					Intent resultIntent = new Intent(getApplicationContext(), StockAlertNewsListView.class);
 					resultIntent.putExtra("notification", "yes");
 					resultIntent.putExtra("fullid", fullid);
@@ -111,13 +113,24 @@ public class MainActivity extends AppCompatActivity
 					resultIntent.putExtra("alert_price", alert_price);
 					startActivity(resultIntent);
 					//resultIntent.putExtra("isNotification", true);
-				}else if(notification_type.equals("video_notification")){
+				} else if (notification_type.equals("video_notification")) {
 					Intent i = new Intent(getApplicationContext(), GetUserRequestedVideoActivity.class);
 					i.putExtra("fullid", fullid);
 					startActivity(i);
 
 				}
 			}
+		}
+		catch (IndexOutOfBoundsException io){
+			//FragmentManagerImpl.restoreAllState throws this, dont know what to do.. lets not do anything excpet logging.
+			//Will have to comeback to this.  Amit
+			Log.d("IndexOutOfBoundsExcept", "Amit - MainActivity:onCreate IndexOutOfBoundsException .. FIX it , what did you do\n"+io.getMessage());
+			//UtilityActivity.showShortMessage(context, "MainActivity:onCreate IndexOutOfBoundsException .. FIX it , what did you do", Gravity.TOP);
+
+		}catch(Exception e){
+			//UtilityActivity.showShortMessage(context, "MainActivity:onCreate Exception .. FIX it , what did you do", Gravity.TOP);
+			Log.d("IndexOutOfBoundsExcept", "Amit - MainActivity:onCreate  .. FIX it , what did you do\n"+e.getMessage());
+		}
 			
 }
 	private void setupNavigationDrawer222(Bundle savedInstanceState) {

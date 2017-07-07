@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -98,11 +99,16 @@ public class FavoritesFragment extends AbstractFragment  {
 		DecimalFormat df = new DecimalFormat("####0.00");
 		Double gain_loss = 0.0;
 		Double total_buy_value = 0.0;
+		//Try to fix NumberFormat exception reported in google play for parseDouble...
+		try {
+			for (Stock pc : favorites) {
+				//pc.getQty();
+				total_buy_value += Double.parseDouble(pc.getQty()) * Double.parseDouble(pc.getBuy_price());
+				gain_loss += Double.parseDouble(pc.getQty()) * (Double.parseDouble(pc.getCurrentPrice()) - Double.parseDouble(pc.getBuy_price()));
+			}
+		}catch(Exception e){
 
-		for(Stock pc: favorites){
-			//pc.getQty();
-			total_buy_value += Double.parseDouble(pc.getQty()) *  Double.parseDouble(pc.getBuy_price());
-			gain_loss += Double.parseDouble(pc.getQty()) * (Double.parseDouble(pc.getCurrentPrice()) - Double.parseDouble(pc.getBuy_price()));
+			Log.d("parseDouble Exception",""+e.getMessage());
 		}
 		Double percent_change = 0.0;
 		if(total_buy_value != 0.0) {

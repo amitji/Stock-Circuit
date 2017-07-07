@@ -117,9 +117,10 @@ public class StockAlertNewsListView extends Activity {
 		// TODO Auto-generated method stub
 		
         SAXParserFactory factory = SAXParserFactory.newInstance();
+		RssHandler handler = new RssHandler();
         try {
             SAXParser parser = factory.newSAXParser();
-            RssHandler handler = new RssHandler();
+            //RssHandler handler = new RssHandler();
             
             InputSource inStream = new InputSource();
             inStream.setCharacterStream(new StringReader(rssFeed));
@@ -128,11 +129,12 @@ public class StockAlertNewsListView extends Activity {
             
             
             parser.parse(inStream, handler);
-            return handler.getMessages();
+			//return handler.getMessages();
         } catch (Exception e) {
         	e.printStackTrace();
-            throw new RuntimeException(e);
-        } 
+            //throw new RuntimeException(e);
+        }
+		return handler.getMessages();
 	}
 
 	private void setupStockParams(String nseid, String alert_price, String fullid) {

@@ -1,6 +1,7 @@
 package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.apache.http.HttpEntity;
@@ -41,7 +42,7 @@ public class SaveStockAlertAsyncTask extends AsyncTask<Object, Void, String > {
         String low_high=(String)params[5];
         String fullid=(String)params[6];
         
-    	try{
+
          HttpClient httpClient = new DefaultHttpClient();  
          HttpContext localContext = new BasicHttpContext();  
          HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/saveStockAlert");
@@ -55,8 +56,8 @@ public class SaveStockAlertAsyncTask extends AsyncTask<Object, Void, String > {
          entity.addTextBody("low_high", low_high);  
          entity.addTextBody("fullid", fullid);
          HttpEntity httpentity = entity.build();
-         httpPost.setEntity(httpentity);  
- 
+         httpPost.setEntity(httpentity);
+        try{
          HttpResponse response = httpClient.execute(httpPost, localContext);  
          BufferedReader reader = new BufferedReader(new InputStreamReader( response.getEntity().getContent(), "UTF-8"));  
          String sResponse = reader.readLine();  
@@ -69,8 +70,16 @@ public class SaveStockAlertAsyncTask extends AsyncTask<Object, Void, String > {
         System.out.println("\n\n **** GetAlertsForAUserAsyncTask  - Error in Saving Stock Alert" +e.getMessage());  
     	e.printStackTrace();
     	return "";
-    }  
-
+    }
+    finally{
+        if (httpentity != null) {
+            try {
+                httpentity.consumeContent();
+            } catch (IOException e) {
+                Log.d( "",e.getMessage());
+            }
+        }
+    }
   	
     }
 

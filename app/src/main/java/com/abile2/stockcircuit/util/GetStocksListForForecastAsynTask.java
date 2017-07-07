@@ -2,6 +2,7 @@ package com.abile2.stockcircuit.util;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.abile2.stockcircuit.Constants;
 
@@ -18,6 +19,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class GetStocksListForForecastAsynTask extends AsyncTask<Object, Void, String>{
@@ -29,7 +31,7 @@ public class GetStocksListForForecastAsynTask extends AsyncTask<Object, Void, St
 	@Override
 	protected String doInBackground(Object... params) {
 		HttpContext localContext = new BasicHttpContext();
-		try {
+
 
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/getStocksListForForecast");
@@ -39,7 +41,7 @@ public class GetStocksListForForecastAsynTask extends AsyncTask<Object, Void, St
 
             HttpEntity httpentity = entity.build();
             httpPost.setEntity(httpentity);
-			
+		try {
 			HttpResponse response = httpClient.execute(httpPost, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
@@ -63,6 +65,15 @@ public class GetStocksListForForecastAsynTask extends AsyncTask<Object, Void, St
 					+ e.getMessage());
 			e.printStackTrace();
 			return "";
+		}
+		finally{
+			if (httpentity != null) {
+				try {
+					httpentity.consumeContent();
+				} catch (IOException e) {
+					Log.d( "",e.getMessage());
+				}
+			}
 		}
 
 	}

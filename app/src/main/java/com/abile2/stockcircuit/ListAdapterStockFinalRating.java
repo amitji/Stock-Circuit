@@ -68,8 +68,11 @@ public class ListAdapterStockFinalRating extends BaseAdapter {
         else {
             vi.setBackgroundColor(Color.TRANSPARENT);
         }
+        float perc_rat= 0;
+        if(pc != null && pc.getPercentage_rating() != null ){
+            perc_rat = Float.valueOf(pc.getPercentage_rating());
+        }
 
-        float perc_rat = Float.valueOf(pc.getPercentage_rating());
         if(perc_rat > 4)
             thumb_image.setImageDrawable(parent.getResources().getDrawable(R.drawable.ic_like));
         else

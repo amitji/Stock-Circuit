@@ -281,17 +281,22 @@ public class StocksRatingActivity extends Activity {
         Object obj = JSONValue.parse(stkRatingStr);
         org.json.simple.JSONArray array = (org.json.simple.JSONArray) obj;
         ArrayList<StockFinalRating> alertList = new ArrayList<StockFinalRating>();
+        if(array != null && array.size() > 1) {
+            for (int i = 0; i < array.size(); i++) {
+                StockFinalRating stkRating = new StockFinalRating();
+                org.json.simple.JSONObject object = (org.json.simple.JSONObject) array.get(i);
+                //stkRating.setId((String) object.get("id"));
+                stkRating.setFullid((String) object.get("fullid"));
+                stkRating.setNseid((String) object.get("nseid"));
+                stkRating.setName((String) object.get("name"));
+                stkRating.setPercentage_rating((String) object.get("percentage_rating"));
+                alertList.add(stkRating);
 
-        for (int i = 0; i < array.size(); i++) {
-            StockFinalRating stkRating = new StockFinalRating();
-            org.json.simple.JSONObject object = (org.json.simple.JSONObject) array.get(i);
-            //stkRating.setId((String) object.get("id"));
-            stkRating.setFullid((String) object.get("fullid"));
-            stkRating.setNseid((String) object.get("nseid"));
-            stkRating.setName((String) object.get("name"));
-            stkRating.setPercentage_rating((String) object.get("percentage_rating"));
-            alertList.add(stkRating);
-
+            }
+        }
+        else{
+            UtilityActivity.showMessage(context, "There seems to be problem with Internet connection, pl go back and try again.", Gravity.CENTER);
+            //this.finish();
         }
         return alertList;
     }

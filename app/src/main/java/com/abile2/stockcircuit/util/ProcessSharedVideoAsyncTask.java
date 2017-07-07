@@ -2,6 +2,7 @@ package com.abile2.stockcircuit.util;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.abile2.stockcircuit.Constants;
 
@@ -18,6 +19,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ProcessSharedVideoAsyncTask extends AsyncTask<Object, Void, String > {
@@ -38,7 +40,7 @@ public class ProcessSharedVideoAsyncTask extends AsyncTask<Object, Void, String 
 //        String who_shared =(String)params[3];
         String share_id =(String)params[3];
 
-    	try{
+
          HttpClient httpClient = new DefaultHttpClient();  
          HttpContext localContext = new BasicHttpContext();  
          HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/processSharedVideo");
@@ -53,7 +55,7 @@ public class ProcessSharedVideoAsyncTask extends AsyncTask<Object, Void, String 
          HttpEntity httpentity = entity.build();
          httpPost.setEntity(httpentity);  
 
-         
+         try{
 			HttpResponse response = httpClient.execute(httpPost, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
@@ -73,13 +75,21 @@ public class ProcessSharedVideoAsyncTask extends AsyncTask<Object, Void, String 
 				return "";
 			}        
   
-    } catch (Exception e) {  
-        System.out.println("\n\n **** ProcessSharedVideoAsyncTask  - Error in Getting Stock Alert" +e.getMessage());
-    	e.printStackTrace();
-    	return "";
-    }  
+        } catch (Exception e) {
+            System.out.println("\n\n **** ProcessSharedVideoAsyncTask  - Error in Getting Stock Alert" +e.getMessage());
+            e.printStackTrace();
+            return "";
+        }
 
-  	
+        finally{
+            if (httpentity != null) {
+                try {
+                    httpentity.consumeContent();
+                } catch (IOException e) {
+                    Log.d( "",e.getMessage());
+                }
+            }
+        }
     }
 
     protected void onPostExecute(Bitmap result) {

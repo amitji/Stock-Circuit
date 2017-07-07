@@ -2,6 +2,7 @@ package com.abile2.stockcircuit.util;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.abile2.stockcircuit.Constants;
 
@@ -16,6 +17,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class EmailAndLoggingAsyncTask extends AsyncTask<Object, Void, String > {
@@ -35,7 +37,7 @@ public class EmailAndLoggingAsyncTask extends AsyncTask<Object, Void, String > {
         String regID =(String)params[2];
         String fullid=(String)params[3];
         
-    	try{
+
          HttpClient httpClient = new DefaultHttpClient();  
          HttpContext localContext = new BasicHttpContext();  
          HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/emailAndLogging");
@@ -47,7 +49,7 @@ public class EmailAndLoggingAsyncTask extends AsyncTask<Object, Void, String > {
          entity.addTextBody("fullid", fullid);
          HttpEntity httpentity = entity.build();
          httpPost.setEntity(httpentity);  
- 
+    try{
          HttpResponse response = httpClient.execute(httpPost, localContext);  
          BufferedReader reader = new BufferedReader(new InputStreamReader( response.getEntity().getContent(), "UTF-8"));  
          //String sResponse = reader.readLine();
@@ -59,6 +61,16 @@ public class EmailAndLoggingAsyncTask extends AsyncTask<Object, Void, String > {
         System.out.println("\n\n **** EmailAndLoggingAsyncTask  - Error in Email" +e.getMessage());
     	e.printStackTrace();
     }
+        finally{
+            if (httpentity != null) {
+                try {
+                    httpentity.consumeContent();
+                } catch (IOException e) {
+                    Log.d( "",e.getMessage());
+                }
+            }
+        }
+
         return "";
     }
 

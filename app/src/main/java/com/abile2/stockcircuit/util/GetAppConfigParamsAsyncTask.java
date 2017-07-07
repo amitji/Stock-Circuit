@@ -2,6 +2,7 @@ package com.abile2.stockcircuit.util;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.abile2.stockcircuit.AsyncTaskCompleteListener;
@@ -21,6 +22,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
@@ -38,7 +40,7 @@ public class GetAppConfigParamsAsyncTask extends AsyncTask<Object, Void, HashMap
 		HttpContext localContext = new BasicHttpContext();
 		HashMap<String, String> quoteParams = new HashMap<String, String>();
 
-		try {
+
 			String versionName = (String) params[0];
 			String versionCode = (String) params[1];
 
@@ -53,7 +55,7 @@ public class GetAppConfigParamsAsyncTask extends AsyncTask<Object, Void, HashMap
 
 			HttpEntity httpentity = entity.build();
 			httpPost.setEntity(httpentity);
-
+		try {
 			HttpResponse response = httpClient.execute(httpPost, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
@@ -78,6 +80,15 @@ public class GetAppConfigParamsAsyncTask extends AsyncTask<Object, Void, HashMap
 			System.out.println("Error in getting App Config - "	+ e.getMessage());
 			e.printStackTrace();
 			return null;
+		}
+		finally{
+			if (httpentity != null) {
+				try {
+					httpentity.consumeContent();
+				} catch (IOException e) {
+					Log.d( "",e.getMessage());
+				}
+			}
 		}
 
 	}

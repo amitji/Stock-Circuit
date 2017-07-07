@@ -1,6 +1,7 @@
 package com.abile2.stockcircuit.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.apache.http.HttpEntity;
@@ -39,7 +40,6 @@ public class SaveUserAsyncTask extends AsyncTask<Object, Void, String > {
         String email=(String)params[4];
         String mobile=(String)params[5];
 
-        try{
          HttpClient httpClient = new DefaultHttpClient();  
          HttpContext localContext = new BasicHttpContext();  
          Log.d("Register Id to Send :", regID);
@@ -54,7 +54,7 @@ public class SaveUserAsyncTask extends AsyncTask<Object, Void, String > {
          entity.addTextBody("mobile", mobile);  
          HttpEntity httpentity = entity.build();
          httpPost.setEntity(httpentity);  
- 
+    try{
          HttpResponse response = httpClient.execute(httpPost, localContext);  
          BufferedReader reader = new BufferedReader(new InputStreamReader( response.getEntity().getContent(), "UTF-8"));  
          String sResponse = reader.readLine();  
@@ -63,12 +63,20 @@ public class SaveUserAsyncTask extends AsyncTask<Object, Void, String > {
         
         return sResponse;
   
-    } catch (Exception e) {  
-        System.out.println("\n\n **** SaveUserAsyncTask  - Error in Saving  User Info" +e.getMessage());  
-    	e.printStackTrace();
-    	return "";
-    }  
-
+        } catch (Exception e) {
+            System.out.println("\n\n **** SaveUserAsyncTask  - Error in Saving  User Info" +e.getMessage());
+            e.printStackTrace();
+            return "";
+        }
+        finally{
+            if (httpentity != null) {
+                try {
+                    httpentity.consumeContent();
+                } catch (IOException e) {
+                    Log.d( "",e.getMessage());
+                }
+            }
+        }
   	
     }
 

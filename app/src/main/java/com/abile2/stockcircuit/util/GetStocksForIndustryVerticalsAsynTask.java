@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.abile2.stockcircuit.Constants;
 
@@ -20,6 +21,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class GetStocksForIndustryVerticalsAsynTask extends AsyncTask<Object, Void, String>{
@@ -31,7 +33,7 @@ public class GetStocksForIndustryVerticalsAsynTask extends AsyncTask<Object, Voi
 	@Override
 	protected String doInBackground(Object... params) {
 		HttpContext localContext = new BasicHttpContext();
-		try {
+
 			String subSecNames= (String) params[0];
 			String mobile = (String) params[1];
 			String deviceID=(String)params[2];
@@ -51,7 +53,7 @@ public class GetStocksForIndustryVerticalsAsynTask extends AsyncTask<Object, Voi
 
             HttpEntity httpentity = entity.build();
             httpPost.setEntity(httpentity);
-			
+	try{
 			HttpResponse response = httpClient.execute(httpPost, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
@@ -86,7 +88,15 @@ public class GetStocksForIndustryVerticalsAsynTask extends AsyncTask<Object, Voi
 			e.printStackTrace();
 			return "";
 		}
-
+		finally{
+			if (httpentity != null) {
+				try {
+					httpentity.consumeContent();
+				} catch (IOException e) {
+					Log.d( "",e.getMessage());
+				}
+			}
+		}
 	}
 
 }
