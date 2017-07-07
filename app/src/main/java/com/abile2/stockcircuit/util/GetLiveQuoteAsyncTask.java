@@ -98,6 +98,7 @@ public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<Strin
 			return quoteParams;
 		}
 		finally{
+			if (response != null && response.getEntity() != null) {
 				try {
 					response.getEntity().consumeContent();
 				} catch (IOException e) {

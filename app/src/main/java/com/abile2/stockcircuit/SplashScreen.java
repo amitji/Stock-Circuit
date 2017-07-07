@@ -9,9 +9,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,6 +22,7 @@ import android.util.Log;
 import com.abile2.stockcircuit.util.GetAppConfigParamsAsyncTask;
 import com.abile2.stockcircuit.util.NetworkUtil;
 import com.abile2.stockcircuit.util.ProcessSharedVideoAsyncTask;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -27,6 +31,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
+import android.Manifest;
+import android.widget.Toast;
 
 public class SplashScreen extends Activity {
 	// Splash screen timer
@@ -39,6 +45,7 @@ public class SplashScreen extends Activity {
 	String deviceID;
 	//double latitude, longitude;
 
+	private static final int REQUEST_PHONE_STATE = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +64,23 @@ public class SplashScreen extends Activity {
             */
 			@Override
 			public void run() {
-				checkConfig();
+				checkForPhoneStatePermission();
+				if (ContextCompat.checkSelfPermission(context,		Manifest.permission.READ_PHONE_STATE)
+						!= PackageManager.PERMISSION_GRANTED)
+				{
+					Toast.makeText( context, "Unable to continue without granting permission", Toast.LENGTH_LONG).show();
+					try {
+						Thread.sleep(5000);
+					}
+					catch(Exception e){
+						System.out.println(e.getMessage());
+					}
+					System.exit(0);
+
+				}else{
+					checkConfig();
+				}
+
 			}
 		}, SPLASH_TIME_OUT);
 
@@ -118,11 +141,13 @@ public class SplashScreen extends Activity {
 			if (checkPlayServices()) {
 				String devId= mPrefs.getString("deviceID","");
 				if(devId.equals("") || devId==null){
-					TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-					deviceID = telephonyManager.getDeviceId();
-					SharedPreferences.Editor editor= mPrefs.edit();
-					editor.putString("deviceID",deviceID);
-					editor.commit();
+					if(deviceID == null){
+						System.out.println("deviceID is null");
+						getDeviceUuId();
+					}else
+					{
+						System.out.println("deviceID is - "+deviceID);
+					}
 				}else{
 					deviceID = devId;
 					SharedPreferences.Editor editor= mPrefs.edit();
@@ -140,7 +165,7 @@ public class SplashScreen extends Activity {
 						Log.d("GCM REGISTER","Error in Register or in Sending Request to Server.");
 					}
 				} else {
-					Log.d("REG ID", regID);
+					//Log.d("REG ID", regID);
 					openActivityTask();
 				}
 			} else {
@@ -287,6 +312,7 @@ public class SplashScreen extends Activity {
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	private void saveAllAppConfigParamsInPreference(HashMap<String, String> app_config) {
@@ -388,57 +414,7 @@ public class SplashScreen extends Activity {
 		}
 		return registrationId;
 	}
-	/*
-	private void storeRegistrationId(Context context, String regId ,String deviceID) {
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		SharedPreferences.Editor editor = mPrefs.edit();
-		editor.putString("regID", regId);
-		editor.putString("deviceID", deviceID);
-		System.out.println("Device id to Be Stored is :" + deviceID);
-		editor.commit();
-	}
-	*/
-	/*
-	private LatLng getUserCurrentLocation() {
-		// TODO Auto-generated method stub
-		GPSTracker gps = new GPSTracker(context);
-		// check if GPS enabled
-		if (gps.canGetLocation()) {
-			double latitude = gps.getLatitude();
-			double longitude = gps.getLongitude();
-			// Toast.makeText(getApplicationContext(),
-			// "Your Location is - \nLat: " + latitude + "\nLong: " + longitude,
-			// Toast.LENGTH_LONG).show();
-			return new LatLng(latitude, longitude);
-		} else {
 
-			return null;
-		}
-	}
-
-	private String getCityName(double latitude, double longitude) {
-		Geocoder gcd = new Geocoder(context, Locale.getDefault());
-		String cityName = "";
-		try {
-			List<Address> address = gcd.getFromLocation(latitude, longitude, 1);
-			if (address != null && address.size() > 0) {
-				cityName = address.get(0).getLocality();
-				Log.d("Location Info", "City Name is " + cityName);
-			} else {
-				address = gcd.getFromLocation(latitude, longitude, 1);
-				if (address != null && address.size() > 0) {
-					cityName = address.get(0).getLocality();
-					Log.d("Location info Retry ", "City Name is " + cityName);
-				}
-			}
-		} catch (NumberFormatException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		return cityName;
-	}
-	*/
 	private String RegisterInBackground() {
 		gcm = GoogleCloudMessaging.getInstance(this);
 		Thread thread = new Thread(new Runnable() {
@@ -467,5 +443,96 @@ public class SplashScreen extends Activity {
 		return "Success";
 	}
 
+	private void checkForPhoneStatePermission(){
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // For Android version 6 and above
+
+			if (ContextCompat.checkSelfPermission(this,		Manifest.permission.READ_PHONE_STATE)
+					!= PackageManager.PERMISSION_GRANTED)
+			{
+
+				// Should we show an explanation?
+//				if (ActivityCompat.shouldShowRequestPermissionRationale(this,	Manifest.permission.READ_PHONE_STATE)) {
+//					// Show an explanation to the user *asynchronously* -- don't block this thread waiting for the user's response! After the user
+//					// sees the explanation, try again to request the permission.
+//					showPermissionMessage();
+//				} else
+//				{
+					// No explanation needed, we can request the permission.
+					ActivityCompat.requestPermissions(this,	new String[]{Manifest.permission.READ_PHONE_STATE},	REQUEST_PHONE_STATE);
+					try {
+						Thread.sleep(5000);
+					}
+					catch(Exception e){
+						System.out.println(e.getMessage());
+					}
+//					if(deviceID == null){
+//						System.out.println("deviceID is null");
+//					}else
+//					{
+//						System.out.println("deviceID is - "+deviceID);
+//					}
+				}
+			//}
+			else{
+					//... Permission has already been granted, obtain the UUID
+					getDeviceUuId();
+				}
+		}else
+		{
+			//... Permission has already been granted, obtain the UUID
+			getDeviceUuId();
+		}
+}
+
+
+
+	public void getDeviceUuId (){
+		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		deviceID = telephonyManager.getDeviceId();
+		SharedPreferences.Editor editor= mPrefs.edit();
+		editor.putString("deviceID",deviceID);
+		editor.commit();
+
+	}
+	/*
+	private void showPermissionMessage(){
+		new AlertDialog.Builder(this)
+				.setTitle("Read phone state")
+				.setMessage("This app requires the permission to read phone state to continue")
+				.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ActivityCompat.requestPermissions(SplashScreen.this ,
+								new String[]{Manifest.permission.READ_PHONE_STATE},
+								REQUEST_PHONE_STATE);
+					}
+				}).create().show();
+
+		System.out.println("Dialog was shown....");
+
+	}
+*/
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+		switch(requestCode){
+			case REQUEST_PHONE_STATE:
+
+				if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+					// .. Can now obtain the UUID
+					if(deviceID == null){
+						getDeviceUuId();
+					}
+
+				}else{
+					Toast.makeText(this, "Unable to continue without granting permission", Toast.LENGTH_LONG).show();
+					System.exit(0);
+				}
+				break;
+		}
+	}
 
 }
