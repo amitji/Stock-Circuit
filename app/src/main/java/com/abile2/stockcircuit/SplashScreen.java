@@ -212,9 +212,12 @@ public class SplashScreen extends Activity {
 			String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 			int vCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
 			String versionCode = Integer.toString(vCode);
-			Object[] formList = new Object[2];
+			Object[] formList = new Object[4];
 			formList[0] = versionName;
 			formList[1] = versionCode;
+			formList[2] = regID;
+			formList[3] = deviceID;
+
 			HashMap<String, String> app_config = new GetAppConfigParamsAsyncTask().execute(formList).get();
 			saveAllAppConfigParamsInPreference(app_config);
 
@@ -328,6 +331,10 @@ public class SplashScreen extends Activity {
 			mpref.putString("app_bom_stock_list_update_days", app_config.get("app_bom_stock_list_update_days"));
 			mpref.putString("app_nasdaq_stock_list_update_days", app_config.get("app_nasdaq_stock_list_update_days"));
 			mpref.putString("app_rater_show", app_config.get("app_rater_show"));
+
+			//user details
+			mpref.putInt("max_alert_limit", Integer.parseInt(app_config.get("max_alert_limit")));
+			mpref.putInt("max_favorite_stocks", Integer.parseInt(app_config.get("max_favorite_stocks")));
 
 
 			mpref.commit();

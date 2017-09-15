@@ -63,6 +63,8 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 	  mobile = mPrefs.getString("mobile", "");
 
 
+
+
 	  //allAlerts = getUserAlertsFromDB(deviceID,regID);
 
 	  //mMyApp = (MyApp) this.getActivity().getApplication();
@@ -82,7 +84,10 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 	  //reset teh refresh flag
 		SharedPreferences.Editor editor= mPrefs.edit();
 		editor.putBoolean("active_alert_refresh", false);
-		editor.commit();
+	  //Save current # of alerts in pref
+	  	editor.putInt("count_alert_limit",activeAlerts.size() );
+
+	  editor.commit();
 
 
 	  if (activeAlerts.size() == 0) {
@@ -179,7 +184,7 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 		//listview = (ListView ) rootView.findViewById(R.id.activeList);
     	boolean[] selItems = ((ListAdapterStockAlerts) listview.getAdapter()).getSelectedItems(); //mAdapter.getSelectedItems();
     	StringBuilder commaSepAlertIds = new StringBuilder();
-
+		int alertsSelected =0;
     	for(int j=0;j < selItems.length; j++ )
     	{
 
@@ -194,6 +199,7 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 				//int id = ((Integer)vi.getTag(R.id.TAG_PC_ID)).intValue();
             	commaSepAlertIds.append(id);
 				commaSepAlertIds.append(",");
+				++alertsSelected;
         	}
         }
 		if(noneSelected){
@@ -215,6 +221,12 @@ public class ActiveAlertsFragment extends AbstractFragment  {
 				 ListAdapterStockAlerts adapter = new ListAdapterStockAlerts (getActivity(), getActiveAlerts(true));
 				 listview.setAdapter(adapter);
 				 adapter.notifyDataSetChanged();
+
+				 int count_alert_limit = mPrefs.getInt("count_alert_limit", 30);
+				 count_alert_limit = count_alert_limit - alertsSelected;
+				 SharedPreferences.Editor editor= mPrefs.edit();
+				 editor.putInt("count_alert_limit",count_alert_limit);
+				 editor.commit();
 
 			 }
 		 }catch (InterruptedException e) {

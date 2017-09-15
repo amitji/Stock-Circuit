@@ -31,59 +31,59 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.abile2.stockcircuit.Constants;
 import com.abile2.stockcircuit.UtilityActivity;
 
-public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<String, String> >{
+public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<String, String> > {
 	Context ctx;
+
 	public GetLiveQuoteAsyncTask() {
 		//this.ctx = ctx;
 	}
-	
+
 	@Override
-	protected HashMap<String, String>  doInBackground(Object... params) {
+	protected HashMap<String, String> doInBackground(Object... params) {
 		HttpContext localContext = new BasicHttpContext();
 		HashMap<String, String> quoteParams = new HashMap<String, String>();
-		HttpResponse response = null;
+
+		//String emailID = "amitji@gmail.com";
+		String fullid = (String) params[0];
+		if (!fullid.contains(":")) {
+			fullid += "NSE:" + fullid + ",";
+		}
+		//bugfix - encode for & in the symbol
+		//fullid = URLEncoder.encode(fullid, "utf-8");
+
+		HttpClient httpClient = new DefaultHttpClient();
+		//HttpGet httpGet = new HttpGet("http://finance.google.com/finance/info?client=ig&q="+fullid);
+		//HttpGet httpGet = new HttpGet("https://finance.google.com/finance?output=json&q="+fullid);
+		HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL + "stockcircuit/getLiveQuote");
+
+
+		MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+		entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+		entity.addTextBody("fullid", fullid);
+
+
+		HttpEntity httpentity = entity.build();
+		httpPost.setEntity(httpentity);
 		try {
-			//String emailID = "amitji@gmail.com";
-			String fullid = (String) params[0];
-			if(!fullid.contains(":")){
-				fullid +="NSE:"+fullid+","; 
-			}
-			//bugfix - encode for & in the symbol
-			fullid = URLEncoder.encode(fullid, "utf-8");
-
-			HttpClient httpClient = new DefaultHttpClient();
-			HttpGet httpGet = new HttpGet("http://finance.google.com/finance/info?client=ig&q="+fullid);
-			//HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"shopbindaas/getAllPromotions");
-			Log.d("GET AppConfig ", "Geeting App Config From Server");
-			
-			//MultipartEntityBuilder entity = MultipartEntityBuilder.create();
-			//entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-			
-			
-			//entity.addTextBody("emailID", emailID);
-            //HttpEntity httpentity = entity.build();
-            //httpPost.setEntity(httpentity);
-
-
-			response = httpClient.execute(httpGet, localContext);
+			HttpResponse response = httpClient.execute(httpPost, localContext);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent(), "UTF-8"));
 			StatusLine statusLine = response.getStatusLine();
 			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				Log.d("GetLiveQuoteAsyncTask ","200 Staus code Ok ");
 				String url = null;
 				String sResponse = "";
 				while (((url = reader.readLine()) != null)) {
 					sResponse += url;
 				}
 
-				
+
 				quoteParams = UtilityActivity.getMapforJsonStringAfterStrip(sResponse);
-				System.out.println("BufferedReader response " + sResponse);
 				return quoteParams;
-				
+				//return quoteParams.get("url");
 
 			} else {
 
@@ -96,16 +96,15 @@ public class GetLiveQuoteAsyncTask extends AsyncTask<Object, Void, HashMap<Strin
 					+ e.getMessage());
 			e.printStackTrace();
 			return quoteParams;
-		}
-		finally{
-			if (response != null && response.getEntity() != null) {
+		} finally {
+			if (httpentity != null) {
 				try {
-					response.getEntity().consumeContent();
+					httpentity.consumeContent();
 				} catch (IOException e) {
-					Log.d( "",e.getMessage());
+					Log.d("", e.getMessage());
 				}
 			}
 		}
-	}
 
+	}
 }

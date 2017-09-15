@@ -20,7 +20,7 @@
 			android:layout_marginLeft="10dp"
 			android:layout_marginTop="2dp"
 			android:gravity="center"
-			android:text="An alert will be active for 30 days."
+			android:text="An alert will be active for 7 days. Max alerts allowed are 30"
 			android:textColor="@color/lightBrown"
 			android:textSize="17dip"
 			android:textStyle="italic"

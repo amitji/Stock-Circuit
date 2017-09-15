@@ -210,8 +210,8 @@ public class StockListView extends Activity {
 		String change = "";
 		try {
 			HashMap<String, String> quoteParams = new GetLiveQuoteAsyncTask().execute(object).get();
-			quote = quoteParams.get("l_fix");
-			change = quoteParams.get("c_fix") + " ( " + quoteParams.get("cp_fix") + "% ) ";
+			quote = quoteParams.get("l").replaceAll(",", "");
+			change = quoteParams.get("c").replaceAll(",", "") + " ( " + quoteParams.get("cp") + "% ) ";
 			if (quote != null && !(quote.isEmpty())) {
 				System.out.println("quote - " + quote);
 			}

@@ -157,8 +157,8 @@ public class StockAlertNewsListView extends Activity {
 //				TextView tv_alert_price = (TextView)header.findViewById(R.id.alert_price);
 
 				stockName = quoteParams.get("t");
-				changeStr = quoteParams.get("c_fix")+" ( "+quoteParams.get("cp_fix")+ "% )" ;
-				priceStr = quoteParams.get("l_fix");
+				changeStr = quoteParams.get("c").replaceAll(",", "")+" ( "+quoteParams.get("cp")+ "% )" ;
+				priceStr = quoteParams.get("l").replaceAll(",", "");
 
 				name.setText("Stock Symbol : "+stockName);
 				change.setText("Change : "+changeStr);

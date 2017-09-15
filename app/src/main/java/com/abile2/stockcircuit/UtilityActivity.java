@@ -169,7 +169,7 @@ public class UtilityActivity {
 		HashMap<String, String> map = new HashMap<String, String> () ;
 		try {
 			int beginInd = sResponse.indexOf("[")+1;
-			int endInd = sResponse.indexOf("]")  ;
+			int endInd = sResponse.lastIndexOf("]")  ;
 			sResponse = sResponse.substring(beginInd, endInd);
 			
 			JSONObject jsonObject = new JSONObject(sResponse);

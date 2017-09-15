@@ -52,6 +52,7 @@ public class SetAlertActivity extends Activity {
 	String favID;
 	String qty;
 	String buy_price;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -87,6 +88,9 @@ public class SetAlertActivity extends Activity {
 		mobile = mPrefs.getString("mobile", "");
 		name = mPrefs.getString("name", "");
 		email = mPrefs.getString("email", "");
+		//get current # of alerts & Fav stocks
+		int count_alert_limit = mPrefs.getInt("count_alert_limit",0);
+
 		seekBar = (VerticalSeekBar) findViewById(R.id.seekBar1);
 		slider_value = (EditText) findViewById(R.id.slider_value);
 		stockNameTv = (TextView) findViewById(R.id.stockname);
@@ -213,11 +217,26 @@ public class SetAlertActivity extends Activity {
 		});	    
 	}
 	private void setupAlertButtonListner() {
-		// TODO Auto-generated method stub
+
+
+
 		Button button = (Button) findViewById(R.id.setAlertBtn);
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+				//Check if user has exceeded his limit for Number of Alerts
+				int count_alert_limit = mPrefs.getInt("count_alert_limit",0);
+				int max_alert_limit = mPrefs.getInt("max_alert_limit",30);
+
+				if(count_alert_limit >=max_alert_limit ){
+					String msg2 = "You have reached max limit of 30 for allowed active alert. Please delete another alert to add a new one.";
+					UtilityActivity.showMessage(context, msg2, Gravity.TOP);
+					return;
+				}else{
+					++count_alert_limit;
+				}
+
 				String alertP = slider_value.getText().toString();
 				int ind = alertP.indexOf("(");
 				if(ind > -1)
@@ -243,7 +262,7 @@ public class SetAlertActivity extends Activity {
 					sResponse = new SaveStockAlertAsyncTask()
 					.execute(object).get();
 					if (sResponse != null && !(sResponse.isEmpty())) {
-						System.out.println("sResponse - "+sResponse);
+						//System.out.println("sResponse - "+sResponse);
 						UtilityActivity.showShortMessage(context, msg, Gravity.TOP);
 						//UtilityActivity.showMessage(context, sResponse, Gravity.CENTER);
 					}
@@ -251,6 +270,7 @@ public class SetAlertActivity extends Activity {
 					mPrefs = PreferenceManager.getDefaultSharedPreferences(v.getContext().getApplicationContext());
 					SharedPreferences.Editor editor= mPrefs.edit();
 					editor.putBoolean("active_alert_refresh", true);
+					editor.putInt("count_alert_limit",count_alert_limit);
 					editor.commit();
 				} catch (InterruptedException | ExecutionException e) {
 					// TODO Auto-generated catch block
@@ -275,7 +295,20 @@ public class SetAlertActivity extends Activity {
 
     private void SaveFavorite(){
 
-        String _qty = ((TextView) findViewById(R.id.quantity)).getText().toString();
+		//Check if user has exceeded his limit for Number of favorites
+		int count_favorite_stocks = mPrefs.getInt("count_favorite_stocks",0);
+		int max_favorite_stocks = mPrefs.getInt("max_favorite_stocks",20);
+
+		if(count_favorite_stocks >=max_favorite_stocks ){
+			String msg2 = "You have reached limit for max allowed(20)Portfolio stocks. Please remove another stock to add a new one.";
+			UtilityActivity.showMessage(context, msg2, Gravity.TOP);
+			return;
+		}else{
+			++count_favorite_stocks;
+		}
+
+
+		String _qty = ((TextView) findViewById(R.id.quantity)).getText().toString();
         String _buy_price = ((TextView) findViewById(R.id.buyPrice)).getText().toString();
 
         Object object[] = new Object[8];
@@ -296,6 +329,7 @@ public class SetAlertActivity extends Activity {
 
             SharedPreferences.Editor editor= mPrefs.edit();
             editor.putBoolean("isFavListDirty", true);
+			editor.putInt("count_favorite_stocks",count_favorite_stocks);
             editor.commit();
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -355,9 +389,15 @@ public class SetAlertActivity extends Activity {
 					new DeleteStockFavoriteAsyncTask().execute(object);
 					UtilityActivity.showShortMessage(context, msg, Gravity.TOP);
 
+					int count_favorite_stocks = mPrefs.getInt("count_favorite_stocks", 20);
+					count_favorite_stocks = count_favorite_stocks -1;
+
+
 					SharedPreferences.Editor editor= mPrefs.edit();
 					editor.putBoolean("isFavListDirty", true);
+					editor.putInt("count_favorite_stocks",count_favorite_stocks);
 					editor.commit();
+					finish();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

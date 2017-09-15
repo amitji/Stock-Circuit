@@ -48,7 +48,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_margin="5dp"
-            android:text="You will get notification for analysis video with latest quarterly results for stocks added in portfolio."
+            android:text="You will get notification for analysis video with latest quarterly results for stocks added in portfolio. You can add upto 20 stocks in Portfolio."
             android:gravity="center"
 			android:textColor="@color/lightBrown"
 			android:textSize="17dip"

@@ -43,6 +43,8 @@ public class GetAppConfigParamsAsyncTask extends AsyncTask<Object, Void, HashMap
 
 			String versionName = (String) params[0];
 			String versionCode = (String) params[1];
+			String regID = (String) params[2];
+			String deviceID = (String) params[3];
 
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(Constants.SERVER_BASE_URL+"stockcircuit/getAppConfigParams");
@@ -52,6 +54,8 @@ public class GetAppConfigParamsAsyncTask extends AsyncTask<Object, Void, HashMap
 
 			entity.addTextBody("versionName", versionName);
 			entity.addTextBody("versionCode", versionCode);
+			entity.addTextBody("regID", regID);
+			entity.addTextBody("deviceID", deviceID);
 
 			HttpEntity httpentity = entity.build();
 			httpPost.setEntity(httpentity);

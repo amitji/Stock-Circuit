@@ -10,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -74,6 +75,10 @@ public class FavoritesFragment extends AbstractFragment  {
 		if(favStr != null && !favStr.equals(""))
 			favorites = convertJsonToStockList(favStr);
 	}
+	//Save # of favorite stocks in pref
+	  SharedPreferences.Editor mpref = mPrefs.edit();
+	  mpref.putInt("count_favorite_stocks",favorites.size() );
+	  mpref.commit();
 
 	  listview = (ListView ) rootView.findViewById(R.id.favoriteList);
 	noAlerts = (TextView) rootView.findViewById(R.id.noAlerts);
@@ -182,6 +187,7 @@ public class FavoritesFragment extends AbstractFragment  {
 			if(str != null && !str.equals(""))
 				list = convertJsonToStockList(str);
 
+
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -244,8 +250,8 @@ public class FavoritesFragment extends AbstractFragment  {
 						UtilityActivity.showShortMessage(context, "Google quote service seems to be down. Try in a minute...", Gravity.TOP);
 						return;
 					}
-					quote = quoteParams.get("l_fix");
-					change = quoteParams.get("c_fix")+" ( "+quoteParams.get("cp_fix")+ "% ) ";
+					quote = quoteParams.get("l").replaceAll(",", "");
+					change = quoteParams.get("c").replaceAll(",", "")+" ( "+quoteParams.get("cp")+ "% ) ";
 
 				} catch (InterruptedException | ExecutionException e) {
 					// TODO Auto-generated catch block
